@@ -1,0 +1,6 @@
+{
+  "name": "Cafe Pandora POS",
+  "description": "Sistema POS interactivo y de gestión posventa para Cafe Pandora, con diseño cálido y acogedor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

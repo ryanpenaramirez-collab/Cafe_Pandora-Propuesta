@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-pandora-dark: #0f2324; /* Deep warm teal-green from the reference login background */
+  --color-pandora-teal: #183335; /* Standard slate-teal block color */
+  --color-pandora-accent: #d66c50; /* Perfect terracotta shade */
+  --color-pandora-accent-hover: #be593e; /* Slightly darker terracotta hover */
+  --color-pandora-cream: #faf5ee; /* Warm elegant cafe creme background */
+  --color-pandora-card-bg: #ffffff; /* Ultra clean card background */
+  --color-pandora-wood: #7c4d3a; /* Warm mahogany wood color */
+  --color-pandora-gold: #e5b974; /* Soft warm lighting gold accent */
+  --color-pandora-grey: #64748b; /* Slate-grey for text */
+}
+
+/* Animations and custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-pandora-wood);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-pandora-accent);
+}
+
+.wood-grain {
+  background-image: radial-gradient(rgba(214, 108, 80, 0.05) 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+/* Soft thermal paper effect for receipt view */
+.thermal-paper {
+  background: radial-gradient(circle, #fffffb 0%, #fdfbf7 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), inset 0 0 50px rgba(0,0,0,0.01);
+}
