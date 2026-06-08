@@ -8,6 +8,8 @@ import { motion } from 'motion/react';
 import { Mail, Lock, Coffee, Sparkles, ChefHat, Wine, Users, DollarSign } from 'lucide-react';
 import { UserSession } from '../types';
 import { STAFF_USERS } from '../data';
+// @ts-ignore
+import birdIllustration from '../assets/images/high_quality_detailed_illustration_of_a_crested_bird_perched_on_a_branch_surrounded_by_monstera_and_1yc17v04a2iybeq57gl3_1.png';
 
 interface LoginViewProps {
   onLoginSuccess: (session: UserSession) => void;
@@ -85,7 +87,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
   };
 
   return (
-    <div className="min-h-screen bg-pandora-dark flex items-center justify-center p-4 sm:p-6 md:p-8 selection:bg-pandora-accent selection:text-white font-sans overflow-y-auto">
+    <div className="min-h-screen bg-[#1e1208] flex items-center justify-center p-4 sm:p-6 md:p-8 selection:bg-pandora-accent selection:text-white font-sans overflow-y-auto">
       
       {/* Container split layout */}
       <motion.div 
@@ -93,22 +95,36 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-5xl bg-pandora-teal/45 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-2xl flex flex-col md:flex-row min-h-[580px]"
+        className="w-full max-w-5xl bg-[#1e1208]/45 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-2xl flex flex-col md:flex-row min-h-[580px]"
       >
         
         {/* Left Side: Editorial Café Visual */}
-        <div id="login_visual_panel" className="w-full md:w-1/2 relative bg-pandora-dark flex flex-col justify-between p-8 text-white overflow-hidden min-h-[250px] md:min-h-auto border-b md:border-b-0 md:border-r border-white/5">
-          
-          {/* Background image styled with warm overlay and contrast blend */}
-          <div className="absolute inset-0 z-0">
+        <div 
+          id="login_visual_panel" 
+          className="w-full md:w-1/2 relative flex flex-col justify-between p-8 text-white min-h-[250px] md:min-h-auto border-b md:border-b-0 md:border-r border-white/5 overflow-hidden" 
+          style={{ 
+            backgroundColor: '#0a0a0a'
+          }}
+        >
+          {/* Background image styled with zoom, center, and dark overlay */}
+          <div className="absolute inset-0 z-0 overflow-hidden bg-[#0a0a0a]">
             <img 
-              src="https://i.imgur.com/bF9vRYy.jpeg" 
-              alt="Cafe Pandora Cozy Atmosphere" 
-              className="w-full h-full object-cover opacity-60 scale-105 transform hover:scale-100 transition-transform duration-10000"
+              src={birdIllustration} 
+              alt="Mural Pájaró Copetón" 
+              className="w-full h-full object-cover object-center"
+              style={{ 
+                transform: 'scale(1.65)',
+                transformOrigin: 'center center'
+              }}
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-pandora-dark via-pandora-dark/80 to-transparent"></div>
-            <div className="absolute inset-0 bg-pandora-accent/10 mix-blend-color-burn"></div>
+            {/* Elegant overlay to integrate the picture and render text perfectly */}
+            <div 
+              className="absolute inset-0 z-10" 
+              style={{ 
+                background: 'linear-gradient(to bottom, rgba(10, 10, 10, 0.45) 0%, rgba(10, 10, 10, 0.2) 50%, rgba(10, 10, 10, 0.75) 100%)' 
+              }}
+            ></div>
           </div>
 
           <div id="visual_top" className="relative z-10 flex items-center gap-2">
@@ -129,18 +145,15 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             <p className="mt-1 text-sm text-pandora-gold font-serif font-medium uppercase tracking-wider">
               Bistro Cafe Bar
             </p>
-            <p className="mt-3 text-xs text-slate-300 max-w-sm font-light leading-relaxed">
-              Donde la calidez artesanal del café de olla y la elegancia se integran con una gestión de punto de venta ágil y moderna.
-            </p>
           </div>
         </div>
 
         {/* Right Side: Elegant Form Panel */}
-        <div id="login_form_panel" className="w-full md:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-12 bg-pandora-teal/30">
+        <div id="login_form_panel" className="w-full md:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-12 bg-[#1e1208]">
           
           <div id="form_header" className="mb-6 text-center md:text-left">
-            <h2 className="font-serif text-2xl font-bold text-pandora-cream">Acceso Administrativo</h2>
-            <p className="text-xs text-slate-400 mt-1 font-light">
+            <h2 className="font-sans text-2xl font-bold text-pandora-cream">Acceso Administrativo</h2>
+            <p className="text-xs text-[#a8896a] mt-1 font-light">
               Seleccione su rol e ingrese su PIN
             </p>
           </div>
@@ -157,27 +170,27 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Rol de Empleado</label>
+              <label className="block text-xs font-medium text-[#b89070] mb-1">Rol de Empleado</label>
               <div className="relative">
                 <select 
                   id="role_select"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full text-slate-200 bg-pandora-dark border border-white/15 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-pandora-accent focus:ring-1 focus:ring-pandora-accent transition-all cursor-pointer"
+                  className="w-full text-slate-200 bg-[#2c1a0a] border border-white/15 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-pandora-accent focus:ring-1 focus:ring-pandora-accent transition-all cursor-pointer"
                   disabled={isSubmitting}
                 >
-                  <option value="administrador" className="bg-pandora-dark text-slate-200">Administrador / Gerente</option>
-                  <option value="mesero" className="bg-pandora-dark text-slate-200">Mesero / Servicio de Mesa</option>
+                  <option value="administrador" className="bg-[#1e1208] text-slate-200">Administrador / Gerente</option>
+                  <option value="mesero" className="bg-[#1e1208] text-slate-200">Mesero / Servicio de Mesa</option>
                 </select>
               </div>
             </div>
 
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label className="block text-xs font-medium text-slate-300">Contraseña (PIN)</label>
+                <label className="block text-xs font-medium text-[#b89070]">Contraseña (PIN)</label>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#a8896a]">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input 
@@ -185,7 +198,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full text-slate-200 bg-pandora-dark/60 border border-white/10 rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-pandora-accent focus:ring-1 focus:ring-pandora-accent transition-all placeholder:text-slate-500 font-mono tracking-widest"
+                  className="w-full text-slate-200 bg-[#2c1a0a] border border-white/10 rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-pandora-accent focus:ring-1 focus:ring-pandora-accent transition-all placeholder:text-[#a8896a]/55 font-mono tracking-widest"
                   placeholder="PIN Numérico"
                   disabled={isSubmitting}
                 />
@@ -231,7 +244,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
                     <Icon className="w-4 h-4 shrink-0" />
                     <div className="truncate">
                       <p className="font-semibold truncate text-white leading-tight">{u.name}</p>
-                      <p className="text-[10px] text-slate-300 capitalize truncate">{u.role}</p>
+                      <p className="text-[10px] text-[#b89070] capitalize truncate">{u.role}</p>
                     </div>
                   </button>
                 );

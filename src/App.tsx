@@ -10,7 +10,7 @@ import {
   Utensils, Calendar, FileText, DollarSign, AlertTriangle, 
   Printer, Archive, TrendingDown, LogOut, Map, 
   Key, Clock, Sparkles, Bell, Play, FileSpreadsheet, Lock,
-  ChevronLeft, ChevronRight, Shield, ClipboardList
+  ChevronLeft, ChevronRight, Shield, ClipboardList, Menu
 } from 'lucide-react';
 
 import { MenuItem, Table, Order, Expense, SystemAlert, StockItem, UserSession, ShiftState, TableStatus } from './types';
@@ -171,6 +171,7 @@ export default function App() {
   const [tabFocusParam, setTabFocusParam] = useState<any>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activePedidosTab, setActivePedidosTab] = useState<'nuevo' | 'pendientes'>('nuevo');
+  const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false);
 
 
 
@@ -460,7 +461,7 @@ export default function App() {
       case 'red': return 'bg-rose-50 hover:bg-rose-100 border-rose-250 text-rose-900 focus:ring-rose-400 border-l-4 border-l-rose-600';
       case 'cyan': return 'bg-cyan-50 hover:bg-cyan-100 border-cyan-250 text-cyan-900 focus:ring-cyan-400 border-l-4 border-l-cyan-600';
       case 'orange': return 'bg-orange-50 hover:bg-orange-100 border-orange-255 border-orange-200 text-orange-950 focus:ring-orange-400 border-l-4 border-l-orange-600';
-      default: return 'bg-white hover:bg-slate-50 border-slate-200 text-slate-800';
+      default: return 'bg-[#FDF8F0] hover:bg-[#F2EADB] border-slate-300 text-slate-800 shadow-sm';
     }
   };
 
@@ -533,7 +534,7 @@ export default function App() {
             {/* BARRA SUPERIOR CON EL NOMBRE 'Cafe Pandora' */}
             <header id="main_header" className="bg-pandora-dark text-white border-b-2 border-pandora-wood py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
               <div className="text-center sm:text-left">
-                <h1 className="font-serif text-lg font-bold tracking-widest text-pandora-cream uppercase leading-none">
+                <h1 className="font-serif text-lg font-bold tracking-widest text-pandora-gold uppercase leading-none">
                   Cafe Pandora
                 </h1>
                 <span className="text-[8px] text-pandora-gold font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
@@ -561,17 +562,29 @@ export default function App() {
             <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0 h-full">
               
               {/* COLUMNA CENTRAL: BOTONES DEL MENÚ DE NAVEGACIÓN (Columna central con botones) */}
-              <div id="col_center" className="w-full md:w-64 bg-slate-50 border-b md:border-b-0 md:border-r border-pandora-wood/15 p-4 flex flex-col shrink-0 overflow-y-auto md:h-full">
+              <div id="col_center" className="w-full md:w-64 border-b md:border-b-0 md:border-r border-pandora-wood/15 p-4 flex flex-col shrink-0 overflow-y-auto md:h-full" style={{ backgroundColor: '#C4A882' }}>
                 
-                <div className="mb-3.5 text-[9px] uppercase font-bold tracking-widest text-slate-400 font-mono flex justify-between items-center shrink-0">
-                  <span>🎯 CATEGORÍAS</span>
-                  <span className="px-1.5 py-0.5 rounded bg-slate-205 bg-slate-200 text-slate-600 border border-slate-300 font-mono">
+                <div className="mb-3.5 text-[9px] uppercase font-bold tracking-widest text-[#1e1208] font-mono flex justify-between items-center shrink-0">
+                  <span>CATEGORÍAS</span>
+                  
+                  {/* Snack Hamburger icon to show/hide category list (on tablet / mobile only) */}
+                  <button
+                    id="toggle_categories_btn"
+                    onClick={() => setIsMobileCategoriesOpen(!isMobileCategoriesOpen)}
+                    className="md:hidden flex items-center justify-center p-1 rounded-md bg-white/20 hover:bg-white/30 text-[#1e1208] border border-black/10 transition-all cursor-pointer focus:outline-none"
+                    title="Menú de categorías"
+                  >
+                    <Menu className="w-4 h-4" />
+                  </button>
+
+                  {/* Desktop keeps the static number badge */}
+                  <span className="hidden md:inline px-1.5 py-0.5 rounded bg-white/20 text-[#1e1208] border border-black/10 font-mono">
                     {visibleCategories.length}
                   </span>
                 </div>
 
-                {/* Lista vertical de categorías */}
-                <div className="flex flex-col gap-2 flex-grow overflow-y-auto pr-1">
+                {/* Lista vertical de categorías (collapsible on mobile/tablet) */}
+                <div className={`flex-col gap-2 flex-grow overflow-y-auto pr-1 md:flex ${isMobileCategoriesOpen ? 'flex' : 'hidden'}`}>
                   {visibleCategories.length === 0 ? (
                     <div className="p-8 text-center text-slate-400 text-xs font-light">
                       Ninguna categoría activa.
@@ -584,25 +597,24 @@ export default function App() {
 
                       return (
                         <motion.button
-                          key={cat.id}
+                           key={cat.id}
                           id={`cat_${cat.id}`}
                           whileHover={{ scale: 1.015 }}
                           whileTap={{ scale: 0.985 }}
                           onClick={() => {
                             setActiveCategory(isActive ? null : cat.id);
+                            setIsMobileCategoriesOpen(false); // Close menu on select
                           }}
                           className={`flex items-center justify-between p-3 rounded-lg border text-left transition-all overflow-hidden group focus:outline-none cursor-pointer w-full shrink-0 ${
                             isActive 
                               ? 'bg-pandora-dark border-pandora-dark text-white' 
-                              : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-705 text-slate-700 shadow-sm'
+                              : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 shadow-sm'
                           }`}
                         >
-                          <div className="flex items-center gap-2.5 overflow-hidden">
-                            <div className={`p-1.5 rounded-md border flex items-center justify-center shadow-xs shrink-0 group-hover:scale-105 transition-transform duration-200 ${
-                              isActive ? 'bg-pandora-accent border-pandora-accent text-white' : 'bg-slate-100 border-slate-200/80 text-slate-600'
-                            }`}>
-                              <IconComponent className="w-4 h-4 shrink-0" />
-                            </div>
+                          <div className="flex items-center gap-3.5 overflow-hidden">
+                            <IconComponent className={`w-5 h-5 shrink-0 transition-colors duration-200 ${
+                              isActive ? 'text-pandora-gold' : 'text-slate-600'
+                            }`} />
                             <div className="truncate">
                               <span className="font-serif font-bold text-xs block tracking-wider uppercase truncate leading-tight">
                                 {cat.name}
@@ -628,7 +640,7 @@ export default function App() {
               </div>
 
               {/* COLUMNA DERECHA: AREA DE CONTENIDO PRINCIPAL INTEGRADO (Columna derecha grande) */}
-              <div id="col_right_content" className="flex-1 bg-pandora-cream/30 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start">
+              <div id="col_right_content" className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start" style={{ backgroundColor: '#D4BFA0' }}>
                 
                 {activeCategory ? (
                   <div className="flex flex-col gap-4">
@@ -636,16 +648,16 @@ export default function App() {
                     <div className="flex items-center gap-2 text-xs font-mono">
                       <button 
                         onClick={() => setActiveCategory(null)}
-                        className="flex items-center gap-1.5 text-pandora-accent hover:text-pandora-accent-hover font-extrabold transition-all cursor-pointer bg-transparent border-none outline-none"
+                        className="flex items-center gap-1.5 text-pandora-dark hover:text-pandora-accent font-extrabold transition-all cursor-pointer bg-transparent border-none outline-none"
                       >
                         <ChevronLeft className="w-4 h-4 text-pandora-accent" /> Volver al Inicio
                       </button>
-                      <span className="text-slate-300">/</span>
-                      <span className="text-slate-500 font-extrabold uppercase">{selectedCategory?.name}</span>
+                      <span className="text-slate-700">/</span>
+                      <span className="text-slate-800 font-extrabold uppercase">{selectedCategory?.name}</span>
                     </div>
 
                     {/* Hero/Visual category description */}
-                    <div className="p-4 bg-white border border-slate-200 rounded-xl flex items-center gap-3 shadow-xs">
+                    <div className="p-4 bg-[#FDF8F0] border border-slate-300 rounded-xl flex items-center gap-3 shadow-xs">
                       <div className="p-2.5 bg-pandora-accent/10 rounded-lg border border-pandora-accent/20 flex items-center justify-center">
                         {(() => {
                           const IconComp = selectedCategory?.icon || Sparkles;
@@ -654,7 +666,7 @@ export default function App() {
                       </div>
                       <div>
                         <h2 className="font-serif text-sm font-bold text-slate-800 uppercase tracking-wider">{selectedCategory?.name}</h2>
-                        <p className="text-[11px] text-slate-500 font-light mt-0.5">Acceda a los servicios de {selectedCategory?.name.toLowerCase()} de Cafe Pandora</p>
+                        <p className="text-[11px] text-slate-600 font-light mt-0.5 font-sans">Acceda a los servicios de {selectedCategory?.name.toLowerCase()} de Cafe Pandora</p>
                       </div>
                     </div>
 
@@ -662,13 +674,13 @@ export default function App() {
                     {activeCategory === 'pedidos' ? (
                       <div className="flex flex-col gap-4">
                         {/* Selector de subcategorías para Pedidos */}
-                        <div className="flex flex-wrap items-center gap-2 p-1 bg-slate-100 rounded-xl border border-slate-200 self-start shrink-0">
+                        <div className="flex flex-wrap items-center gap-2 p-1 bg-[#FAF5EE]/75 rounded-xl border border-slate-300 self-start shrink-0">
                           <button
                             onClick={() => setActivePedidosTab('nuevo')}
                             className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${
                               activePedidosTab === 'nuevo'
-                                ? 'bg-white text-slate-800 shadow-xs border border-slate-200/50'
-                                : 'text-slate-500 hover:text-slate-800'
+                                ? 'bg-[#FDF8F0] text-slate-800 shadow-xs border border-slate-300/40'
+                                : 'text-slate-650 hover:text-slate-800'
                             }`}
                           >
                             <ClipboardList className="w-4 h-4 text-pandora-accent" />
@@ -679,8 +691,8 @@ export default function App() {
                             onClick={() => setActivePedidosTab('pendientes')}
                             className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${
                               activePedidosTab === 'pendientes'
-                                ? 'bg-white text-slate-800 shadow-xs border border-slate-200/50'
-                                : 'text-slate-500 hover:text-slate-800'
+                                ? 'bg-[#FDF8F0] text-slate-800 shadow-xs border border-slate-300/40'
+                                : 'text-slate-650 hover:text-slate-800'
                             }`}
                           >
                             <Clock className="w-4 h-4 text-pandora-accent" />
@@ -755,20 +767,20 @@ export default function App() {
                 ) : (
                   <>
                     {/* Banner de Bienvenida y Resumen Operacional en Vivo */}
-                    <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div className="bg-[#FDF8F0] border border-slate-300 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-[9px] uppercase font-mono tracking-widest bg-pandora-accent/10 text-pandora-accent px-2 py-0.5 rounded-full font-bold border border-pandora-accent/20">
                             Servicio en Vivo
                           </span>
-                          <span className="text-[10px] font-mono text-slate-400">
+                          <span className="text-[10px] font-mono text-slate-500">
                             {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
                           </span>
                         </div>
                         <h2 className="font-serif text-base sm:text-lg font-bold text-slate-800 mt-1.5">
                           ¡Hola, {user.name}! ☕
                         </h2>
-                        <p className="text-[11px] text-slate-500 font-light mt-0.5">
+                        <p className="text-[11px] text-slate-600 font-light mt-0.5">
                           Bienvenido al panel general de Café Pandora. Control de comandas, distribución de mesas y almacén.
                         </p>
                       </div>
@@ -776,43 +788,43 @@ export default function App() {
                       {/* Micro Bento Módulos de Estadística */}
                       <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
                         {/* Indicador 1: Mesas */}
-                        <div className="flex-1 min-w-[110px] bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg bg-cyan-50 border border-cyan-100 flex items-center justify-center text-cyan-600 shrink-0">
+                        <div className="flex-1 min-w-[110px] bg-[#FAF5EE]/80 border border-slate-300/80 rounded-xl p-2.5 flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-lg bg-cyan-100/60 border border-cyan-200 flex items-center justify-center text-cyan-700 shrink-0">
                             <MapPin className="w-4 h-4" />
                           </div>
                           <div>
-                            <span className="text-[8px] uppercase font-mono font-bold text-slate-400 block tracking-wider">Mesa Activa</span>
-                            <span className="font-mono text-[11px] font-bold text-slate-700 block mt-0.5">
+                            <span className="text-[8px] uppercase font-mono font-bold text-slate-500 block tracking-wider">Mesa Activa</span>
+                            <span className="font-mono text-[11px] font-bold text-slate-800 block mt-0.5">
                               {tables.filter(t => t.status === 'ocupada').length} / {tables.length}
                             </span>
                           </div>
                         </div>
 
                         {/* Indicador 2: Pedidos Activos */}
-                        <div className="flex-1 min-w-[110px] bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 shrink-0">
-                            <Coffee className="w-4 h-4 text-amber-500 animate-pulse" />
+                        <div className="flex-1 min-w-[110px] bg-[#FAF5EE]/80 border border-slate-300/80 rounded-xl p-2.5 flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-lg bg-amber-150 bg-amber-100/60 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
+                            <Coffee className="w-4 h-4 text-amber-600 animate-pulse" />
                           </div>
                           <div>
-                            <span className="text-[8px] uppercase font-mono font-bold text-slate-400 block tracking-wider">Comandas</span>
-                            <span className="font-mono text-[11px] font-bold text-slate-700 block mt-0.5">
+                            <span className="text-[8px] uppercase font-mono font-bold text-slate-500 block tracking-wider">Comandas</span>
+                            <span className="font-mono text-[11px] font-bold text-slate-800 block mt-0.5">
                               {orders.filter(o => o.status !== 'listo').length} en cola
                             </span>
                           </div>
                         </div>
 
                         {/* Indicador 3: Alertas */}
-                        <div className="flex-1 min-w-[110px] bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center gap-2">
+                        <div className="flex-1 min-w-[110px] bg-[#FAF5EE]/80 border border-slate-300/80 rounded-xl p-2.5 flex items-center gap-2">
                           <div className={`w-8 h-8 rounded-lg border flex items-center justify-center shrink-0 ${
                             stock.filter(s => s.quantity <= s.minQuantity).length > 0 
-                              ? 'bg-rose-50 border-rose-100 text-rose-600 animate-pulse' 
-                              : 'bg-emerald-50 border-emerald-100 text-emerald-600'
+                              ? 'bg-rose-100 border-rose-200 text-rose-700 animate-pulse' 
+                              : 'bg-emerald-100/60 border border-emerald-200 text-emerald-800'
                           }`}>
                             <AlertTriangle className="w-4 h-4" />
                           </div>
                           <div>
-                            <span className="text-[8px] uppercase font-mono font-bold text-slate-400 block tracking-wider">Stock Bajo</span>
-                            <span className="font-mono text-[11px] font-bold text-slate-700 block mt-0.5">
+                            <span className="text-[8px] uppercase font-mono font-bold text-slate-500 block tracking-wider">Stock Bajo</span>
+                            <span className="font-mono text-[11px] font-bold text-slate-800 block mt-0.5">
                               {stock.filter(s => s.quantity <= s.minQuantity).length} ítems
                             </span>
                           </div>
@@ -824,14 +836,14 @@ export default function App() {
                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                       
                       {/* Monitor Rápido de Distribución de Mesas */}
-                      <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs flex flex-col h-[280px]">
-                        <div className="flex justify-between items-center pb-2.5 mb-3 border-b border-slate-100 shrink-0">
-                          <h3 className="font-serif text-xs font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-1.5 animate-pulse">
+                      <div className="bg-[#FDF8F0] rounded-xl border border-slate-300 p-4 shadow-md flex flex-col h-[280px]">
+                        <div className="flex justify-between items-center pb-2.5 mb-3 border-b border-slate-200 shrink-0">
+                          <h3 className="font-serif text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-1.5 animate-pulse">
                             <MapPin className="w-4 h-4 text-cyan-600" /> Distribución de Mesas (Salón)
                           </h3>
                           <button 
                             onClick={() => { setModalFocus('tables'); setTabFocusParam('mapa'); }}
-                            className="text-[10px] text-cyan-600 hover:underline font-bold font-sans cursor-pointer bg-transparent border-none"
+                            className="text-[10px] text-cyan-700 hover:underline font-bold font-sans cursor-pointer bg-transparent border-none"
                           >
                             Ver mapa completo &rarr;
                           </button>
@@ -865,14 +877,14 @@ export default function App() {
                       </div>
 
                       {/* Panel Virtual de Comandas Activas */}
-                      <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs flex flex-col h-[280px]">
-                        <div className="flex justify-between items-center pb-2.5 mb-3 border-b border-slate-100 shrink-0">
-                          <h3 className="font-serif text-xs font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                      <div className="bg-[#FDF8F0] rounded-xl border border-slate-300 p-4 shadow-md flex flex-col h-[280px]">
+                        <div className="flex justify-between items-center pb-2.5 mb-3 border-b border-slate-200 shrink-0">
+                          <h3 className="font-serif text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
                             <Coffee className="w-4 h-4 text-amber-500 animate-bounce" /> Cola de Preparaciones
                           </h3>
                           <button 
                             onClick={() => { setModalFocus('kitchen'); setTabFocusParam('chef'); }}
-                            className="text-[10px] text-amber-600 hover:underline font-bold font-sans cursor-pointer bg-transparent border-none"
+                            className="text-[10px] text-amber-700 hover:underline font-bold font-sans cursor-pointer bg-transparent border-none"
                           >
                             Ver Cocina / Barra &rarr;
                           </button>
@@ -886,10 +898,10 @@ export default function App() {
                             </div>
                           ) : (
                             orders.filter(o => o.status !== 'listo').map(order => (
-                              <div key={order.id} className="p-2 bg-slate-50 border border-slate-200/80 rounded flex justify-between items-center text-xs shrink-0">
+                              <div key={order.id} className="p-2 bg-[#FAF5EE]/90 border border-slate-200 rounded flex justify-between items-center text-xs shrink-0">
                                 <div className="min-w-0 flex-1 pr-2">
                                   <div className="flex items-center gap-1.5 font-bold text-slate-800">
-                                    <span className="bg-slate-200 px-1 py-0.5 rounded text-[9px] font-mono">Mesa {order.tableId}</span>
+                                    <span className="bg-slate-200/80 px-1 py-0.5 rounded text-[9px] font-mono">Mesa {order.tableId}</span>
                                     <span className="text-[11px] uppercase font-mono text-slate-500">#{order.id.slice(-4)}</span>
                                   </div>
                                   <span className="text-[10px] text-slate-500 block truncate max-w-[150px] mt-0.5">
@@ -910,11 +922,11 @@ export default function App() {
                     </div>
 
                     {/* Avisos rápidos de stock o Alertas administrativas */}
-                    <div className="bg-slate-50 rounded-xl border border-slate-200 p-4">
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 block mb-2 font-mono">⚠️ ÚLTIMOS AVISOS DE STOCK O ALERTAS</span>
+                    <div className="bg-[#FAF5EE]/75 rounded-xl border border-slate-350 p-4 shadow-sm">
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-slate-500 block mb-2 font-mono">⚠️ ÚLTIMOS AVISOS DE STOCK O ALERTAS</span>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {alerts.slice(0, 2).map((alert) => (
-                          <div key={alert.id} className="p-2 border border-slate-200 rounded-lg bg-white flex items-start gap-2 text-xs">
+                          <div key={alert.id} className="p-2 border border-slate-300 rounded-lg bg-[#FDF8F0] flex items-start gap-2 text-xs">
                             <AlertTriangle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                             <div>
                               <p className="font-bold text-slate-800">{alert.type === 'baja_cocina' || alert.type === 'baja_barra' ? 'Advertencia de Stock' : 'Alerta de Sistema'}</p>

@@ -114,7 +114,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
   };
 
   return (
-    <div id="order_taking_module" className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col min-h-[500px]">
+    <div id="order_taking_module" className="bg-[#FDF8F0] border border-slate-300 rounded-2xl shadow-sm overflow-hidden flex flex-col min-h-[500px]">
       
       {showsSuccess ? (
         <motion.div 

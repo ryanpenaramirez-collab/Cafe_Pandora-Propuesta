@@ -7,8 +7,8 @@
   --font-serif: "Playfair Display", serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --color-pandora-dark: #0f2324; /* Deep warm teal-green from the reference login background */
-  --color-pandora-teal: #183335; /* Standard slate-teal block color */
+  --color-pandora-dark: #1e1208; /* Deep warm coffee-brown background and borders */
+  --color-pandora-teal: #2a1b10; /* Standard coffee-slate block color for highlights/categories */
   --color-pandora-accent: #d66c50; /* Perfect terracotta shade */
   --color-pandora-accent-hover: #be593e; /* Slightly darker terracotta hover */
   --color-pandora-cream: #faf5ee; /* Warm elegant cafe creme background */
