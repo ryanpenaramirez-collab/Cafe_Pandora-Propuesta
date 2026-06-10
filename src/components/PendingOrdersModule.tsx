@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Clock, Check, Trash2, Utensils, AlertCircle, ShoppingBag, MapPin, X, FileText } from 'lucide-react';
+import { Clock, Check, Trash2, Utensils, AlertCircle, ShoppingBag, MapPin, X, FileText, CheckSquare, Square, ArrowLeft } from 'lucide-react';
 import { Order } from '../types';
 import { jsPDF } from 'jspdf';
 
@@ -17,6 +17,17 @@ interface PendingOrdersModuleProps {
 
 export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelOrder }: PendingOrdersModuleProps) {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<'Efectivo' | 'Nequi' | 'Bancolombia'>('Efectivo');
+  const [includeTax, setIncludeTax] = useState<boolean>(false);
+  const [showBillingConfig, setShowBillingConfig] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (selectedOrder) {
+      setPaymentMethod('Efectivo');
+      setIncludeTax(false);
+      setShowBillingConfig(false);
+    }
+  }, [selectedOrder]);
 
   // Filter and sort pending orders: status !== 'listo'
   // Sorted chronologically oldest first: smallest createdAt first. We default a.createdAt to 0 if undefined.
@@ -28,10 +39,15 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
   }, [orders]);
 
   // Generate clean thermal / standard Invoice PDF via jsPDF
-  const handleGenerateInvoice = (order: Order) => {
+  const handleGenerateInvoice = (order: Order, paymentMethod: string, includeTax: boolean) => {
     const cleanId = order.id.replace('ord-', '').toUpperCase();
     const invoiceNumber = `FAC-${cleanId}`;
     
+    const subtotalBruto = order.total;
+    const taxRate = 0.08;
+    const taxAmount = includeTax ? subtotalBruto * taxRate : 0;
+    const finalTotal = subtotalBruto + taxAmount;
+
     const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
@@ -41,7 +57,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
     // Base font setup
     doc.setFont('helvetica', 'normal');
 
-    // Title - Café Pandora - Bistro Café Bar (Sanitized to avoid raw font encodings)
+    // Title - Café Pandora - Bistro Café Bar
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(22);
     doc.setTextColor(30, 41, 59); // Slate-800
@@ -53,7 +69,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
     doc.setTextColor(100, 116, 139); // Gray
     doc.text('Experiencia Culinaria Unica & Cocteleria de Autor', 105, 31, { align: 'center' });
 
-    // Divider Line (Terracotta #d66c50 -> RGB 214, 108, 80)
+    // Divider Line
     doc.setDrawColor(214, 108, 80);
     doc.setLineWidth(0.8);
     doc.line(20, 36, 190, 36);
@@ -77,7 +93,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
     doc.setFont('helvetica', 'normal');
     doc.text(`Mesa Asignada: Mesa ${order.tableId}`, 120, 51);
     doc.text(`Mesero Atendiendo: ${order.waiterName}`, 120, 56);
-    doc.text('Estado Pago: Pendiente - Cuenta de Mesa', 120, 61);
+    doc.text(`Metodo de Pago: ${paymentMethod.toUpperCase()}`, 120, 61);
 
     // Table header background box
     doc.setFillColor(248, 250, 252);
@@ -112,10 +128,10 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
       
       doc.text(item.name.toUpperCase(), 25, y);
       doc.text(`${item.quantity}`, 115, y, { align: 'center' });
-      doc.text(`$${item.price.toFixed(2)}`, 145, y, { align: 'center' });
+      doc.text(`$${item.price.toLocaleString('es-CO')}`, 145, y, { align: 'center' });
       
-      const subtotal = item.price * item.quantity;
-      doc.text(`$${subtotal.toFixed(2)}`, 180, y, { align: 'center' });
+      const itemSubtotal = item.price * item.quantity;
+      doc.text(`$${itemSubtotal.toLocaleString('es-CO')}`, 180, y, { align: 'center' });
       
       // row separator
       doc.setDrawColor(241, 245, 249);
@@ -136,19 +152,19 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
     doc.setTextColor(30, 41, 59);
     doc.text('SUBTOTAL BRUTO:', 120, y);
     doc.setFont('helvetica', 'normal');
-    doc.text(`$${order.total.toFixed(2)}`, 180, y, { align: 'center' });
+    doc.text(`$${subtotalBruto.toLocaleString('es-CO')}`, 180, y, { align: 'center' });
 
     y += 5;
     doc.setFont('helvetica', 'bold');
-    doc.text('DESCUENTO APLICADO:', 120, y);
+    doc.text('IMPUESTO CONSUMO (8%):', 120, y);
     doc.setFont('helvetica', 'normal');
-    doc.text('$0.00', 180, y, { align: 'center' });
+    doc.text(`$${taxAmount.toLocaleString('es-CO')}`, 180, y, { align: 'center' });
 
     y += 5;
     doc.setFont('helvetica', 'bold');
     doc.text('I.V.A. TRASLADADO (0%):', 120, y);
     doc.setFont('helvetica', 'normal');
-    doc.text('$0.00', 180, y, { align: 'center' });
+    doc.text('$0', 180, y, { align: 'center' });
 
     y += 7;
     // Total Row highlights block
@@ -158,7 +174,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
     doc.setFontSize(11);
     doc.setTextColor(146, 64, 14); // Dark brown-gold
     doc.text('TOTAL FACTURADO:', 115, y + 1);
-    doc.text(`$${order.total.toFixed(2)}`, 180, y + 1, { align: 'center' });
+    doc.text(`$${finalTotal.toLocaleString('es-CO')}`, 180, y + 1, { align: 'center' });
 
     // Footer lines
     y = Math.max(y + 25, 250);
@@ -174,6 +190,73 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
 
     // Exact filename format: Factura-[invoice number]-Mesa[table number].pdf
     const filename = `Factura-${invoiceNumber}-Mesa${order.tableId}.pdf`;
+    doc.save(filename);
+  };
+
+  // Generate clean thermal/ticket Kitchen PDF via jsPDF
+  const handleGenerateKitchenReceipt = (order: Order) => {
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: [80, 150] // thermal card dimension 80mm roll width
+    });
+
+    doc.setFont('helvetica', 'normal');
+
+    // Title - COMANDA DE COCINA (No formatting prices or subtotals)
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(13);
+    doc.text('COMANDA DE COCINA', 40, 12, { align: 'center' });
+    doc.setFontSize(9);
+    doc.text('CAFÉ PANDORA', 40, 17, { align: 'center' });
+
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.3);
+    doc.line(5, 21, 75, 21);
+
+    // Metadata
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.text(`MESA: ${order.tableId}`, 5, 27);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text(`Comanda N°: ${order.id.toUpperCase()}`, 5, 32);
+    doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES')}`, 5, 37);
+    doc.text(`Hora: ${order.timestamp}`, 5, 42);
+    doc.text(`Atendió: ${order.waiterName}`, 5, 47);
+
+    doc.line(5, 51, 75, 51);
+
+    // Items list header
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text('PRODUCTO', 5, 56);
+    doc.text('CANTIDAD', 55, 56);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    let y = 62;
+
+    order.items.forEach((item) => {
+      if (y > 140) {
+        doc.addPage();
+        y = 15;
+      }
+      doc.text(item.name.toUpperCase(), 5, y);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`x${item.quantity}`, 60, y);
+      doc.setFont('helvetica', 'normal');
+      y += 6;
+    });
+
+    doc.line(5, y + 2, 75, y + 2);
+    
+    y += 8;
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(8);
+    doc.text('* Solo preparacion en cocina *', 40, y, { align: 'center' });
+
+    const filename = `ComandaCocina-Mesa${order.tableId}-${order.id.slice(-4)}.pdf`;
     doc.save(filename);
   };
 
@@ -290,7 +373,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                       </div>
                       <div className="text-right">
                         <span className="text-[9px] uppercase tracking-wider text-pandora-cream/50 block font-mono">Total cargo</span>
-                        <span className="font-mono text-sm font-extrabold text-pandora-gold">${order.total.toFixed(2)}</span>
+                        <span className="font-mono text-sm font-extrabold text-pandora-gold">${order.total.toLocaleString('es-CO')}</span>
                       </div>
                     </div>
                   </div>
@@ -384,37 +467,174 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                     Productos Solicitados
                   </span>
                   
-                  <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
+                  <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
                     {selectedOrder.items.map((item) => (
                       <div key={item.menuItemId} className="flex justify-between items-center text-xs py-1 border-b border-dashed border-slate-100 last:border-0 pb-1 last:pb-0">
                         <div>
                           <span className="font-serif font-bold text-slate-800 uppercase tracking-wide">{item.name}</span>
-                          <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">${item.price.toFixed(2)} c/u &times; {item.quantity}</span>
+                          <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">${item.price.toLocaleString('es-CO')} c/u &times; {item.quantity}</span>
                         </div>
                         <span className="font-mono font-bold text-slate-700">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          ${(item.price * item.quantity).toLocaleString('es-CO')}
                         </span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Total */}
-                <div className="border-t border-slate-200 pt-4 flex justify-between items-center">
-                  <span className="font-serif text-sm font-bold text-slate-800 uppercase tracking-widest">Monto Total Pedido:</span>
-                  <span className="font-mono text-xl font-black text-pandora-accent">${selectedOrder.total.toFixed(2)}</span>
-                </div>
+                {/* Selection or Configuration Option */}
+                {!showBillingConfig ? (
+                  <div className="space-y-3.5 pt-1">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] block font-mono border-b border-slate-100 pb-1">
+                      Seleccione una opción para continuar
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      {/* Option 1: Kitchen receipt (Direct printing) */}
+                      <button
+                        type="button"
+                        onClick={() => handleGenerateKitchenReceipt(selectedOrder)}
+                        className="p-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-pandora-accent bg-slate-50 hover:bg-amber-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                        title="Imprimir comanda para personal de cocina (Sin precios)"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-pandora-cream flex items-center justify-center group-hover:bg-pandora-accent group-hover:scale-105 transition-all">
+                          <Utensils className="w-4 h-4 text-pandora-gold" />
+                        </div>
+                        <div className="mt-2.5">
+                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Recibo de Cocina</h4>
+                          <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
+                            Descarga la comanda de preparación directa sin precios para cocina.
+                          </p>
+                        </div>
+                      </button>
+
+                      {/* Option 2: Show Bill Config (Transit into pay flow) */}
+                      <button
+                        type="button"
+                        onClick={() => setShowBillingConfig(true)}
+                        className="p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-500 bg-slate-50 hover:bg-emerald-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                        title="Configurar factura de pago oficial detallada"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-emerald-600 group-hover:scale-105 transition-all">
+                          <FileText className="w-4 h-4" />
+                        </div>
+                        <div className="mt-2.5">
+                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Generar Factura</h4>
+                          <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
+                            Abre la configuración de medios de pago, impuestos consumo 8% y totales.
+                          </p>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {/* Billing Configuration Form */}
+                    <div className="bg-[#FAF5EE] border border-slate-250 p-4 rounded-xl space-y-4">
+                      <div className="flex justify-between items-center border-b border-[#FAF5EE]/70 pb-1">
+                        <span className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] block font-mono">
+                          Configuración de Facturación
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setShowBillingConfig(false)}
+                          className="text-[10px] text-pandora-accent hover:underline flex items-center gap-1 font-mono font-bold cursor-pointer"
+                        >
+                          <ArrowLeft className="w-3 h-3" /> VOLVER
+                        </button>
+                      </div>
+
+                      {/* Payment Method Selector */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-[10px] uppercase font-bold tracking-wide text-slate-600">Método de Pago</label>
+                        <div className="grid grid-cols-3 gap-2">
+                          {(['Efectivo', 'Nequi', 'Bancolombia'] as const).map((method) => (
+                            <button
+                              key={method}
+                              type="button"
+                              onClick={() => setPaymentMethod(method)}
+                              className={`py-1.5 px-2 text-[10px] font-bold rounded-lg border uppercase font-mono tracking-wider transition-all cursor-pointer ${
+                                paymentMethod === method
+                                  ? 'bg-[#1C1510] text-[#FDF8F0] border-[#1C1510]'
+                                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                              }`}
+                            >
+                              {method}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Consumption tax Toggle Switch */}
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-200/50">
+                        <div>
+                          <span className="text-[11px] font-bold text-slate-800 block uppercase">Cobrar Impuesto de Consumo (8%)</span>
+                          <span className="text-[9.5px] text-slate-400 font-light block">Calcula y suma el 8% al subtotal del pedido</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setIncludeTax(!includeTax)}
+                          className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-200 ease-in-out focus:outline-none flex items-center relative ${
+                            includeTax ? 'bg-emerald-500 justify-end' : 'bg-slate-300 justify-start'
+                          }`}
+                        >
+                          <span className="w-5 h-5 rounded-full bg-white shadow-sm block transition-all" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Totals Summary */}
+                    <div className="border-t border-slate-200 pt-3 space-y-1.5 text-xs">
+                      <div className="flex justify-between text-slate-550">
+                        <span>Subtotal Neto:</span>
+                        <span className="font-mono font-medium">${selectedOrder.total.toLocaleString('es-CO')}</span>
+                      </div>
+                      {includeTax && (
+                        <div className="flex justify-between text-slate-550">
+                          <span>Impuestos (8% Consumo):</span>
+                          <span className="font-mono font-medium text-amber-700">+ ${(selectedOrder.total * 0.08).toLocaleString('es-CO')}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between border-t border-dashed border-slate-200 pt-2 text-slate-800 font-black">
+                        <span className="font-serif text-[13px] uppercase tracking-wide">TOTAL FACTURA (COP):</span>
+                        <span className="font-mono text-base text-pandora-accent">
+                          ${(selectedOrder.total + (includeTax ? selectedOrder.total * 0.08 : 0)).toLocaleString('es-CO')}
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
 
-              {/* Single Action Footer Button */}
-              <div className="p-4.5 bg-slate-50 border-t border-slate-200 flex flex-col gap-2 shrink-0">
-                <button
-                  onClick={() => handleGenerateInvoice(selectedOrder)}
-                  className="w-full bg-[#d66c50] hover:bg-[#be593e] text-white py-3.5 px-4 rounded-xl font-mono text-xs font-bold tracking-wider uppercase transition-colors text-center flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:shadow-pandora-accent/10 active:scale-[0.99] cursor-pointer"
-                >
-                  <FileText className="w-4.5 h-4.5" /> Generar Factura
-                </button>
-              </div>
+              {/* Action Buttons Footer dynamic content based on state */}
+              {!showBillingConfig ? (
+                <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-end shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedOrder(null)}
+                    className="w-full sm:w-auto px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 border border-slate-300 rounded-lg font-mono text-xs font-bold tracking-wider uppercase transition-all text-center cursor-pointer"
+                  >
+                    Cerrar Detalles
+                  </button>
+                </div>
+              ) : (
+                <div className="p-4 bg-slate-50 border-t border-slate-200 grid grid-cols-2 gap-3 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setShowBillingConfig(false)}
+                    className="bg-slate-200 hover:bg-slate-300 text-slate-755 py-3 px-3.5 rounded-lg font-mono text-[10px] font-extrabold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 border border-slate-300 cursor-pointer"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5" /> Volver Atrás
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleGenerateInvoice(selectedOrder, paymentMethod, includeTax)}
+                    className="bg-[#2E7D32] hover:bg-emerald-700 text-white py-3 px-3.5 rounded-lg font-mono text-[10px] font-semibold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg cursor-pointer"
+                    title="Generar factura de pago oficial detallada"
+                  >
+                    <Check className="w-3.5 h-3.5" /> Generar Factura
+                  </button>
+                </div>
+              )}
 
             </motion.div>
           </motion.div>

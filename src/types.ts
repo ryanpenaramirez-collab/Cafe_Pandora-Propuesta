@@ -7,7 +7,7 @@ export interface MenuItem {
   id: string;
   name: string;
   price: number;
-  category: 'platillo' | 'bebida';
+  category: 'platillo' | 'bebida' | 'gaseosa';
   image?: string;
   description: string;
   available: boolean;

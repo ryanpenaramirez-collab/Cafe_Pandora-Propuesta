@@ -10,11 +10,11 @@ import {
   Utensils, Calendar, FileText, DollarSign, AlertTriangle, 
   Printer, Archive, TrendingDown, LogOut, Map, 
   Key, Clock, Sparkles, Bell, Play, FileSpreadsheet, Lock,
-  ChevronLeft, ChevronRight, Shield, ClipboardList, Menu
+  ChevronLeft, ChevronRight, Shield, ClipboardList, Menu, Plus
 } from 'lucide-react';
 
 import { MenuItem, Table, Order, Expense, SystemAlert, StockItem, UserSession, ShiftState, TableStatus } from './types';
-import { INITIAL_MENU, INITIAL_BEVERAGES, INITIAL_TABLES, INITIAL_ALERTS, INITIAL_STOCK } from './data';
+import { INITIAL_MENU, INITIAL_BEVERAGES, INITIAL_GASEOSAS, INITIAL_TABLES, INITIAL_ALERTS, INITIAL_STOCK } from './data';
 
 import LoginView from './components/LoginView';
 import OrderModal from './components/OrderModal';
@@ -28,12 +28,8 @@ import PendingOrdersModule from './components/PendingOrdersModule';
 
 const CATEGORIES = [
   { id: 'pedidos', name: 'Pedidos', label: 'Toma de Pedidos', icon: ClipboardList, buttonIds: ['crear_pedido', 'pedidos_pendientes'] },
-  { id: 'servicio_mesa', name: 'Servicio de Mesa', label: 'Mesero, Chef, Barman', icon: ChefHat, buttonIds: ['mesero', 'chef', 'barman'] },
-  { id: 'menu', name: 'Menú', label: 'Platos y Bebidas', icon: Sparkles, buttonIds: ['platos', 'bebidas'] },
-  { id: 'caja_finanzas', name: 'Caja y Finanzas', label: 'Contabilidad y Caja', icon: DollarSign, buttonIds: ['cajero', 'abrir_caja', 'ventas_dia', 'egresos', 'facturas'] },
-  { id: 'mesas_salon', name: 'Mesas y Salón', label: 'Reservación y Salón', icon: Map, buttonIds: ['mesas', 'mapa_mesas', 'reserva'] },
-  { id: 'administracion', name: 'Administración', label: 'Personal, Inventario', icon: Users, buttonIds: ['usuarios', 'informes', 'activador', 'inventario'] },
-  { id: 'sistema', name: 'Sistema', label: 'Avisos y Sesión', icon: AlertTriangle, buttonIds: ['alerta', 'salir'] }
+  { id: 'menu', name: 'Menú', label: 'Platos, Bebidas y Más', icon: Sparkles, buttonIds: ['platos', 'bebidas', 'gaseosas'] },
+  { id: 'caja_finanzas', name: 'Caja y Finanzas', label: 'Contabilidad y Caja', icon: DollarSign, buttonIds: ['abrir_caja', 'ventas_dia', 'facturas'] }
 ];
 
 export default function App() {
@@ -53,7 +49,7 @@ export default function App() {
 
   const [menu, setMenu] = useState<MenuItem[]>(() => {
     const stored = localStorage.getItem('pandora_menu');
-    return stored ? JSON.parse(stored) : [...INITIAL_MENU, ...INITIAL_BEVERAGES];
+    return stored ? JSON.parse(stored) : [...INITIAL_MENU, ...INITIAL_BEVERAGES, ...INITIAL_GASEOSAS];
   });
 
   const [tables, setTables] = useState<Table[]>(() => {
@@ -172,6 +168,7 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activePedidosTab, setActivePedidosTab] = useState<'nuevo' | 'pendientes'>('nuevo');
   const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
 
 
@@ -255,16 +252,17 @@ export default function App() {
   };
 
   // 3. Clear/Settle Table to vacant
-  const handleClearTable = (tableId: number, cashSettled: boolean) => {
+  const handleClearTable = (tableId: number, cashSettled: boolean, finalAmount?: number) => {
     const targetTable = tables.find(t => t.id === tableId);
     if (!targetTable) return;
 
     if (cashSettled) {
+      const amountToRegister = finalAmount !== undefined ? finalAmount : targetTable.totalAmount;
       // Accumulate sales in Cash shift state
       setShift(prev => ({
         ...prev,
-        totalSales: prev.totalSales + targetTable.totalAmount,
-        currentCash: prev.currentCash + targetTable.totalAmount
+        totalSales: prev.totalSales + amountToRegister,
+        currentCash: prev.currentCash + amountToRegister
       }));
     }
 
@@ -313,9 +311,21 @@ export default function App() {
     }));
   };
 
-  // 6. Menu price configurations
+  // 6. Menu price configurations and CRUD actions
   const handleUpdateMenuPrice = (itemId: string, newPrice: number, isAvailable: boolean) => {
     setMenu(prev => prev.map(m => m.id === itemId ? { ...m, price: newPrice, available: isAvailable } : m));
+  };
+
+  const handleAddMenuItem = (item: MenuItem) => {
+    setMenu(prev => [...prev, item]);
+  };
+
+  const handleUpdateMenuItem = (updatedItem: MenuItem) => {
+    setMenu(prev => prev.map(m => m.id === updatedItem.id ? updatedItem : m));
+  };
+
+  const handleDeleteMenuItem = (itemId: string) => {
+    setMenu(prev => prev.filter(m => m.id !== itemId));
   };
 
   // 7. Stock refills
@@ -363,9 +373,10 @@ export default function App() {
     { id: 'ventas_dia', name: 'VENTAS DIA', color: 'yellow', icon: TrendingUp, label: 'Efectivo Caja', modal: 'financials', param: 'ventas', count: 0 },
     { id: 'mapa_mesas', name: 'MAPA MESAS', color: 'yellow', icon: Map, label: 'Layout Salón', modal: 'tables', param: 'mapa', count: 0 },
 
-    // Verde: PLATOS, BEBIDAS, RESERVA
+    // Verde: PLATOS, BEBIDAS, RESERVA, GASEOSAS
     { id: 'platos', name: 'PLATOS', color: 'green', icon: Sparkles, label: 'Comidas Menú', modal: 'menu_inventory', param: 'platos', count: 0 },
     { id: 'bebidas', name: 'BEBIDAS', color: 'green', icon: Wine, label: 'Bebidas Menú', modal: 'menu_inventory', param: 'bebidas', count: 0 },
+    { id: 'gaseosas', name: 'GASEOSAS', color: 'green', icon: Wine, label: 'Gaseosas Menú', modal: 'menu_inventory', param: 'gaseosas', count: 0 },
     { id: 'reserva', name: 'RESERVA', color: 'green', icon: Calendar, label: 'Reserva Agenda', modal: 'menu_inventory', param: 'reserva', count: 0 },
 
     // Magenta/Púrpura: INFORMES, CAJERO, ALERTA
@@ -391,7 +402,7 @@ export default function App() {
 
   const visibleButtons = useMemo(() => {
     if (user?.role === 'mesero') {
-      return BUTTONS.filter(btn => ['mesero', 'mesas', 'mapa_mesas', 'reserva', 'bebidas', 'platos', 'crear_pedido', 'pedidos_pendientes', 'salir'].includes(btn.id));
+      return BUTTONS.filter(btn => ['mesero', 'mesas', 'mapa_mesas', 'reserva', 'bebidas', 'platos', 'gaseosas', 'crear_pedido', 'pedidos_pendientes', 'salir'].includes(btn.id));
     }
     return BUTTONS;
   }, [user, stock, activeChefOrdersCount, activeBarmanOrdersCount, activeUnresolvedAlertsCount, orders]);
@@ -530,14 +541,22 @@ export default function App() {
 
           {/* CONTENEDOR DE HEADER SUPERIOR + COLUMNA CENTRAL Y DERECHA */}
           <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
-            
-            {/* BARRA SUPERIOR CON EL NOMBRE 'Cafe Pandora' */}
             <header id="main_header" className="bg-pandora-dark text-white border-b-2 border-pandora-wood py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
-              <div className="text-center sm:text-left">
-                <h1 className="font-serif text-lg font-bold tracking-widest text-pandora-gold uppercase leading-none">
-                  Cafe Pandora
-                </h1>
-                <span className="text-[8px] text-pandora-gold font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+                <button
+                  id="header_toggle_sidebar_btn"
+                  onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+                  className="p-1 px-3 bg-[#C4A882] hover:bg-[#b0936f] text-slate-950 font-extrabold rounded-lg border border-pandora-wood transition-all cursor-pointer text-xs"
+                  title={isSidebarCollapsed ? "Mostrar categorías" : "Ocultar categorías"}
+                >
+                  ☰ {isSidebarCollapsed ? 'Categorías' : 'Ocultar'}
+                </button>
+                <div className="text-left">
+                  <h1 className="font-serif text-lg font-bold tracking-widest text-pandora-gold uppercase leading-none">
+                    Cafe Pandora
+                  </h1>
+                  <span className="text-[8px] text-pandora-gold font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
+                </div>
               </div>
 
               {/* Indicadores rápidos de la barra superior */}
@@ -550,10 +569,10 @@ export default function App() {
                       handleLogout();
                     }
                   }}
-                  className="p-1 text-slate-300 hover:text-rose-450 hover:bg-white/5 rounded transition-all"
+                  className="p-1 text-slate-300 hover:text-rose-450 hover:bg-white/5 rounded transition-all cursor-pointer"
                   title="Cerrar sesión"
                 >
-                  <LogOut className="w-4 h-4 text-rose-450" />
+                  <LogOut className="w-4 h-4 text-rose-400" />
                 </button>
               </div>
             </header>
@@ -562,10 +581,21 @@ export default function App() {
             <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0 h-full">
               
               {/* COLUMNA CENTRAL: BOTONES DEL MENÚ DE NAVEGACIÓN (Columna central con botones) */}
-              <div id="col_center" className="w-full md:w-64 border-b md:border-b-0 md:border-r border-pandora-wood/15 p-4 flex flex-col shrink-0 overflow-y-auto md:h-full" style={{ backgroundColor: '#C4A882' }}>
-                
-                <div className="mb-3.5 text-[9px] uppercase font-bold tracking-widest text-[#1e1208] font-mono flex justify-between items-center shrink-0">
-                  <span>CATEGORÍAS</span>
+              {!isSidebarCollapsed && (
+                <div id="col_center" className="w-full md:w-64 border-b md:border-b-0 md:border-r border-pandora-wood/15 p-4 flex flex-col shrink-0 overflow-y-auto md:h-full" style={{ backgroundColor: '#C4A882' }}>
+                  
+                  <div className="mb-3.5 text-[9px] uppercase font-bold tracking-widest text-[#1e1208] font-mono flex justify-between items-center shrink-0">
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        id="collapse_sidebar_desktop_btn"
+                        onClick={() => setIsSidebarCollapsed(true)}
+                        className="py-0.5 px-1.5 rounded-md bg-white/20 hover:bg-white/30 text-[#1e1208] border border-black/10 transition-all cursor-pointer text-[10px] font-bold"
+                        title="Ocultar menú"
+                      >
+                        ☰
+                      </button>
+                      <span>CATEGORÍAS</span>
+                    </div>
                   
                   {/* Snack Hamburger icon to show/hide category list (on tablet / mobile only) */}
                   <button
@@ -638,6 +668,7 @@ export default function App() {
                   )}
                 </div>
               </div>
+              )}
 
               {/* COLUMNA DERECHA: AREA DE CONTENIDO PRINCIPAL INTEGRADO (Columna derecha grande) */}
               <div id="col_right_content" className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start" style={{ backgroundColor: '#D4BFA0' }}>
@@ -765,13 +796,13 @@ export default function App() {
                     )}
                   </div>
                 ) : (
-                  <>
+                  <div className="flex flex-col gap-5">
                     {/* Banner de Bienvenida y Resumen Operacional en Vivo */}
                     <div className="bg-[#FDF8F0] border border-slate-300 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-[9px] uppercase font-mono tracking-widest bg-pandora-accent/10 text-pandora-accent px-2 py-0.5 rounded-full font-bold border border-pandora-accent/20">
-                            Servicio en Vivo
+                            Servicio en Vivo (MVP)
                           </span>
                           <span className="text-[10px] font-mono text-slate-500">
                             {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
@@ -781,162 +812,48 @@ export default function App() {
                           ¡Hola, {user.name}! ☕
                         </h2>
                         <p className="text-[11px] text-slate-600 font-light mt-0.5">
-                          Bienvenido al panel general de Café Pandora. Control de comandas, distribución de mesas y almacén.
+                          Tu acceso es de <span className="font-bold text-pandora-accent uppercase">{user.role}</span>. Estas visualizando el modulo de comandas y facturación.
                         </p>
                       </div>
 
-                      {/* Micro Bento Módulos de Estadística */}
-                      <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
-                        {/* Indicador 1: Mesas */}
-                        <div className="flex-1 min-w-[110px] bg-[#FAF5EE]/80 border border-slate-300/80 rounded-xl p-2.5 flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg bg-cyan-100/60 border border-cyan-200 flex items-center justify-center text-cyan-700 shrink-0">
-                            <MapPin className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <span className="text-[8px] uppercase font-mono font-bold text-slate-500 block tracking-wider">Mesa Activa</span>
-                            <span className="font-mono text-[11px] font-bold text-slate-800 block mt-0.5">
-                              {tables.filter(t => t.status === 'ocupada').length} / {tables.length}
-                            </span>
-                          </div>
+                      {/* Contador de Comandas en Cola */}
+                      <div className="bg-[#FAF5EE]/80 border border-slate-300 rounded-xl p-3 flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
+                        <div className="w-9 h-9 rounded-lg bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 font-extrabold text-sm shrink-0">
+                          {orders.filter(o => o.status !== 'listo').length}
                         </div>
-
-                        {/* Indicador 2: Pedidos Activos */}
-                        <div className="flex-1 min-w-[110px] bg-[#FAF5EE]/80 border border-slate-300/80 rounded-xl p-2.5 flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-lg bg-amber-150 bg-amber-100/60 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
-                            <Coffee className="w-4 h-4 text-amber-600 animate-pulse" />
-                          </div>
-                          <div>
-                            <span className="text-[8px] uppercase font-mono font-bold text-slate-500 block tracking-wider">Comandas</span>
-                            <span className="font-mono text-[11px] font-bold text-slate-800 block mt-0.5">
-                              {orders.filter(o => o.status !== 'listo').length} en cola
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Indicador 3: Alertas */}
-                        <div className="flex-1 min-w-[110px] bg-[#FAF5EE]/80 border border-slate-300/80 rounded-xl p-2.5 flex items-center gap-2">
-                          <div className={`w-8 h-8 rounded-lg border flex items-center justify-center shrink-0 ${
-                            stock.filter(s => s.quantity <= s.minQuantity).length > 0 
-                              ? 'bg-rose-100 border-rose-200 text-rose-700 animate-pulse' 
-                              : 'bg-emerald-100/60 border border-emerald-200 text-emerald-800'
-                          }`}>
-                            <AlertTriangle className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <span className="text-[8px] uppercase font-mono font-bold text-slate-500 block tracking-wider">Stock Bajo</span>
-                            <span className="font-mono text-[11px] font-bold text-slate-800 block mt-0.5">
-                              {stock.filter(s => s.quantity <= s.minQuantity).length} ítems
-                            </span>
-                          </div>
+                        <div>
+                          <span className="text-[9px] uppercase font-mono font-bold text-slate-500 block tracking-wider">Comandas en Cola</span>
+                          <span className="font-sans text-[11px] font-bold text-slate-850 block mt-0.5">
+                            {orders.filter(o => o.status !== 'listo').length === 1 ? '1 pedido por atender' : `${orders.filter(o => o.status !== 'listo').length} pedidos por atender`}
+                          </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Cuadros de Monitoreo Interactivo del Salón y Comandas */}
-                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-                      
-                      {/* Monitor Rápido de Distribución de Mesas */}
-                      <div className="bg-[#FDF8F0] rounded-xl border border-slate-300 p-4 shadow-md flex flex-col h-[280px]">
-                        <div className="flex justify-between items-center pb-2.5 mb-3 border-b border-slate-200 shrink-0">
-                          <h3 className="font-serif text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-1.5 animate-pulse">
-                            <MapPin className="w-4 h-4 text-cyan-600" /> Distribución de Mesas (Salón)
-                          </h3>
-                          <button 
-                            onClick={() => { setModalFocus('tables'); setTabFocusParam('mapa'); }}
-                            className="text-[10px] text-cyan-700 hover:underline font-bold font-sans cursor-pointer bg-transparent border-none"
-                          >
-                            Ver mapa completo &rarr;
-                          </button>
-                        </div>
-
-                        <div className="grid grid-cols-4 gap-2 overflow-y-auto flex-grow pr-1">
-                          {tables.map(t => {
-                            let tableBg = "bg-slate-100/65 text-slate-700 border-slate-200 hover:bg-slate-100";
-                            if (t.status === 'ocupada') tableBg = "bg-rose-50 text-rose-800 border-rose-250 hover:bg-rose-100/50";
-                            else if (t.status === 'reservada') tableBg = "bg-emerald-50 text-emerald-800 border-emerald-250 hover:bg-emerald-100/50";
-                            else if (t.status === 'por_pagar') tableBg = "bg-amber-50 text-amber-800 border-amber-250 hover:bg-amber-100/50";
-
-                            return (
-                              <button
-                                key={t.id}
-                                onClick={() => {
-                                  setModalFocus('tables');
-                                  setTabFocusParam('mapa');
-                                }}
-                                className={`p-2 rounded gap-1 cursor-pointer border flex flex-col items-center justify-center transition-all h-[76px] shrink-0 ${tableBg}`}
-                                title={`Mesa ${t.id} - ${t.status}`}
-                              >
-                                <span className="text-[10px] font-bold">Mesa {t.id}</span>
-                                <span className="text-[8px] uppercase font-mono bg-white/50 px-1 rounded block-inline text-slate-600">
-                                  ${t.totalAmount.toFixed(0)}
-                                </span>
-                              </button>
-                            );
-                          })}
-                        </div>
+                    {/* Acceso rápido a pedidos pendientes */}
+                    <div className="bg-[#FDF8F0] border border-slate-300 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col gap-4">
+                      <div className="flex justify-between items-center border-b border-slate-200 pb-2">
+                        <h3 className="font-serif text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                          <Clock className="w-4 h-4 text-pandora-accent animate-pulse" /> Acceso Rápido a Pedidos Pendientes
+                        </h3>
+                        <button
+                          onClick={() => {
+                            setActiveCategory('pedidos');
+                            setActivePedidosTab('nuevo');
+                          }}
+                          className="bg-amber-600 hover:bg-amber-500 text-white text-[10px] font-mono font-bold tracking-wider uppercase py-1.5 px-3 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                        >
+                          <Plus className="w-3.5 h-3.5" /> Nuevo Pedido
+                        </button>
                       </div>
 
-                      {/* Panel Virtual de Comandas Activas */}
-                      <div className="bg-[#FDF8F0] rounded-xl border border-slate-300 p-4 shadow-md flex flex-col h-[280px]">
-                        <div className="flex justify-between items-center pb-2.5 mb-3 border-b border-slate-200 shrink-0">
-                          <h3 className="font-serif text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                            <Coffee className="w-4 h-4 text-amber-500 animate-bounce" /> Cola de Preparaciones
-                          </h3>
-                          <button 
-                            onClick={() => { setModalFocus('kitchen'); setTabFocusParam('chef'); }}
-                            className="text-[10px] text-amber-700 hover:underline font-bold font-sans cursor-pointer bg-transparent border-none"
-                          >
-                            Ver Cocina / Barra &rarr;
-                          </button>
-                        </div>
-
-                        <div className="flex-grow overflow-y-auto space-y-2 pr-1 flex flex-col justify-start">
-                          {orders.filter(o => o.status !== 'listo').length === 0 ? (
-                            <div className="flex-grow flex flex-col items-center justify-center text-slate-400">
-                              <Coffee className="w-6 h-6 text-pandora-accent/40 mb-1.5 animate-pulse" />
-                              <p className="text-[11px] font-medium font-serif text-slate-500">¡Ninguna comanda pendiente!</p>
-                            </div>
-                          ) : (
-                            orders.filter(o => o.status !== 'listo').map(order => (
-                              <div key={order.id} className="p-2 bg-[#FAF5EE]/90 border border-slate-200 rounded flex justify-between items-center text-xs shrink-0">
-                                <div className="min-w-0 flex-1 pr-2">
-                                  <div className="flex items-center gap-1.5 font-bold text-slate-800">
-                                    <span className="bg-slate-200/80 px-1 py-0.5 rounded text-[9px] font-mono">Mesa {order.tableId}</span>
-                                    <span className="text-[11px] uppercase font-mono text-slate-500">#{order.id.slice(-4)}</span>
-                                  </div>
-                                  <span className="text-[10px] text-slate-500 block truncate max-w-[150px] mt-0.5">
-                                    {order.items.map(item => `${item.quantity}x ${item.name}`).join(', ')}
-                                  </span>
-                                </div>
-                                <span className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold shrink-0 ${
-                                  order.status === 'preparacion' ? 'bg-amber-100 text-amber-700 animate-pulse' : 'bg-rose-100 text-rose-700'
-                                }`}>
-                                  {order.status === 'preparacion' ? 'Preparando' : 'Espera'}
-                                </span>
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </div>
-
+                      <PendingOrdersModule
+                        orders={orders}
+                        onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'listo')}
+                        onCancelOrder={(id) => handleCancelOrder(id)}
+                      />
                     </div>
-
-                    {/* Avisos rápidos de stock o Alertas administrativas */}
-                    <div className="bg-[#FAF5EE]/75 rounded-xl border border-slate-350 p-4 shadow-sm">
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-slate-500 block mb-2 font-mono">⚠️ ÚLTIMOS AVISOS DE STOCK O ALERTAS</span>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {alerts.slice(0, 2).map((alert) => (
-                          <div key={alert.id} className="p-2 border border-slate-300 rounded-lg bg-[#FDF8F0] flex items-start gap-2 text-xs">
-                            <AlertTriangle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                            <div>
-                              <p className="font-bold text-slate-800">{alert.type === 'baja_cocina' || alert.type === 'baja_barra' ? 'Advertencia de Stock' : 'Alerta de Sistema'}</p>
-                              <p className="text-[10px] text-slate-500 mt-0.5">{alert.message}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </>
+                  </div>
                 )}
               </div>
 
@@ -986,6 +903,7 @@ export default function App() {
               isOpen={true}
               onClose={() => setModalFocus(null)}
               tables={tables}
+              orders={orders}
               onUpdateTableStatus={handleUpdateTableStatus}
               onClearTable={handleClearTable}
             />
@@ -1020,6 +938,9 @@ export default function App() {
               onUpdateMenuPrice={handleUpdateMenuPrice}
               onAddStock={handleAddStock}
               onAddReservation={handleAddReservation}
+              onAddMenuItem={handleAddMenuItem}
+              onUpdateMenuItem={handleUpdateMenuItem}
+              onDeleteMenuItem={handleDeleteMenuItem}
             />
           </motion.div>
         )}

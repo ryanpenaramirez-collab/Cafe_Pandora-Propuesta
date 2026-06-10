@@ -107,35 +107,24 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
           }}
         >
           {/* Background image styled with zoom, center, and dark overlay */}
-          <div className="absolute inset-0 z-0 overflow-hidden bg-[#0a0a0a]">
+          <div className="absolute inset-0 z-0 overflow-hidden bg-[#0c0704] flex items-center justify-center p-6">
             <img 
-              src={birdIllustration} 
-              alt="Mural Pájaró Copetón" 
-              className="w-full h-full object-cover object-center"
-              style={{ 
-                transform: 'scale(1.65)',
-                transformOrigin: 'center center'
-              }}
+              src="https://i.imgur.com/ARe5rPr.jpeg" 
+              alt="Logo Café Pandora" 
+              className="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 object-cover rounded-full shadow-2xl border-2 border-pandora-gold/30 animate-pulse-slow"
               referrerPolicy="no-referrer"
             />
             {/* Elegant overlay to integrate the picture and render text perfectly */}
             <div 
-              className="absolute inset-0 z-10" 
+              className="absolute inset-0 z-10 pointer-events-none" 
               style={{ 
-                background: 'linear-gradient(to bottom, rgba(10, 10, 10, 0.45) 0%, rgba(10, 10, 10, 0.2) 50%, rgba(10, 10, 10, 0.75) 100%)' 
+                background: 'linear-gradient(to bottom, rgba(10, 10, 10, 0.3) 0%, rgba(10, 10, 10, 0.1) 60%, rgba(10, 10, 10, 0.7) 100%)' 
               }}
             ></div>
           </div>
 
           <div id="visual_top" className="relative z-10 flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-pandora-accent flex items-center justify-center shadow-lg overflow-hidden">
-              <img 
-                src="https://i.imgur.com/ARe5rPr.jpeg" 
-                alt="Logo Café Pandora" 
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </div>
+            {/* Small corner logo removed */}
           </div>
 
           <div id="visual_bottom" className="relative z-10 pt-12 md:pt-0 mt-auto">

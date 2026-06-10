@@ -9,8 +9,9 @@ export const INITIAL_MENU: MenuItem[] = [
   {
     id: 'p1',
     name: 'Croque Monsieur Classique',
-    price: 7.90,
+    price: 32000,
     category: 'platillo',
+    image: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=400&q=80',
     description: 'Sándwich de pan de masa madre con jamón york ahumado, queso Gruyère y salsa bechamel gratinada.',
     available: true,
     stock: 25
@@ -18,8 +19,9 @@ export const INITIAL_MENU: MenuItem[] = [
   {
     id: 'p2',
     name: 'Tarta de Manzana y Especias',
-    price: 5.50,
+    price: 18000,
     category: 'platillo',
+    image: 'https://images.unsplash.com/photo-1507226983735-a838615193b0?auto=format&fit=crop&w=400&q=80',
     description: 'Hojaldre de manzana fresca bañado en almíbar de canela, servido caliente con helado de vainilla.',
     available: true,
     stock: 12
@@ -27,8 +29,9 @@ export const INITIAL_MENU: MenuItem[] = [
   {
     id: 'p3',
     name: 'Pan de Bono de la Casa',
-    price: 2.50,
+    price: 6000,
     category: 'platillo',
+    image: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=400&q=80',
     description: 'Panecillo esponjoso tradicional de fécula de maíz y queso fresco de cabra, servido calientito.',
     available: true,
     stock: 40
@@ -36,8 +39,9 @@ export const INITIAL_MENU: MenuItem[] = [
   {
     id: 'p4',
     name: 'Ensalada Pandora Gourmet',
-    price: 8.80,
+    price: 28000,
     category: 'platillo',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80',
     description: 'Arúgula fresca, higos negros carnosos, queso de cabra artesanal, nueces tostadas y vinagreta de miel trufada.',
     available: true,
     stock: 15
@@ -45,8 +49,9 @@ export const INITIAL_MENU: MenuItem[] = [
   {
     id: 'p5',
     name: 'Croissant Frangipane de Almendras',
-    price: 3.80,
+    price: 12000,
     category: 'platillo',
+    image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=400&q=80',
     description: 'Hojaldre crocante de mantequilla francesa relleno de crema dulce de almendras y decorado con almendras fileteadas.',
     available: true,
     stock: 18
@@ -54,8 +59,9 @@ export const INITIAL_MENU: MenuItem[] = [
   {
     id: 'p6',
     name: 'Crepa Suprema de Frutos Rojos',
-    price: 6.50,
+    price: 22000,
     category: 'platillo',
+    image: 'https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=400&q=80',
     description: 'Crepa fina rellena de compota casera de fresas, moras, chocolate blanco flameado y helado de frambuesa dulce.',
     available: true,
     stock: 20
@@ -66,8 +72,9 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
   {
     id: 'b1',
     name: 'Espresso Pandora',
-    price: 2.80,
+    price: 7500,
     category: 'bebida',
+    image: 'https://images.unsplash.com/photo-1510972527409-cac5cbff0312?auto=format&fit=crop&w=400&q=80',
     description: 'Doble ristretto extraído a presión perfecta con granos de origen único seleccionados de Chiapas.',
     available: true,
     stock: 150
@@ -75,8 +82,9 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
   {
     id: 'b2',
     name: 'Capuccino Amaretto',
-    price: 3.90,
+    price: 11000,
     category: 'bebida',
+    image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80',
     description: 'Expreso con leche texturizada perfectamente sedosa, un toque sutil de licor de almendras y cacao espolvoreado.',
     available: true,
     stock: 100
@@ -84,8 +92,9 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
   {
     id: 'b3',
     name: 'Café de Olla Orgánico',
-    price: 3.20,
+    price: 9500,
     category: 'bebida',
+    image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=400&q=80',
     description: 'Infusión lenta en jarro de barro con piloncillo de caña puro, canela fina entera y ralladura de naranja dulce.',
     available: true,
     stock: 80
@@ -93,8 +102,9 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
   {
     id: 'b4',
     name: 'Dirty Chai Tea Latte',
-    price: 4.50,
+    price: 14500,
     category: 'bebida',
+    image: 'https://images.unsplash.com/photo-1576092762791-dd9e2220abd1?auto=format&fit=crop&w=400&q=80',
     description: 'Té negro aromático con especias calientes de Mysore, leche cremosa de avena y un shot extra de expreso.',
     available: true,
     stock: 65
@@ -102,8 +112,9 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
   {
     id: 'b5',
     name: 'Cold Brew Citrus Tonic',
-    price: 4.85,
+    price: 15500,
     category: 'bebida',
+    image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=400&q=80',
     description: 'Filtro en frío durante 18 horas sobre agua tónica burbujeante premium, hielo cristalino y un gajo fresco de pomelo.',
     available: true,
     stock: 45
@@ -111,27 +122,81 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
   {
     id: 'b6',
     name: 'Infusión Especial Pétalos de Rosa',
-    price: 3.50,
+    price: 11500,
     category: 'bebida',
+    image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=400&q=80',
     description: 'Mezcla exótica floral con hibisco rojo orgánico, manzana deshidratada, pétalos secos de rosa silvestre y toques cítricos.',
     available: true,
     stock: 70
   }
 ];
 
+export const INITIAL_GASEOSAS: MenuItem[] = [
+  {
+    id: 'g1',
+    name: 'Coca-Cola Sabor Original',
+    price: 7200,
+    category: 'gaseosa',
+    image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80',
+    description: 'Refrescante bebida gaseosa Coca-Cola Original de 330ml servida helada con gajo de limón.',
+    available: true,
+    stock: 90
+  },
+  {
+    id: 'g2',
+    name: 'Coca-Cola Sin Azúcar',
+    price: 7200,
+    category: 'gaseosa',
+    image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80',
+    description: 'El sabor inconfundible de Coca-Cola pero sin calorías, botella de 330ml heladita.',
+    available: true,
+    stock: 80
+  },
+  {
+    id: 'g3',
+    name: 'Sprite Lima-Limón',
+    price: 6800,
+    category: 'gaseosa',
+    image: 'https://images.unsplash.com/photo-1625772291426-fbf0ca497b7b?auto=format&fit=crop&w=400&q=80',
+    description: 'Bebida gaseosa sabor lima-limón, fresca y burbujeante, ideal para acompañar tus platos.',
+    available: true,
+    stock: 60
+  },
+  {
+    id: 'g4',
+    name: 'Quatro Toronja',
+    price: 6800,
+    category: 'gaseosa',
+    image: 'https://images.unsplash.com/photo-1625772291426-fbf0ca497b7b?auto=format&fit=crop&w=400&q=80',
+    description: 'Gaseosa sabor a toronja refrescante y ligeramente ácida de 330ml.',
+    available: true,
+    stock: 50
+  },
+  {
+    id: 'g5',
+    name: 'Agua Manantial con Gas',
+    price: 6000,
+    category: 'gaseosa',
+    image: 'https://images.unsplash.com/photo-1608885898957-a599fb15ec3e?auto=format&fit=crop&w=400&q=80',
+    description: 'Agua mineral de manantial 100% pura y gasificada, burbujas finas para limpiar el paladar.',
+    available: true,
+    stock: 120
+  }
+];
+
 export const INITIAL_TABLES: Table[] = [
-  { id: 1, name: 'Mesa 1 (Ventana)', capacity: 2, status: 'ocupada', currentWaiter: 'Meseros', totalAmount: 18.50, ordersCount: 2, occupiedSince: '14:20' },
-  { id: 2, name: 'Mesa 2 (Barra)', capacity: 1, status: 'vacía', totalAmount: 0.00, ordersCount: 0 },
-  { id: 3, name: 'Mesa 3 (Interior)', capacity: 4, status: 'ocupada', currentWaiter: 'Meseros', totalAmount: 32.70, ordersCount: 3, occupiedSince: '14:45' },
-  { id: 4, name: 'Mesa 4 (Terraza)', capacity: 2, status: 'reservada', guestName: 'Diana R. - 16:30', totalAmount: 0.00, ordersCount: 0 },
-  { id: 5, name: 'Mesa 5 (Ventana)', capacity: 2, status: 'por_pagar', currentWaiter: 'Andrea', totalAmount: 12.40, ordersCount: 1, occupiedSince: '13:50' },
-  { id: 6, name: 'Mesa 6 (Terraza)', capacity: 4, status: 'vacía', totalAmount: 0.00, ordersCount: 0 },
-  { id: 7, name: 'Mesa 7 (Interior)', capacity: 6, status: 'vacía', totalAmount: 0.00, ordersCount: 0 },
-  { id: 8, name: 'Mesa 8 (Sofá)', capacity: 4, status: 'ocupada', currentWaiter: 'Andrea', totalAmount: 24.50, ordersCount: 2, occupiedSince: '14:35' },
-  { id: 9, name: 'Mesa 9 (Barra)', capacity: 1, status: 'vacía', totalAmount: 0.00, ordersCount: 0 },
-  { id: 10, name: 'Mesa 10 (Interior)', capacity: 2, status: 'vacía', totalAmount: 0.00, ordersCount: 0 },
-  { id: 11, name: 'Mesa 11 (Terraza)', capacity: 2, status: 'reservada', guestName: 'Juan P. - 18:00', totalAmount: 0.00, ordersCount: 0 },
-  { id: 12, name: 'Mesa 12 (Sofá VIP)', capacity: 6, status: 'vacía', totalAmount: 0.00, ordersCount: 0 }
+  { id: 1, name: 'Mesa 1 (Ventana)', capacity: 2, status: 'ocupada', currentWaiter: 'Meseros', totalAmount: 76000, ordersCount: 2, occupiedSince: '14:20' },
+  { id: 2, name: 'Mesa 2 (Barra)', capacity: 1, status: 'vacía', totalAmount: 0, ordersCount: 0 },
+  { id: 3, name: 'Mesa 3 (Interior)', capacity: 4, status: 'ocupada', currentWaiter: 'Meseros', totalAmount: 122000, ordersCount: 3, occupiedSince: '14:45' },
+  { id: 4, name: 'Mesa 4 (Terraza)', capacity: 2, status: 'reservada', guestName: 'Diana R. - 16:30', totalAmount: 0, ordersCount: 0 },
+  { id: 5, name: 'Mesa 5 (Ventana)', capacity: 2, status: 'por_pagar', currentWaiter: 'Andrea', totalAmount: 45000, ordersCount: 1, occupiedSince: '13:50' },
+  { id: 6, name: 'Mesa 6 (Terraza)', capacity: 4, status: 'vacía', totalAmount: 0, ordersCount: 0 },
+  { id: 7, name: 'Mesa 7 (Interior)', capacity: 6, status: 'vacía', totalAmount: 0, ordersCount: 0 },
+  { id: 8, name: 'Mesa 8 (Sofá)', capacity: 4, status: 'ocupada', currentWaiter: 'Andrea', totalAmount: 98050, ordersCount: 2, occupiedSince: '14:35' },
+  { id: 9, name: 'Mesa 9 (Barra)', capacity: 1, status: 'vacía', totalAmount: 0, ordersCount: 0 },
+  { id: 10, name: 'Mesa 10 (Interior)', capacity: 2, status: 'vacía', totalAmount: 0, ordersCount: 0 },
+  { id: 11, name: 'Mesa 11 (Terraza)', capacity: 2, status: 'reservada', guestName: 'Juan P. - 18:00', totalAmount: 0, ordersCount: 0 },
+  { id: 12, name: 'Mesa 12 (Sofá VIP)', capacity: 6, status: 'vacía', totalAmount: 0, ordersCount: 0 }
 ];
 
 export const INITIAL_ALERTS: SystemAlert[] = [

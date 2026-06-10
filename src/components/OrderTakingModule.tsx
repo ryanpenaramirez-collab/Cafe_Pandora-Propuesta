@@ -7,7 +7,7 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Plus, Minus, ShoppingCart, Check, Trash2, 
-  Utensils, Coffee, Search, ClipboardList, RefreshCw 
+  Utensils, Coffee, Search, ClipboardList, RefreshCw, Wine 
 } from 'lucide-react';
 import { MenuItem, Table, Order, OrderItem } from '../types';
 
@@ -22,7 +22,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
   const [selectedTableId, setSelectedTableId] = useState<number | null>(null);
   const [customTableNumber, setCustomTableNumber] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeCatalogTab, setActiveCatalogTab] = useState<'todos' | 'platillo' | 'bebida'>('todos');
+  const [activeCatalogTab, setActiveCatalogTab] = useState<'todos' | 'platillo' | 'bebida' | 'gaseosa'>('todos');
   const [cart, setCart] = useState<OrderItem[]>([]);
   const [showsSuccess, setShowsSuccess] = useState(false);
 
@@ -40,7 +40,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
   const groupedCatalog = useMemo(() => {
     const platillos = filteredCatalog.filter(item => item.category === 'platillo');
     const bebidas = filteredCatalog.filter(item => item.category === 'bebida');
-    return { platillos, bebidas };
+    const gaseosas = filteredCatalog.filter(item => item.category === 'gaseosa');
+    return { platillos, bebidas, gaseosas };
   }, [filteredCatalog]);
 
   // Cart operations
@@ -135,15 +136,10 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
           <div className="border-b border-slate-100 pb-3 flex justify-between items-center">
             <div>
               <h3 className="font-serif text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                <ClipboardList className="w-4 h-4 text-pandora-accent" /> Paso 1: Seleccione la Mesa
+                <ClipboardList className="w-4 h-4 text-pandora-accent" /> Seleccione la Mesa
               </h3>
               <p className="text-[11px] text-slate-500 mt-0.5">Elija una mesa del salón o registre una mesa alterna abajo.</p>
             </div>
-            {waiterName && (
-              <span className="text-[10px] bg-slate-100 text-slate-600 font-mono px-2 py-0.5 rounded border border-slate-200 uppercase">
-                Atiende: {waiterName}
-              </span>
-            )}
           </div>
 
           {/* Table Grid Selection */}
@@ -238,8 +234,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
             {/* Selection tools: Tabs & Search */}
             <div className="flex flex-col sm:flex-row gap-2.5 mb-4 shrink-0">
               {/* Category selector */}
-              <div className="bg-slate-100 p-0.5 rounded-lg border border-slate-200 flex items-center gap-1">
-                {(['todos', 'platillo', 'bebida'] as const).map((tab) => (
+              <div className="bg-slate-100 p-0.5 rounded-lg border border-slate-200 flex flex-wrap items-center gap-1">
+                {(['todos', 'platillo', 'bebida', 'gaseosa'] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveCatalogTab(tab)}
@@ -249,7 +245,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                         : 'text-slate-500 hover:text-slate-800'
                     }`}
                   >
-                    {tab === 'todos' ? 'Todos' : tab === 'platillo' ? 'Platillos (Comidas)' : 'Bebidas'}
+                    {tab === 'todos' ? 'Todos' : tab === 'platillo' ? 'Platillos' : tab === 'bebida' ? 'Bebidas' : 'Gaseosas'}
                   </button>
                 ))}
               </div>
@@ -283,22 +279,27 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                         <div
                           key={item.id}
                           onClick={() => addToCart(item)}
-                          className={`p-3 rounded-xl border transition-all hover:bg-slate-50 cursor-pointer text-left flex justify-between items-start gap-2 h-26 shrink-0 ${
+                          className={`p-2.5 rounded-xl border transition-all hover:bg-slate-50 cursor-pointer text-left flex items-center gap-3 min-h-[90px] shrink-0 ${
                             cartItem 
-                              ? 'border-pandora-accent bg-amber-50/20' 
-                              : 'border-slate-200 bg-white'
+                              ? 'border-pandora-accent bg-amber-50/20 shadow-xs' 
+                              : 'border-slate-200 bg-white hover:border-slate-350'
                           }`}
                         >
-                          <div className="flex-1 min-w-0 flex flex-col justify-between h-full">
-                            <div>
-                              <span className="font-serif font-bold text-xs text-slate-800 line-clamp-1 block uppercase leading-tight">{item.name}</span>
-                              <p className="text-[10px] text-slate-400 font-light line-clamp-2 mt-1 leading-normal">{item.description}</p>
+                          {item.image && (
+                            <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-slate-200/60 shadow-xs">
+                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                             </div>
-                            <span className="text-[11px] font-mono font-bold text-pandora-accent block mt-1">${item.price.toFixed(2)}</span>
+                          )}
+                          <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
+                            <div>
+                              <span className="font-serif font-bold text-xs text-slate-850 line-clamp-1 block uppercase leading-tight">{item.name}</span>
+                              <p className="text-[9.5px] text-slate-405 font-light line-clamp-2 mt-0.5 leading-normal">{item.description}</p>
+                            </div>
+                            <span className="text-[11px] font-mono font-bold text-pandora-accent block mt-1">${item.price.toLocaleString('es-CO')}</span>
                           </div>
                           
                           {cartItem && (
-                            <span className="bg-pandora-accent text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-sm shrink-0">
+                            <span className="bg-pandora-accent text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-xs shrink-0 self-center">
                               {cartItem.quantity}
                             </span>
                           )}
@@ -322,22 +323,71 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                         <div
                           key={item.id}
                           onClick={() => addToCart(item)}
-                          className={`p-3 rounded-xl border transition-all hover:bg-slate-50 cursor-pointer text-left flex justify-between items-start gap-2 h-26 shrink-0 ${
+                          className={`p-2.5 rounded-xl border transition-all hover:bg-slate-50 cursor-pointer text-left flex items-center gap-3 min-h-[90px] shrink-0 ${
                             cartItem 
                               ? 'border-pandora-accent bg-amber-50/20' 
-                              : 'border-slate-200 bg-white'
+                              : 'border-slate-200 bg-white hover:border-slate-350'
                           }`}
                         >
-                          <div className="flex-1 min-w-0 flex flex-col justify-between h-full">
-                            <div>
-                              <span className="font-serif font-bold text-xs text-slate-800 line-clamp-1 block uppercase leading-tight">{item.name}</span>
-                              <p className="text-[10px] text-slate-400 font-light line-clamp-2 mt-1 leading-normal">{item.description}</p>
+                          {item.image && (
+                            <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-slate-200/60 shadow-xs">
+                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                             </div>
-                            <span className="text-[11px] font-mono font-bold text-pandora-accent block mt-1">${item.price.toFixed(2)}</span>
+                          )}
+                          <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
+                            <div>
+                              <span className="font-serif font-bold text-xs text-slate-850 line-clamp-1 block uppercase leading-tight">{item.name}</span>
+                              <p className="text-[9.5px] text-slate-405 font-light line-clamp-2 mt-0.5 leading-normal">{item.description}</p>
+                            </div>
+                            <span className="text-[11px] font-mono font-bold text-pandora-accent block mt-1">${item.price.toLocaleString('es-CO')}</span>
                           </div>
                           
                           {cartItem && (
-                            <span className="bg-pandora-accent text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-sm shrink-0">
+                            <span className="bg-pandora-accent text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-xs shrink-0 self-center">
+                              {cartItem.quantity}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* GASEOSAS GROUP */}
+              {(activeCatalogTab === 'todos' || activeCatalogTab === 'gaseosa') && groupedCatalog.gaseosas.length > 0 && (
+                <div>
+                  <h5 className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] border-b border-dashed border-slate-200 pb-1 mb-2 font-mono flex items-center gap-1.5">
+                    <Wine className="w-3.5 h-3.5 inline text-pandora-accent" /> Gaseosas &amp; Sodas
+                  </h5>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {groupedCatalog.gaseosas.map(item => {
+                      const cartItem = cart.find(i => i.menuItemId === item.id);
+                      return (
+                        <div
+                          key={item.id}
+                          onClick={() => addToCart(item)}
+                          className={`p-2.5 rounded-xl border transition-all hover:bg-slate-50 cursor-pointer text-left flex items-center gap-3 min-h-[90px] shrink-0 ${
+                            cartItem 
+                              ? 'border-pandora-accent bg-amber-50/20' 
+                              : 'border-slate-200 bg-white hover:border-slate-350'
+                          }`}
+                        >
+                          {item.image && (
+                            <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-slate-200/60 shadow-xs">
+                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
+                            <div>
+                              <span className="font-serif font-bold text-xs text-slate-850 line-clamp-1 block uppercase leading-tight">{item.name}</span>
+                              <p className="text-[9.5px] text-slate-405 font-light line-clamp-2 mt-0.5 leading-normal">{item.description}</p>
+                            </div>
+                            <span className="text-[11px] font-mono font-bold text-pandora-accent block mt-1">${item.price.toLocaleString('es-CO')}</span>
+                          </div>
+                          
+                          {cartItem && (
+                            <span className="bg-pandora-accent text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-xs shrink-0 self-center">
                               {cartItem.quantity}
                             </span>
                           )}
@@ -381,7 +431,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                   >
                     <div className="min-w-0 flex-1 pr-1.5">
                       <span className="font-serif font-bold text-slate-850 block leading-tight truncate uppercase text-[11px]">{item.name}</span>
-                      <span className="text-[10px] text-pandora-accent font-mono block mt-0.5">${item.price.toFixed(2)} c/u</span>
+                      <span className="text-[10px] text-pandora-accent font-mono block mt-0.5">${item.price.toLocaleString('es-CO')} c/u</span>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -418,11 +468,11 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
             <div className="border-t border-slate-200 pt-3 mt-3">
               <div className="flex justify-between items-center text-xs text-slate-500 font-medium mb-1.5">
                 <span>Subtotal:</span>
-                <span className="font-mono text-slate-700">${cartTotal.toFixed(2)}</span>
+                <span className="font-mono text-slate-700">${cartTotal.toLocaleString('es-CO')}</span>
               </div>
               <div className="flex justify-between items-center text-xs text-slate-550 font-bold border-b border-dashed border-slate-200 pb-2 mb-2">
                 <span className="text-slate-800">TOTAL PEDIDO:</span>
-                <span className="font-mono text-pandora-accent text-sm">${cartTotal.toFixed(2)}</span>
+                <span className="font-mono text-pandora-accent text-sm">${cartTotal.toLocaleString('es-CO')}</span>
               </div>
 
               <div className="flex gap-2">
