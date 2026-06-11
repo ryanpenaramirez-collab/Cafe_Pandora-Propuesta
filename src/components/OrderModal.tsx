@@ -149,7 +149,7 @@ export default function OrderModal({ isOpen, onClose, menu, tables, waiterName, 
                 La comanda ha sido enviada con éxito. Los chefs y bartenders verán la orden en sus paneles de inmediato.
               </p>
               <div className="mt-4 text-xs font-mono text-pandora-gold">
-                Total acumulado: ${cartTotal.toFixed(2)} USD
+                Total acumulado: ${cartTotal.toLocaleString('es-CO')} COP
               </div>
             </motion.div>
           )}
@@ -247,7 +247,7 @@ export default function OrderModal({ isOpen, onClose, menu, tables, waiterName, 
                     </div>
                   </div>
                   <div className="flex justify-between items-center mt-3 pt-2 border-t border-slate-50">
-                    <span className="text-xs font-mono font-bold text-slate-700">${item.price.toFixed(2)} USD</span>
+                    <span className="text-xs font-mono font-bold text-slate-700">${item.price.toLocaleString('es-CO')} COP</span>
                     <button
                       type="button"
                       onClick={() => addToCart(item)}
@@ -291,7 +291,7 @@ export default function OrderModal({ isOpen, onClose, menu, tables, waiterName, 
                   <div key={item.menuItemId} className="bg-white p-2 text-xs rounded-lg border border-slate-200 flex items-center justify-between gap-1 group">
                     <div className="flex-1 min-w-0 pr-1">
                       <p className="font-semibold text-slate-800 truncate">{item.name}</p>
-                      <p className="text-[10px] text-slate-500 font-mono">${item.price.toFixed(2)} × {item.quantity}</p>
+                      <p className="text-[10px] text-slate-500 font-mono">${item.price.toLocaleString('es-CO')} × {item.quantity}</p>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <button 
@@ -329,15 +329,15 @@ export default function OrderModal({ isOpen, onClose, menu, tables, waiterName, 
             <div className="border-t border-slate-200 pt-3 space-y-1.5 shrink-0">
               <div className="flex justify-between text-xs text-slate-500">
                 <span>Subtotal</span>
-                <span className="font-mono">${cartTotal.toFixed(2)}</span>
+                <span className="font-mono">${cartTotal.toLocaleString('es-CO')} COP</span>
               </div>
               <div className="flex justify-between text-xs text-slate-500">
                 <span>Servicio Impl. (10%)</span>
-                <span className="font-mono">${(cartTotal * 0.1).toFixed(2)}</span>
+                <span className="font-mono">${Math.round(cartTotal * 0.1).toLocaleString('es-CO')} COP</span>
               </div>
               <div className="flex justify-between text-base font-bold text-slate-800 pt-1.5 border-t border-dashed border-slate-300">
                 <span>Total Estimado</span>
-                <span className="font-mono text-amber-600">${(cartTotal * 1.1).toFixed(2)}</span>
+                <span className="font-mono text-amber-600">${Math.round(cartTotal * 1.1).toLocaleString('es-CO')} COP</span>
               </div>
 
               <button

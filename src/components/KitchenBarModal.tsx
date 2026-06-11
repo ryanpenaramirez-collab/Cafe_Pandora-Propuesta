@@ -13,7 +13,7 @@ interface KitchenBarModalProps {
   onClose: () => void;
   orders: Order[];
   role: 'chef' | 'barman';
-  onUpdateOrderStatus: (orderId: string, status: 'espera' | 'preparacion' | 'listo') => void;
+  onUpdateOrderStatus: (orderId: string, status: 'espera' | 'preparacion' | 'listo' | 'caja' | 'facturado') => void;
 }
 
 export default function KitchenBarModal({ isOpen, onClose, orders, role, onUpdateOrderStatus }: KitchenBarModalProps) {
