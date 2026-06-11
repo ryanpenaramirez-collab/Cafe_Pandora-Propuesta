@@ -41,7 +41,7 @@ export interface Order {
   tableName: string;
   waiterName: string;
   items: OrderItem[];
-  status: 'espera' | 'preparacion' | 'listo';
+  status: 'espera' | 'preparacion' | 'listo' | 'caja' | 'facturado';
   type: 'comida' | 'bebida' | 'mixto';
   total: number;
   timestamp: string;
