@@ -19,12 +19,13 @@ import { INITIAL_MENU, INITIAL_BEVERAGES, INITIAL_GASEOSAS, INITIAL_TABLES, INIT
 import LoginView from './components/LoginView';
 import OrderModal from './components/OrderModal';
 import KitchenBarModal from './components/KitchenBarModal';
-import TablesModal from './components/TablesModal';
+import { TablesModule } from './components/tables';
 import FinancialsModal from './components/FinancialsModal';
 import InventoryMenuModal from './components/InventoryMenuModal';
 import SystemModal from './components/SystemModal';
 import OrderTakingModule from './components/OrderTakingModule';
 import PendingOrdersModule from './components/PendingOrdersModule';
+import MenuTabContent from './components/MenuTabContent';
 
 const CATEGORIES = [
   { id: 'pedidos', name: 'Pedidos', label: 'Toma de Pedidos', icon: ClipboardList, buttonIds: ['crear_pedido', 'pedidos_pendientes'] },
@@ -167,6 +168,7 @@ export default function App() {
   const [tabFocusParam, setTabFocusParam] = useState<any>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activePedidosTab, setActivePedidosTab] = useState<'nuevo' | 'pendientes'>('nuevo');
+  const [activeMenuTab, setActiveMenuTab] = useState<'platos' | 'bebidas' | 'gaseosas'>('platos');
   const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
@@ -459,6 +461,11 @@ export default function App() {
       setModalFocus(null);
       return;
     }
+    if (['platos', 'bebidas', 'gaseosas'].includes(btn.id)) {
+      setActiveCategory('menu');
+      setActiveMenuTab(btn.id as 'platos' | 'bebidas' | 'gaseosas');
+      return;
+    }
     setTabFocusParam(btn.param);
     setModalFocus(btn.modal);
   };
@@ -701,8 +708,34 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* Render content based on whether active category is 'pedidos' */}
-                    {activeCategory === 'pedidos' ? (
+                    {/* Render content based on active category */}
+                    {activeCategory === 'menu' ? (
+                      <div className="flex flex-col gap-4">
+                        <div className="flex flex-wrap items-center gap-2 p-1 bg-[#FAF5EE]/75 rounded-xl border border-slate-300 self-start shrink-0">
+                          {(['platos', 'bebidas', 'gaseosas'] as const).map((tab) => (
+                            <button
+                              key={tab}
+                              onClick={() => setActiveMenuTab(tab)}
+                              className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${
+                                activeMenuTab === tab
+                                  ? 'bg-[#FDF8F0] text-slate-800 shadow-xs border border-slate-300/40'
+                                  : 'text-slate-650 hover:text-slate-800'
+                              }`}
+                            >
+                              {tab === 'platos' ? '🍽' : tab === 'bebidas' ? '☕' : '🥤'} {tab.toUpperCase()}
+                            </button>
+                          ))}
+                        </div>
+                        <MenuTabContent
+                          tab={activeMenuTab}
+                          menu={menu}
+                          onUpdateMenuPrice={handleUpdateMenuPrice}
+                          onAddMenuItem={handleAddMenuItem}
+                          onUpdateMenuItem={handleUpdateMenuItem}
+                          onDeleteMenuItem={handleDeleteMenuItem}
+                        />
+                      </div>
+                    ) : activeCategory === 'pedidos' ? (
                       <div className="flex flex-col gap-4">
                         {/* Selector de subcategorías para Pedidos */}
                         <div className="flex flex-wrap items-center gap-2 p-1 bg-[#FAF5EE]/75 rounded-xl border border-slate-300 self-start shrink-0">
@@ -899,7 +932,7 @@ export default function App() {
         {/* Estatus / Mapa Mesas: MAPA MESAS | MESAS */}
         {modalFocus === 'tables' && (
           <motion.div key="tables_modal" className="contents">
-            <TablesModal
+            <TablesModule
               isOpen={true}
               onClose={() => setModalFocus(null)}
               tables={tables}
@@ -925,7 +958,7 @@ export default function App() {
           </motion.div>
         )}
 
-        {/* Menú y Almacén: PLATOS | BEBIDAS | INVENTARIO | RESERVA */}
+        {/* Menú y Almacén: PLATOS | BEBIDAS */}
         {modalFocus === 'menu_inventory' && (
           <motion.div key="inventory_modal" className="contents">
             <InventoryMenuModal
@@ -933,11 +966,7 @@ export default function App() {
               onClose={() => setModalFocus(null)}
               tabFocus={tabFocusParam}
               menu={menu}
-              stock={stock}
-              tables={tables}
               onUpdateMenuPrice={handleUpdateMenuPrice}
-              onAddStock={handleAddStock}
-              onAddReservation={handleAddReservation}
               onAddMenuItem={handleAddMenuItem}
               onUpdateMenuItem={handleUpdateMenuItem}
               onDeleteMenuItem={handleDeleteMenuItem}
