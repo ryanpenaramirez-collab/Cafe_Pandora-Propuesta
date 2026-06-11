@@ -25,6 +25,7 @@ import InventoryMenuModal from './components/InventoryMenuModal';
 import SystemModal from './components/SystemModal';
 import OrderTakingModule from './components/OrderTakingModule';
 import PendingOrdersModule from './components/PendingOrdersModule';
+import MenuTabContent from './components/MenuTabContent';
 
 const CATEGORIES = [
   { id: 'pedidos', name: 'Pedidos', label: 'Toma de Pedidos', icon: ClipboardList, buttonIds: ['crear_pedido', 'pedidos_pendientes'] },
