@@ -1,48 +1,39 @@
-import { useState } from 'react';
-import { Order, Table, Expense, ShiftState } from '../types';
+import { Order, Table, MenuItem, ShiftState } from '../types';
 import Facturacion from './Facturacion';
-import VentasDia from './VentasDia';
-import Informes from './Informes';
+import Ventas from './Ventas';
 import Cajero from './Cajero';
-import Egresos from './Egresos';
-import AperturaCaja from './AperturaCaja';
 
-export type FinanzasTab = 'facturacion' | 'ventas' | 'informes' | 'cajero' | 'egresos' | 'apertura';
+export type FinanzasTab = 'facturacion' | 'ventas' | 'cajero';
 
 interface FinanzasDashboardProps {
   orders: Order[];
   tables: Table[];
+  menu: MenuItem[];
   shift: ShiftState;
-  expenses: Expense[];
   activeTab: FinanzasTab;
   onTabChange: (tab: FinanzasTab) => void;
   onClearTable: (tableId: number, cashSettled: boolean, finalAmount?: number) => void;
   onUpdateOrderStatus: (orderId: string, status: 'espera' | 'preparacion' | 'listo' | 'caja' | 'facturado') => void;
   onCancelOrder: (orderId: string) => void;
-  onAddExpense: (expense: Expense) => void;
   onSetShift: (shift: ShiftState) => void;
 }
 
 const TABS: { id: FinanzasTab; label: string }[] = [
   { id: 'facturacion', label: 'Facturación' },
-  { id: 'ventas', label: 'Ventas del Día' },
-  { id: 'informes', label: 'Informes' },
+  { id: 'ventas', label: 'Ventas' },
   { id: 'cajero', label: 'Cajero' },
-  { id: 'egresos', label: 'Egresos' },
-  { id: 'apertura', label: 'Apertura de Caja' },
 ];
 
 export default function FinanzasDashboard({
   orders,
   tables,
+  menu,
   shift,
-  expenses,
   activeTab,
   onTabChange,
   onClearTable,
   onUpdateOrderStatus,
   onCancelOrder,
-  onAddExpense,
   onSetShift,
 }: FinanzasDashboardProps) {
   return (
@@ -72,11 +63,8 @@ export default function FinanzasDashboard({
           onCancelOrder={onCancelOrder}
         />
       )}
-      {activeTab === 'ventas' && <VentasDia shift={shift} />}
-      {activeTab === 'informes' && <Informes shift={shift} />}
+      {activeTab === 'ventas' && <Ventas orders={orders} menu={menu} shift={shift} />}
       {activeTab === 'cajero' && <Cajero shift={shift} onSetShift={onSetShift} />}
-      {activeTab === 'egresos' && <Egresos expenses={expenses} onAddExpense={onAddExpense} />}
-      {activeTab === 'apertura' && <AperturaCaja shift={shift} onSetShift={onSetShift} />}
     </div>
   );
 }

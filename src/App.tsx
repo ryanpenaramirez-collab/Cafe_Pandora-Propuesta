@@ -500,10 +500,7 @@ export default function App() {
     if (['ventas_dia', 'abrir_caja', 'informes', 'cajero', 'egresos', 'facturas'].includes(btn.id)) {
       const tabMap: Record<string, FinanzasTab> = {
         'ventas_dia': 'ventas',
-        'abrir_caja': 'apertura',
-        'informes': 'informes',
         'cajero': 'cajero',
-        'egresos': 'egresos',
         'facturas': 'facturacion',
       };
       setActiveCategory('caja_finanzas');
@@ -838,14 +835,13 @@ export default function App() {
                       <FinanzasDashboard
                         orders={orders}
                         tables={tables}
+                        menu={menu}
                         shift={shift}
-                        expenses={expenses}
                         activeTab={activeFinanzasTab}
                         onTabChange={setActiveFinanzasTab}
                         onClearTable={handleClearTable}
                         onUpdateOrderStatus={handleUpdateOrderStatus}
                         onCancelOrder={handleCancelOrder}
-                        onAddExpense={handleAddExpense}
                         onSetShift={(s) => setShift(s)}
                       />
                     ) : (
