@@ -196,7 +196,12 @@ export const INITIAL_TABLES: Table[] = [
   { id: 9, name: 'Mesa 9 (Barra)', capacity: 1, status: 'vacía', totalAmount: 0, ordersCount: 0 },
   { id: 10, name: 'Mesa 10 (Interior)', capacity: 2, status: 'vacía', totalAmount: 0, ordersCount: 0 },
   { id: 11, name: 'Mesa 11 (Terraza)', capacity: 2, status: 'reservada', guestName: 'Juan P. - 18:00', totalAmount: 0, ordersCount: 0 },
-  { id: 12, name: 'Mesa 12 (Sofá VIP)', capacity: 6, status: 'vacía', totalAmount: 0, ordersCount: 0 }
+  { id: 12, name: 'Mesa 12 (Sofá VIP)', capacity: 6, status: 'vacía', totalAmount: 0, ordersCount: 0 },
+  { id: 13, name: 'Mesa 13 (Exterior)', capacity: 4, status: 'vacía', totalAmount: 0, ordersCount: 0 },
+  { id: 14, name: 'Mesa 14 (Exterior)', capacity: 2, status: 'vacía', totalAmount: 0, ordersCount: 0 },
+  { id: 15, name: 'Mesa 15 (Terraza)', capacity: 2, status: 'ocupada', currentWaiter: 'Meseros', totalAmount: 55000, ordersCount: 1, occupiedSince: '15:00' },
+  { id: 16, name: 'Mesa 16 (Exterior)', capacity: 1, status: 'vacía', totalAmount: 0, ordersCount: 0 },
+  { id: 17, name: 'Mesa 17 (Terraza)', capacity: 4, status: 'reservada', guestName: 'Carlos M. - 19:00', totalAmount: 0, ordersCount: 0 }
 ];
 
 export const INITIAL_ALERTS: SystemAlert[] = [

@@ -55,8 +55,16 @@ export default function App() {
 
   const [tables, setTables] = useState<Table[]>(() => {
     const stored = localStorage.getItem('pandora_tables');
-    const loaded = stored ? JSON.parse(stored) : INITIAL_TABLES;
-    return loaded.filter((t: Table) => t.id !== 14 && !t.name.includes('Mesa 14'));
+    if (!stored) return INITIAL_TABLES;
+    const storedTables: Table[] = JSON.parse(stored);
+    const initIds = new Set(INITIAL_TABLES.map(t => t.id));
+    const merged = INITIAL_TABLES.map(initial => {
+      const storedT = storedTables.find(s => s.id === initial.id);
+      if (!storedT) return initial;
+      return { ...initial, status: storedT.status, totalAmount: storedT.totalAmount, ordersCount: storedT.ordersCount, currentWaiter: storedT.currentWaiter, occupiedSince: storedT.occupiedSince, guestName: storedT.guestName };
+    });
+    const customTables = storedTables.filter(s => !initIds.has(s.id));
+    return [...merged, ...customTables];
   });
 
   const [orders, setOrders] = useState<Order[]>(() => {
