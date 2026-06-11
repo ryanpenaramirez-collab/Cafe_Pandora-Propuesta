@@ -56,7 +56,7 @@ export default function InventoryMenuModal({
 
   const handleStartEdit = (item: MenuItem) => {
     setEditingItemId(item.id);
-    setEditingPrice(item.price.toFixed(2));
+    setEditingPrice(item.price.toFixed(0));
   };
 
   const handleFinishEdit = (item: MenuItem, isAvailable: boolean) => {
@@ -235,14 +235,14 @@ export default function InventoryMenuModal({
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-700 mb-1">Precio (USD) *</label>
+                        <label className="block text-[11px] font-bold text-slate-700 mb-1">Precio (COP) *</label>
                         <input
                           type="number"
-                          step="0.01"
+                          step="1"
                           min="0"
                           value={formPrice}
                           onChange={(e) => setFormPrice(e.target.value)}
-                          placeholder="0.00"
+                          placeholder="0"
                           className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs focus:ring-1 focus:ring-emerald-500 font-mono font-bold text-slate-800 outline-none"
                           required
                         />

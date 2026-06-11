@@ -185,17 +185,17 @@ export default function FinancialsModal({ isOpen, onClose, tabFocus, shift, expe
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                   <span className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Turno Apertura</span>
-                  <span className="block font-mono font-bold text-lg text-slate-800">${shift.initialFloat.toFixed(2)} USD</span>
+                  <span className="block font-mono font-bold text-lg text-slate-800">${shift.initialFloat.toLocaleString('es-CO')} COP</span>
                   <span className="block text-[10px] text-slate-500 mt-1">Base de cambios en caja</span>
                 </div>
                 <div className="bg-white p-4 rounded-xl border border-emerald-250 shadow-sm">
                   <span className="block text-[10px] uppercase font-bold text-emerald-600 tracking-wider">Total Ventas Bruto (Hoy)</span>
-                  <span className="block font-mono font-bold text-lg text-emerald-600">${shift.totalSales.toFixed(2)} USD</span>
+                  <span className="block font-mono font-bold text-lg text-emerald-600">${shift.totalSales.toLocaleString('es-CO')} COP</span>
                   <span className="block text-[10px] text-slate-500 mt-1">Reconciliación de boletas POS cerradas</span>
                 </div>
                 <div className="bg-white p-4 rounded-xl border border-rose-250 shadow-sm">
                   <span className="block text-[10px] uppercase font-bold text-rose-600 tracking-wider">Total Egresos Hoy</span>
-                  <span className="block font-mono font-bold text-lg text-rose-600">-${shift.totalExpenses.toFixed(2)} USD</span>
+                  <span className="block font-mono font-bold text-lg text-rose-600">-${shift.totalExpenses.toLocaleString('es-CO')} COP</span>
                   <span className="block text-[10px] text-slate-500 mt-1">Gastos varios acreditados</span>
                 </div>
               </div>
@@ -205,22 +205,22 @@ export default function FinancialsModal({ isOpen, onClose, tabFocus, shift, expe
                 <h4 className="font-serif font-bold text-slate-800 text-sm mb-4">📊 GRAFICO DE VENTAS POR CATEGORIAS (Simulado)</h4>
                 <div className="h-44 flex items-end justify-around gap-6 pt-4 px-8 border-b border-slate-100">
                   <div className="flex flex-col items-center flex-1 max-w-[80px]">
-                    <span className="text-[10px] font-mono text-slate-600 font-bold mb-1">${(shift.totalSales * 0.4).toFixed(1)}</span>
+                    <span className="text-[10px] font-mono text-slate-600 font-bold mb-1">${Math.round(shift.totalSales * 0.4).toLocaleString('es-CO')}</span>
                     <div className="w-full bg-amber-400 rounded-t-lg transition-all duration-500" style={{ height: `${shift.totalSales > 0 ? 100 : 5}px` }}></div>
                     <span className="text-[10px] font-bold text-slate-700 mt-2">Café Expreso</span>
                   </div>
                   <div className="flex flex-col items-center flex-1 max-w-[80px]">
-                    <span className="text-[10px] font-mono text-slate-600 font-bold mb-1">${(shift.totalSales * 0.3).toFixed(1)}</span>
+                    <span className="text-[10px] font-mono text-slate-600 font-bold mb-1">${Math.round(shift.totalSales * 0.3).toLocaleString('es-CO')}</span>
                     <div className="w-full bg-emerald-400 rounded-t-lg transition-all duration-500" style={{ height: `${shift.totalSales > 0 ? 70 : 5}px` }}></div>
                     <span className="text-[10px] font-bold text-slate-700 mt-2">Desayunos</span>
                   </div>
                   <div className="flex flex-col items-center flex-1 max-w-[80px]">
-                    <span className="text-[10px] font-mono text-slate-600 font-bold mb-1">${(shift.totalSales * 0.2).toFixed(1)}</span>
+                    <span className="text-[10px] font-mono text-slate-600 font-bold mb-1">${Math.round(shift.totalSales * 0.2).toLocaleString('es-CO')}</span>
                     <div className="w-full bg-orange-400 rounded-t-lg transition-all duration-500" style={{ height: `${shift.totalSales > 0 ? 45 : 5}px` }}></div>
                     <span className="text-[10px] font-bold text-slate-700 mt-2">Repostería</span>
                   </div>
                   <div className="flex flex-col items-center flex-1 max-w-[80px]">
-                    <span className="text-[10px] font-mono text-slate-600 font-bold mb-1">${(shift.totalSales * 0.1).toFixed(1)}</span>
+                    <span className="text-[10px] font-mono text-slate-600 font-bold mb-1">${Math.round(shift.totalSales * 0.1).toLocaleString('es-CO')}</span>
                     <div className="w-full bg-cyan-400 rounded-t-lg transition-all duration-500" style={{ height: `${shift.totalSales > 0 ? 25 : 5}px` }}></div>
                     <span className="text-[10px] font-bold text-slate-700 mt-2">Tés / Infus.</span>
                   </div>
@@ -242,7 +242,7 @@ export default function FinancialsModal({ isOpen, onClose, tabFocus, shift, expe
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   <div className="p-3 bg-slate-50 rounded-lg border">
                     <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Ticket Promedio</span>
-                    <span className="font-bold font-mono text-slate-800 block text-lg">${shift.totalSales > 0 ? (shift.totalSales / 4.2).toFixed(2) : 0.00} USD</span>
+                    <span className="font-bold font-mono text-slate-800 block text-lg">${shift.totalSales > 0 ? Math.round(shift.totalSales / 4.2).toLocaleString('es-CO') : 0} COP</span>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg border">
                     <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Margen Operativo</span>
@@ -289,7 +289,7 @@ export default function FinancialsModal({ isOpen, onClose, tabFocus, shift, expe
                     
                     <div className="bg-fuchsia-50 p-4 rounded-lg border border-fuchsia-100 text-center mb-4">
                       <span className="text-xs uppercase font-bold text-fuchsia-800 tracking-wider block">Neto en Cajón Monedero</span>
-                      <span className="font-mono text-3xl font-extrabold text-fuchsia-900 block mt-1">${activeBalance.toFixed(2)} USD</span>
+                      <span className="font-mono text-3xl font-extrabold text-fuchsia-900 block mt-1">${activeBalance.toLocaleString('es-CO')} COP</span>
                     </div>
                   </div>
 
@@ -411,7 +411,7 @@ export default function FinancialsModal({ isOpen, onClose, tabFocus, shift, expe
                             <span className="font-bold text-slate-800 block text-xs">{exp.description}</span>
                             <span className="text-[10px] text-slate-400 font-mono">ID: {exp.id} • Categoría: {exp.category} • {exp.timestamp}</span>
                           </div>
-                          <span className="font-bold font-mono text-rose-600 text-xs">-${exp.amount.toFixed(2)}</span>
+                          <span className="font-bold font-mono text-rose-600 text-xs">-${exp.amount.toLocaleString('es-CO')} COP</span>
                         </div>
                       ))}
                       {expenses.length === 0 && (
@@ -448,7 +448,7 @@ export default function FinancialsModal({ isOpen, onClose, tabFocus, shift, expe
                       </div>
                       <div className="flex justify-between font-mono">
                         <span>Base de cambio inicial:</span>
-                        <span className="font-bold">${shift.initialFloat.toFixed(2)} USD</span>
+                        <span className="font-bold">${shift.initialFloat.toLocaleString('es-CO')} COP</span>
                       </div>
                       <div className="flex justify-between font-mono">
                         <span>Registrado a las:</span>

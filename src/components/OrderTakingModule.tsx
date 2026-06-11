@@ -16,15 +16,27 @@ interface OrderTakingModuleProps {
   tables: Table[];
   waiterName: string;
   onPlaceOrder: (order: Order) => void;
+  onAddTable?: (name: string) => void;
 }
 
-export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrder }: OrderTakingModuleProps) {
+export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrder, onAddTable }: OrderTakingModuleProps) {
   const [selectedTableId, setSelectedTableId] = useState<number | null>(null);
   const [customTableNumber, setCustomTableNumber] = useState<string>('');
+  const [isNewTableModalOpen, setIsNewTableModalOpen] = useState(false);
+  const [newTableName, setNewTableName] = useState('');
+  const [newTableType, setNewTableType] = useState<'Exterior' | 'Terraza'>('Exterior');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCatalogTab, setActiveCatalogTab] = useState<'todos' | 'platillo' | 'bebida' | 'gaseosa'>('todos');
   const [cart, setCart] = useState<OrderItem[]>([]);
   const [showsSuccess, setShowsSuccess] = useState(false);
+
+  const selectedTable = useMemo(() => {
+    return tables.find(t => t.id === selectedTableId) || null;
+  }, [tables, selectedTableId]);
+
+  const tableDisplayName = useMemo(() => {
+    return selectedTable ? selectedTable.name : (customTableNumber ? `Mesa ${customTableNumber}` : '');
+  }, [selectedTable, customTableNumber]);
 
   // Filter menu items
   const filteredCatalog = useMemo(() => {
@@ -114,6 +126,25 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
     }, 1500);
   };
 
+  const handleAddNewTable = () => {
+    if (!newTableName.trim()) return;
+    const nextId = tables.length > 0 ? Math.max(...tables.map(t => t.id)) + 1 : 1;
+    
+    let inputVal = newTableName.trim();
+    if (inputVal.toLowerCase().startsWith('mesa')) {
+      inputVal = inputVal.slice(4).trim();
+    }
+    const formattedName = `Mesa ${inputVal} (${newTableType})`;
+
+    if (onAddTable) {
+      onAddTable(formattedName);
+    }
+    setSelectedTableId(nextId);
+    setIsNewTableModalOpen(false);
+    setNewTableName('');
+    setNewTableType('Exterior');
+  };
+
   return (
     <div id="order_taking_module" className="bg-[#FDF8F0] border border-slate-300 rounded-2xl shadow-sm overflow-hidden flex flex-col min-h-[500px]">
       
@@ -165,44 +196,142 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                   onClick={() => setSelectedTableId(t.id)}
                   className={`p-4 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${statusStyles}`}
                 >
-                  <span className="font-serif text-sm font-extrabold">Mesa {t.id}</span>
+                  <span className="font-serif text-xs font-bold truncate max-w-full px-1">{t.name}</span>
                   <span className="text-[9px] uppercase font-mono tracking-wider font-light">{statusText}</span>
                 </button>
               );
             })}
           </div>
 
-          {/* Manual Input Form */}
-          <div className="border-t border-slate-150 pt-5 mt-2">
-            <div className="max-w-md mx-auto bg-slate-50 border border-slate-150 p-4 rounded-xl flex flex-col sm:flex-row items-center gap-3">
-              <div className="flex-1 w-full">
-                <label className="text-[10px] uppercase font-bold tracking-widest text-slate-500 block font-mono mb-1">Mesa Especial / Alterna</label>
-                <input 
-                  type="number"
-                  placeholder="Ej. 13, 14, 15, ..."
-                  value={customTableNumber}
-                  onChange={(e) => setCustomTableNumber(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-pandora-accent focus:border-pandora-accent"
-                />
-              </div>
-              <button
-                disabled={!customTableNumber.trim()}
-                onClick={() => {
-                  const num = parseInt(customTableNumber, 10);
-                  if (num && !isNaN(num)) {
-                    setSelectedTableId(num);
-                  }
-                }}
-                className={`px-4 py-2 rounded-lg text-xs font-bold font-mono tracking-wider transition-all shadow-xs cursor-pointer w-full sm:w-auto h-9 self-end flex items-center justify-center ${
-                  customTableNumber.trim() 
-                    ? 'bg-pandora-dark hover:bg-black text-white' 
-                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                }`}
-              >
-                Aceptar Mesa
-              </button>
-            </div>
+          {/* Agregar nueva mesa button and modal */}
+          <div className="border-t border-slate-150 pt-5 mt-2 flex flex-col items-center">
+            <p className="text-[11px] text-slate-400 mb-3 text-center">¿No encuentra la mesa? Cree una personalizada al instante.</p>
+            <button
+              onClick={() => setIsNewTableModalOpen(true)}
+              className="bg-pandora-accent hover:bg-pandora-accent/90 text-white font-mono uppercase text-[10px] font-bold tracking-wider px-6 py-3 rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4 animate-pulse" />
+              Agregar nueva mesa
+            </button>
           </div>
+
+          {/* Modal para agregar nueva mesa */}
+          <AnimatePresence>
+            {isNewTableModalOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                {/* Backdrop */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => {
+                    setIsNewTableModalOpen(false);
+                    setNewTableName('');
+                  }}
+                  className="absolute inset-0 bg-black/60 backdrop-blur-xs"
+                />
+
+                {/* Modal Content */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                  className="bg-white border border-slate-200 rounded-2xl w-full max-w-sm overflow-hidden p-6 shadow-2xl relative z-10 flex flex-col gap-4 text-slate-800"
+                >
+                  <div>
+                    <h3 className="font-serif text-base font-bold text-slate-800 uppercase tracking-wide flex items-center gap-2">
+                      <Plus className="w-5 h-5 text-pandora-accent animate-pulse" />
+                      Agregar Nueva Mesa
+                    </h3>
+                    <p className="text-[11px] text-slate-500 mt-1">Escriba el nombre o identificador único para la nueva mesa.</p>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400 block mb-1">Nombre o Número de la Mesa</label>
+                      <input
+                        type="text"
+                        placeholder="Ej. 14 o VIP"
+                        value={newTableName}
+                        onChange={(e) => setNewTableName(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-850 focus:outline-none focus:ring-2 focus:ring-pandora-accent/40 focus:border-pandora-accent"
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && newTableName.trim()) {
+                            handleAddNewTable();
+                          }
+                        }}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400 block mb-1.5">Tipo de Mesa</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setNewTableType('Exterior')}
+                          className={`py-2 px-3 rounded-lg border text-xs font-mono font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                            newTableType === 'Exterior'
+                              ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
+                              : 'bg-white border-slate-200 hover:border-slate-300 text-slate-600'
+                          }`}
+                        >
+                          Exterior
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setNewTableType('Terraza')}
+                          className={`py-2 px-3 rounded-lg border text-xs font-mono font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                            newTableType === 'Terraza'
+                              ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
+                              : 'bg-white border-slate-200 hover:border-slate-300 text-slate-600'
+                          }`}
+                        >
+                          Terraza
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="bg-amber-50/50 border border-amber-100 rounded-xl p-3 mt-1.5">
+                      <span className="text-[9px] uppercase font-mono tracking-wide text-amber-800 font-bold block mb-1 select-none">Vista Previa Automática</span>
+                      <p className="text-xs font-serif font-bold text-slate-800">
+                        {(() => {
+                          let inputVal = newTableName.trim();
+                          if (inputVal.toLowerCase().startsWith('mesa')) {
+                            inputVal = inputVal.slice(4).trim();
+                          }
+                          return `Mesa ${inputVal || '___'} (${newTableType})`;
+                        })()}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2.5 mt-2 justify-end">
+                    <button
+                      onClick={() => {
+                        setIsNewTableModalOpen(false);
+                        setNewTableName('');
+                      }}
+                      className="px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-xl text-xs font-bold font-mono tracking-wider transition-all cursor-pointer"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      disabled={!newTableName.trim()}
+                      onClick={handleAddNewTable}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold font-mono tracking-wider transition-all shadow-sm cursor-pointer ${
+                        newTableName.trim()
+                          ? 'bg-pandora-accent hover:bg-pandora-accent/90 text-white'
+                          : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                      }`}
+                    >
+                      Confirmar
+                    </button>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
         </div>
       ) : (
         /* STEP 2: CATÁLOGOS Y SELECCIÓN DE PRODUCTOS */
@@ -216,7 +345,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
               <div>
                 <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block font-mono">Categoría Pedidos</span>
                 <h4 className="font-serif text-sm font-bold text-slate-800 uppercase tracking-normal">
-                  Mesa {selectedTableId || customTableNumber} &bull; Catálogo de Productos
+                  {tableDisplayName} &bull; Catálogo de Productos
                 </h4>
               </div>
               <button 
@@ -411,7 +540,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
           <div className="w-full lg:w-80 p-4 bg-slate-50/60 flex flex-col shrink-0 min-h-[400px]">
             <div className="border-b border-slate-150 pb-2.5 mb-3">
               <h4 className="font-serif text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                <ShoppingCart className="w-4 h-4 text-pandora-accent" /> Resumen de Mesa {selectedTableId || customTableNumber}
+                <ShoppingCart className="w-4 h-4 text-pandora-accent" /> Resumen de {tableDisplayName}
               </h4>
             </div>
 

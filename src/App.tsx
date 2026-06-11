@@ -55,7 +55,8 @@ export default function App() {
 
   const [tables, setTables] = useState<Table[]>(() => {
     const stored = localStorage.getItem('pandora_tables');
-    return stored ? JSON.parse(stored) : INITIAL_TABLES;
+    const loaded = stored ? JSON.parse(stored) : INITIAL_TABLES;
+    return loaded.filter((t: Table) => t.id !== 14 && !t.name.includes('Mesa 14'));
   });
 
   const [orders, setOrders] = useState<Order[]>(() => {
@@ -209,7 +210,7 @@ export default function App() {
   };
 
   // 2. Kitchen order chef prep toggles
-  const handleUpdateOrderStatus = (orderId: string, status: 'espera' | 'preparacion' | 'listo') => {
+  const handleUpdateOrderStatus = (orderId: string, status: 'espera' | 'preparacion' | 'listo' | 'caja' | 'facturado') => {
     setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status } : o));
     
     // Auto alerts on low inventory components when order completes
@@ -301,6 +302,27 @@ export default function App() {
       }
       return t;
     }));
+  };
+
+  // 4b. Add new custom table
+  const handleAddTable = (tableName: string) => {
+    setTables(prev => {
+      const nextId = prev.length > 0 ? Math.max(...prev.map(t => t.id)) + 1 : 1;
+      const newTable: Table = {
+        id: nextId,
+        name: tableName,
+        capacity: 4,
+        status: 'vacía',
+        totalAmount: 0,
+        ordersCount: 0
+      };
+      return [...prev, newTable];
+    });
+  };
+
+  // 4c. Delete custom table
+  const handleDeleteTable = (tableId: number) => {
+    setTables(prev => prev.filter(t => t.id !== tableId));
   };
 
   // 5. Create new expense
@@ -404,7 +426,7 @@ export default function App() {
 
   const visibleButtons = useMemo(() => {
     if (user?.role === 'mesero') {
-      return BUTTONS.filter(btn => ['mesero', 'mesas', 'mapa_mesas', 'reserva', 'bebidas', 'platos', 'gaseosas', 'crear_pedido', 'pedidos_pendientes', 'salir'].includes(btn.id));
+      return BUTTONS.filter(btn => ['crear_pedido', 'pedidos_pendientes', 'salir'].includes(btn.id));
     }
     return BUTTONS;
   }, [user, stock, activeChefOrdersCount, activeBarmanOrdersCount, activeUnresolvedAlertsCount, orders]);
@@ -778,18 +800,35 @@ export default function App() {
                               handlePlaceOrder(order);
                               setActivePedidosTab('pendientes');
                             }}
+                            onAddTable={handleAddTable}
+                            onDeleteTable={handleDeleteTable}
                           />
                         ) : (
                           <PendingOrdersModule
                             orders={orders}
-                            onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'listo')}
+                            onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'caja')}
                             onCancelOrder={(id) => handleCancelOrder(id)}
                           />
                         )}
                       </div>
                     ) : (
-                      /* Subcategory buttons Grid rendering */
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-2">
+                      <div className="space-y-6">
+                        {activeCategory === 'caja_finanzas' && (
+                          <CajaFinanzasModule
+                            orders={orders}
+                            tables={tables}
+                            onClearTable={handleClearTable}
+                            onUpdateOrderStatus={handleUpdateOrderStatus}
+                            onCancelOrder={handleCancelOrder}
+                          />
+                        )}
+
+                        <div>
+                          <h4 className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-widest mb-2 select-none">
+                            Opciones y operaciones financieras
+                          </h4>
+                          {/* Subcategory buttons Grid rendering */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-2">
                         {activeCategoryButtons.map((btn) => {
                           const IconComponent = btn.icon;
                           const styleString = getButtonColorStyles(btn.color);
@@ -826,16 +865,18 @@ export default function App() {
                           );
                         })}
                       </div>
-                    )}
+                    </div>
                   </div>
-                ) : (
+                )}
+              </div>
+            ) : (
                   <div className="flex flex-col gap-5">
                     {/* Banner de Bienvenida y Resumen Operacional en Vivo */}
                     <div className="bg-[#FDF8F0] border border-slate-300 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-[9px] uppercase font-mono tracking-widest bg-pandora-accent/10 text-pandora-accent px-2 py-0.5 rounded-full font-bold border border-pandora-accent/20">
-                            Servicio en Vivo (MVP)
+                            Servicio en Vivo
                           </span>
                           <span className="text-[10px] font-mono text-slate-500">
                             {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
@@ -845,19 +886,19 @@ export default function App() {
                           ¡Hola, {user.name}! ☕
                         </h2>
                         <p className="text-[11px] text-slate-600 font-light mt-0.5">
-                          Tu acceso es de <span className="font-bold text-pandora-accent uppercase">{user.role}</span>. Estas visualizando el modulo de comandas y facturación.
+                          Tienes <strong>{orders.filter(o => o.status !== 'listo' && o.status !== 'caja' && o.status !== 'facturado').length}</strong> pedidos pendientes por atender. Revisa las comandas pendientes o dirígete a caja para facturar.
                         </p>
                       </div>
 
                       {/* Contador de Comandas en Cola */}
                       <div className="bg-[#FAF5EE]/80 border border-slate-300 rounded-xl p-3 flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
-                        <div className="w-9 h-9 rounded-lg bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 font-extrabold text-sm shrink-0">
-                          {orders.filter(o => o.status !== 'listo').length}
+                        <div className="w-9 h-9 rounded-lg bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
+                          <ClipboardList className="w-5 h-5" />
                         </div>
                         <div>
                           <span className="text-[9px] uppercase font-mono font-bold text-slate-500 block tracking-wider">Comandas en Cola</span>
                           <span className="font-sans text-[11px] font-bold text-slate-850 block mt-0.5">
-                            {orders.filter(o => o.status !== 'listo').length === 1 ? '1 pedido por atender' : `${orders.filter(o => o.status !== 'listo').length} pedidos por atender`}
+                            {orders.filter(o => o.status !== 'listo' && o.status !== 'caja' && o.status !== 'facturado').length === 1 ? '1 pedido por atender' : `${orders.filter(o => o.status !== 'listo' && o.status !== 'caja' && o.status !== 'facturado').length} pedidos por atender`}
                           </span>
                         </div>
                       </div>
@@ -882,7 +923,7 @@ export default function App() {
 
                       <PendingOrdersModule
                         orders={orders}
-                        onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'listo')}
+                        onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'caja')}
                         onCancelOrder={(id) => handleCancelOrder(id)}
                       />
                     </div>

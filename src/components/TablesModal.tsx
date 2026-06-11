@@ -258,8 +258,8 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                           <div key={idx} className="grid grid-cols-12 text-xs py-2 text-slate-700 font-medium items-center">
                             <span className="col-span-6 font-serif font-bold text-[#2D2A26]">{item.name}</span>
                             <span className="col-span-2 text-center font-mono font-bold text-slate-800">x{item.quantity}</span>
-                            <span className="col-span-2 text-right font-mono">${item.price.toFixed(2)}</span>
-                            <span className="col-span-2 text-right font-mono font-bold text-[#2D2A26]">${(item.price * item.quantity).toFixed(2)}</span>
+                            <span className="col-span-2 text-right font-mono">${item.price.toLocaleString('es-CO')}</span>
+                            <span className="col-span-2 text-right font-mono font-bold text-[#2D2A26]">${(item.price * item.quantity).toLocaleString('es-CO')}</span>
                           </div>
                         ))}
                       </div>
@@ -267,7 +267,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
 
                     <div className="pt-3 border-t bg-slate-50 p-3 rounded-lg flex justify-between items-center select-none">
                       <span className="text-xs font-bold text-slate-600">Subtotal Neto calculado:</span>
-                      <span className="text-base font-bold font-mono text-slate-800">${calculatedSubtotal.toFixed(2)} USD</span>
+                      <span className="text-base font-bold font-mono text-slate-800">${calculatedSubtotal.toLocaleString('es-CO')} COP</span>
                     </div>
                   </div>
 
@@ -339,7 +339,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                         <div className="flex justify-between items-center pt-2 border-t border-dashed border-amber-300 text-[11px] text-slate-600">
                           <span>Suma de Impuesto (8%):</span>
                           <span className="font-mono font-bold text-slate-800">
-                            {applyTax ? `+$${taxAmount.toFixed(2)} USD` : '$0.00 USD'}
+                            {applyTax ? `+$${taxAmount.toLocaleString('es-CO')} COP` : '$0 COP'}
                           </span>
                         </div>
                       </div>
@@ -352,7 +352,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                         <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">TOTAL FINAL A PAGAR:</span>
                         <div className="text-right">
                           <span className="text-2xl font-mono font-extrabold text-emerald-700 block" id="final-total-display">
-                            ${finalTotal.toFixed(2)} USD
+                            ${finalTotal.toLocaleString('es-CO')} COP
                           </span>
                           <span className="text-[9px] text-slate-400 font-light block">
                             Impuesto al consumo {applyTax ? 'aplicado (8%)' : 'no aplicado (0%)'}
@@ -412,12 +412,12 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                           
                           {table.status === 'ocupada' && (
                             <div className="text-[11px] font-mono font-bold text-rose-600 mt-1">
-                              Suma: ${table.totalAmount.toFixed(2)} USD
+                              Suma: ${table.totalAmount.toLocaleString('es-CO')} COP
                             </div>
                           )}
                           {table.status === 'por_pagar' && (
                             <div className="text-[11px] font-mono font-bold text-amber-600 mt-1 animate-pulse">
-                              Cobro: ${table.totalAmount.toFixed(2)} USD
+                              Cobro: ${table.totalAmount.toLocaleString('es-CO')} COP
                             </div>
                           )}
                           {table.status === 'reservada' && (
@@ -464,7 +464,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                         </span>
                       </div>
                       <span className="text-right font-mono font-bold">
-                        {table.status === 'vacía' ? '-' : `$${table.totalAmount.toFixed(2)}`}
+                        {table.status === 'vacía' ? '-' : `$${table.totalAmount.toLocaleString('es-CO')} COP`}
                       </span>
                     </div>
                   ))}
@@ -489,7 +489,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                       <span className="text-[9px] font-bold text-emerald-800 uppercase tracking-wide">CAJA COBRO ACTIVO</span>
                     </div>
                     <p className="text-[10px] text-slate-500 leading-relaxed">
-                      La mesa <strong className="text-slate-800 font-bold">{selectedDetails.name}</strong> tiene un consumo acumulado de <strong className="text-slate-900 font-bold">${calculatedSubtotal.toFixed(2)} USD</strong>. Proceda a previsualizar e imprimir.
+                      La mesa <strong className="text-slate-800 font-bold">{selectedDetails.name}</strong> tiene un consumo acumulado de <strong className="text-slate-900 font-bold">${calculatedSubtotal.toLocaleString('es-CO')} COP</strong>. Proceda a previsualizar e imprimir.
                     </p>
                   </div>
                 </div>
@@ -523,7 +523,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                       <CheckCircle className="w-4 h-4" /> Registrar Pago y Liberar
                     </button>
                     <span className="block text-[8px] text-slate-400 text-center mt-1 select-none">
-                      Esta operación registrará con éxito ${finalTotal.toFixed(2)} USD en su consola fiscal general.
+                      Esta operación registrará con éxito ${finalTotal.toLocaleString('es-CO')} COP en su consola fiscal general.
                     </span>
                   </div>
                 </div>
@@ -552,7 +552,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                       {selectedDetails.totalAmount > 0 && (
                         <div className="flex justify-between">
                           <span>Consumo actual:</span>
-                          <span className="font-bold text-rose-600">${selectedDetails.totalAmount.toFixed(2)} USD</span>
+                          <span className="font-bold text-rose-600">${selectedDetails.totalAmount.toLocaleString('es-CO')} COP</span>
                         </div>
                       )}
                       {selectedDetails.guestName && (
@@ -799,8 +799,8 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                               <div key={idx} className="grid grid-cols-12 text-xs text-[#2D2A26] items-center">
                                 <span className="col-span-6 font-serif font-bold text-slate-900 truncate leading-tight">{item.name}</span>
                                 <span className="col-span-2 text-center">x{item.quantity}</span>
-                                <span className="col-span-2 text-right">${item.price.toFixed(2)}</span>
-                                <span className="col-span-2 text-right font-bold">${(item.price * item.quantity).toFixed(2)}</span>
+                                <span className="col-span-2 text-right">${item.price.toLocaleString('es-CO')}</span>
+                                <span className="col-span-2 text-right font-bold">${(item.price * item.quantity).toLocaleString('es-CO')}</span>
                               </div>
                             ))}
                           </div>
@@ -809,18 +809,18 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                         <div className="border-t border-dashed border-slate-350 py-2.5 text-xs font-mono space-y-1">
                           <div className="flex justify-between text-slate-600">
                             <span>Subtotal Neto:</span>
-                            <span>${calculatedSubtotal.toFixed(2)} USD</span>
+                            <span>${calculatedSubtotal.toLocaleString('es-CO')} COP</span>
                           </div>
                           {applyTax && (
                             <div className="flex justify-between text-slate-800 font-semibold">
                               <span>Impuesto Consumo (8%):</span>
-                              <span>+${taxAmount.toFixed(2)} USD</span>
+                              <span>+${taxAmount.toLocaleString('es-CO')} COP</span>
                             </div>
                           )}
                           
                           <div className="flex justify-between text-[#2D2A26] font-extrabold text-sm border-t border-dotted border-slate-300 pt-2 mt-2 leading-none">
                             <span>TOTAL CLIENTE:</span>
-                            <span className="text-emerald-700 text-base">${finalTotal.toFixed(2)} USD</span>
+                            <span className="text-emerald-700 text-base">${finalTotal.toLocaleString('es-CO')} COP</span>
                           </div>
                         </div>
 

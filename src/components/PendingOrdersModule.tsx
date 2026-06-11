@@ -29,14 +29,20 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
     }
   }, [selectedOrder]);
 
-  // Filter and sort pending orders: status !== 'listo'
+  // Filter and sort pending orders: status !== 'listo', 'caja', or 'facturado'
   // Sorted chronologically oldest first: smallest createdAt first. We default a.createdAt to 0 if undefined.
   const pendingOrders = useMemo(() => {
     return orders
-      .filter(order => order.status !== 'listo')
+      .filter(order => order.status !== 'listo' && order.status !== 'caja' && order.status !== 'facturado')
       .slice()
       .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
   }, [orders]);
+
+  const selectedOrderIndex = useMemo(() => {
+    if (!selectedOrder) return 1;
+    const idx = pendingOrders.findIndex(o => o.id === selectedOrder.id);
+    return idx !== -1 ? idx + 1 : 1;
+  }, [selectedOrder, pendingOrders]);
 
   // Generate clean thermal / standard Invoice PDF via jsPDF
   const handleGenerateInvoice = (order: Order, paymentMethod: string, includeTax: boolean) => {
@@ -194,7 +200,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
   };
 
   // Generate clean thermal/ticket Kitchen PDF via jsPDF
-  const handleGenerateKitchenReceipt = (order: Order) => {
+  const handleGenerateKitchenReceipt = (order: Order, turnNumber: number) => {
     const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
@@ -218,24 +224,25 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
     doc.text(`MESA: ${order.tableId}`, 5, 27);
+    doc.text(`TURNO: #${turnNumber}`, 50, 27);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.text(`Comanda N°: ${order.id.toUpperCase()}`, 5, 32);
-    doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES')}`, 5, 37);
-    doc.text(`Hora: ${order.timestamp}`, 5, 42);
-    doc.text(`Atendió: ${order.waiterName}`, 5, 47);
+    doc.text(`Comanda N°: ${order.id.toUpperCase()}`, 5, 33);
+    doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES')}`, 5, 38);
+    doc.text(`Hora: ${order.timestamp}`, 5, 43);
+    doc.text(`Atendió: ${order.waiterName}`, 5, 48);
 
-    doc.line(5, 51, 75, 51);
+    doc.line(5, 52, 75, 52);
 
     // Items list header
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
-    doc.text('PRODUCTO', 5, 56);
-    doc.text('CANTIDAD', 55, 56);
+    doc.text('PRODUCTO', 5, 57);
+    doc.text('CANTIDAD', 55, 57);
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    let y = 62;
+    let y = 63;
 
     order.items.forEach((item) => {
       if (y > 140) {
@@ -295,14 +302,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
             {pendingOrders.map((order, idx) => {
               // Time elapsed since order creation
               const placedTime = order.timestamp;
-              
-              // Get item colors depending on order type
-              let tagColorStyles = "bg-pandora-accent/10 border-pandora-accent/20 text-pandora-accent";
-              if (order.type === 'comida') {
-                tagColorStyles = "bg-amber-100 text-amber-800 border-amber-200";
-              } else if (order.type === 'bebida') {
-                tagColorStyles = "bg-cyan-50 text-cyan-800 border-cyan-200";
-              }
+              const turnNumber = idx + 1;
 
               return (
                 <motion.div
@@ -315,36 +315,30 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                   onClick={() => setSelectedOrder(order)}
                   className="bg-pandora-dark border border-pandora-wood shadow-lg rounded-xl flex flex-col justify-between overflow-hidden group text-pandora-cream cursor-pointer hover:border-pandora-accent transition-all duration-300 transform hover:scale-[1.01]"
                 >
-                  {/* Card Header in Dark Wood Style Theme */}
-                  <div className="bg-[#1C1510] p-3.5 border-b border-pandora-wood/30 flex justify-between items-center shrink-0">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-lg bg-pandora-accent flex items-center justify-center text-xs font-serif font-extrabold text-white">
-                        {order.tableId}
-                      </div>
-                      <div>
-                        <span className="font-serif font-bold text-xs text-pandora-gold block tracking-wider uppercase">
-                          MESA {order.tableId}
-                        </span>
-                        <span className="text-[9px] font-mono font-light text-pandora-cream flex items-center gap-1 mt-0.5">
-                          <Clock className="w-2.5 h-2.5 text-pandora-gold" /> {placedTime}
-                        </span>
-                      </div>
+                  {/* Card Header with Turn and Time swapped: Top-left Table, Bottom-left Time, Top-right Turn, Bottom-right ID */}
+                  <div className="bg-[#1C1510] p-3.5 border-b border-pandora-wood/30 flex justify-between items-stretch shrink-0">
+                    <div className="text-left flex flex-col justify-between">
+                      <span className="font-serif font-extrabold text-xs text-pandora-gold block tracking-wider uppercase">
+                        MESA {order.tableId}
+                      </span>
+                      <span className="text-[10.5px] font-mono font-light text-pandora-cream flex items-center gap-1 mt-1 leading-none">
+                        <Clock className="w-2.5 h-2.5 text-pandora-gold shrink-0" /> {placedTime}
+                      </span>
                     </div>
 
-                    <div className="text-right">
-                      <span className="text-[10px] uppercase font-mono tracking-widest font-extrabold text-pandora-gold block">
-                        #{order.id.slice(-4)}
+                    <div className="text-right flex flex-col justify-between items-end">
+                      <span className="text-[10.5px] font-mono font-bold text-pandora-cream/80 block leading-none">
+                        Turno #{turnNumber}
                       </span>
-                      {/* Priority Tag Index */}
-                      <span className="text-[8px] uppercase tracking-wider font-mono px-1 py-0.5 rounded bg-black/40 text-pandora-cream/70 mt-1 inline-block border border-white/5">
-                        TURNO #{(idx ?? 0) + 1}
+                      <span className="text-[8px] text-pandora-cream/40 font-mono block mt-1 uppercase leading-none">
+                        ID: #{order.id.slice(-4)}
                       </span>
                     </div>
                   </div>
 
-                  {/* Card Body (ItemList) */}
+                  {/* Card Body (ItemList) displaying products with their quantity only, no totals */}
                   <div className="p-3.5 flex-1 flex flex-col justify-between">
-                    <div className="space-y-2 mb-4">
+                    <div className="space-y-2">
                       <span className="text-[9px] uppercase font-bold tracking-widest text-pandora-gold/60 block font-mono">
                         📝 ÍTEMS EN COMANDA
                       </span>
@@ -352,34 +346,35 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                         {order.items.map((item) => (
                           <div 
                             key={item.menuItemId}
-                            className="flex justify-between items-start text-xs border-b border-white/5 pb-1 last:border-0"
+                            className="flex justify-between items-center text-xs border-b border-white/5 pb-1 select-none last:border-0"
                           >
-                            <span className="text-pandora-cream leading-tight flex gap-2 font-serif">
-                              <span className="font-mono text-pandora-gold font-bold">x{item.quantity}</span> 
-                              <span className="uppercase tracking-wide">{item.name}</span>
+                            <span className="text-pandora-cream leading-tight uppercase font-medium">
+                              {item.name}
+                            </span>
+                            <span className="font-mono text-pandora-gold font-bold bg-[#1C1510] px-2 py-0.5 rounded text-[11px]">
+                              Cant: {item.quantity}
                             </span>
                           </div>
                         ))}
                       </div>
                     </div>
-
-                    {/* Total billing detail */}
-                    <div className="pt-2 border-t border-pandora-wood/30 flex justify-between items-center">
-                      <div>
-                        <span className="text-[8px] uppercase tracking-wider text-pandora-cream/50 block font-mono">Atendió: {order.waiterName}</span>
-                        <div className={`text-[8.5px] uppercase font-bold px-1.5 py-0.5 rounded border inline-block mt-1 font-mono ${tagColorStyles}`}>
-                          {order.type === 'mixto' ? 'Mixto' : order.type === 'comida' ? 'Platillos' : 'Bebidas'}
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-[9px] uppercase tracking-wider text-pandora-cream/50 block font-mono">Total cargo</span>
-                        <span className="font-mono text-sm font-extrabold text-pandora-gold">${order.total.toLocaleString('es-CO')}</span>
-                      </div>
-                    </div>
                   </div>
 
-                  {/* Action buttons (Completado + Cancelar) - stop propagation to avoid opening modal */}
+                  {/* Action buttons matching exact layout: Generar Recibo Cocina left, Cancelar right */}
                   <div className="bg-[#1C1510] border-t border-pandora-wood/30 p-2.5 grid grid-cols-2 gap-2 shrink-0">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // 1. Generate kitchen receipt PDF
+                        handleGenerateKitchenReceipt(order, turnNumber);
+                        // 2. Perform transition to 'caja' state to disappear from Pedidos Pendientes
+                        onCompleteOrder(order.id);
+                      }}
+                      className="py-1.5 px-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-[#1C1510] font-mono font-bold text-[10px] flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wider transition-all text-center leading-none"
+                      title="Generar Recibo Cocina"
+                    >
+                      Generar Recibo Cocina
+                    </button>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -387,20 +382,10 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                           onCancelOrder(order.id);
                         }
                       }}
-                      className="py-1.5 px-3 rounded-lg border border-rose-800 bg-[#3a1a1a]/60 hover:bg-rose-950 text-rose-200 hover:text-white transition-all text-[11px] font-mono font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-xs uppercase tracking-wider"
-                      title="Cancelar pedido"
+                      className="py-1.5 px-2 rounded-lg border border-rose-800 bg-[#3a1a1a]/60 hover:bg-rose-950 text-rose-200 hover:text-white transition-all text-[10px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer shadow-xs uppercase tracking-wider text-center"
+                      title="Cancelar"
                     >
-                      <Trash2 className="w-3.5 h-3.5" /> Cancelar
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onCompleteOrder(order.id);
-                      }}
-                      className="py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-all text-[11px] font-mono font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-sm uppercase tracking-wider"
-                      title="Finalizar preparación"
-                    >
-                      <Check className="w-3.5 h-3.5" /> Completado
+                      Cancelar
                     </button>
                   </div>
 
@@ -492,7 +477,13 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                       {/* Option 1: Kitchen receipt (Direct printing) */}
                       <button
                         type="button"
-                        onClick={() => handleGenerateKitchenReceipt(selectedOrder)}
+                        onClick={() => {
+                          if (selectedOrder) {
+                            handleGenerateKitchenReceipt(selectedOrder, selectedOrderIndex);
+                            onCompleteOrder(selectedOrder.id);
+                            setSelectedOrder(null);
+                          }
+                        }}
                         className="p-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-pandora-accent bg-slate-50 hover:bg-amber-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
                         title="Imprimir comanda para personal de cocina (Sin precios)"
                       >
