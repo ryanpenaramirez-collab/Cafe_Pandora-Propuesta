@@ -20,12 +20,12 @@ import LoginView from './components/LoginView';
 import OrderModal from './components/OrderModal';
 import KitchenBarModal from './components/KitchenBarModal';
 import { TablesModule } from './components/tables';
-import FinancialsModal from './components/FinancialsModal';
 import InventoryMenuModal from './components/InventoryMenuModal';
 import SystemModal from './components/SystemModal';
 import OrderTakingModule from './components/OrderTakingModule';
 import PendingOrdersModule from './components/PendingOrdersModule';
 import MenuTabContent from './components/MenuTabContent';
+import { FinanzasDashboard, type FinanzasTab } from './apartado-finanza';
 
 const CATEGORIES = [
   { id: 'pedidos', name: 'Pedidos', label: 'Toma de Pedidos', icon: ClipboardList, buttonIds: ['crear_pedido', 'pedidos_pendientes'] },
@@ -170,6 +170,7 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activePedidosTab, setActivePedidosTab] = useState<'nuevo' | 'pendientes'>('nuevo');
   const [activeMenuTab, setActiveMenuTab] = useState<'platos' | 'bebidas' | 'gaseosas'>('platos');
+  const [activeFinanzasTab, setActiveFinanzasTab] = useState<FinanzasTab>('facturacion');
   const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
@@ -486,6 +487,20 @@ export default function App() {
     if (['platos', 'bebidas', 'gaseosas'].includes(btn.id)) {
       setActiveCategory('menu');
       setActiveMenuTab(btn.id as 'platos' | 'bebidas' | 'gaseosas');
+      return;
+    }
+    if (['ventas_dia', 'abrir_caja', 'informes', 'cajero', 'egresos', 'facturas'].includes(btn.id)) {
+      const tabMap: Record<string, FinanzasTab> = {
+        'ventas_dia': 'ventas',
+        'abrir_caja': 'apertura',
+        'informes': 'informes',
+        'cajero': 'cajero',
+        'egresos': 'egresos',
+        'facturas': 'facturacion',
+      };
+      setActiveCategory('caja_finanzas');
+      setActiveFinanzasTab(tabMap[btn.id] || 'facturacion');
+      setModalFocus(null);
       return;
     }
     setTabFocusParam(btn.param);
@@ -811,63 +826,23 @@ export default function App() {
                           />
                         )}
                       </div>
+                    ) : activeCategory === 'caja_finanzas' ? (
+                      <FinanzasDashboard
+                        orders={orders}
+                        tables={tables}
+                        shift={shift}
+                        expenses={expenses}
+                        activeTab={activeFinanzasTab}
+                        onTabChange={setActiveFinanzasTab}
+                        onClearTable={handleClearTable}
+                        onUpdateOrderStatus={handleUpdateOrderStatus}
+                        onCancelOrder={handleCancelOrder}
+                        onAddExpense={handleAddExpense}
+                        onSetShift={(s) => setShift(s)}
+                      />
                     ) : (
-                      <div className="space-y-6">
-                        {activeCategory === 'caja_finanzas' && (
-                          <CajaFinanzasModule
-                            orders={orders}
-                            tables={tables}
-                            onClearTable={handleClearTable}
-                            onUpdateOrderStatus={handleUpdateOrderStatus}
-                            onCancelOrder={handleCancelOrder}
-                          />
-                        )}
-
-                        <div>
-                          <h4 className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-widest mb-2 select-none">
-                            Opciones y operaciones financieras
-                          </h4>
-                          {/* Subcategory buttons Grid rendering */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mt-2">
-                        {activeCategoryButtons.map((btn) => {
-                          const IconComponent = btn.icon;
-                          const styleString = getButtonColorStyles(btn.color);
-
-                          return (
-                            <motion.button
-                              key={btn.id}
-                              id={`sub_btn_${btn.id}`}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                              onClick={() => handleButtonClick(btn)}
-                              className={`flex items-center justify-between p-4 rounded-xl shadow-sm border text-left transition-all overflow-hidden group focus:outline-none cursor-pointer w-full shrink-0 ${styleString}`}
-                            >
-                              <div className="flex items-center gap-3 overflow-hidden">
-                                <div className="p-2 bg-white rounded-lg border border-slate-100 flex items-center justify-center shadow-xs shrink-0 group-hover:scale-105 transition-transform duration-200">
-                                  <IconComponent className="w-5 h-5 shrink-0 text-slate-800" />
-                                </div>
-                                <div className="truncate">
-                                  <span className="font-serif font-bold text-xs block tracking-wider uppercase truncate leading-tight">
-                                    {btn.name}
-                                  </span>
-                                  <span className="text-[10px] text-slate-500 font-light block truncate mt-1">
-                                    {btn.label}
-                                  </span>
-                                </div>
-                              </div>
-
-                              {btn.count > 0 && (
-                                <span className="h-5 min-w-[20px] px-1.5 rounded-full bg-rose-600 border border-white text-[9px] font-extrabold text-white flex items-center justify-center animate-pulse shrink-0">
-                                  {btn.count}
-                                </span>
-                              )}
-                            </motion.button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                      <></>
+                    )}
               </div>
             ) : (
                   <div className="flex flex-col gap-5">
@@ -980,21 +955,6 @@ export default function App() {
               orders={orders}
               onUpdateTableStatus={handleUpdateTableStatus}
               onClearTable={handleClearTable}
-            />
-          </motion.div>
-        )}
-
-        {/* Finanzas / Caja: VENTAS DIA | INFORMES | CAJERO | EGRESOS | ABRIR CAJA */}
-        {modalFocus === 'financials' && (
-          <motion.div key="financials_modal" className="contents">
-            <FinancialsModal
-              isOpen={true}
-              onClose={() => setModalFocus(null)}
-              tabFocus={tabFocusParam}
-              shift={shift}
-              expenses={expenses}
-              onAddExpense={handleAddExpense}
-              onSetShift={(updatedShift) => setShift(updatedShift)}
             />
           </motion.div>
         )}
