@@ -593,12 +593,11 @@ export default function App() {
             <header id="main_header" className="bg-pandora-dark text-white border-b-2 border-pandora-wood py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
                 <button
-                  id="header_toggle_sidebar_btn"
                   onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-                  className="p-1 px-3 bg-[#C4A882] hover:bg-[#b0936f] text-slate-950 font-extrabold rounded-lg border border-pandora-wood transition-all cursor-pointer text-xs"
+                  className="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-lg bg-[#1e1208] text-pandora-gold hover:bg-[#2c1a0a] border border-white/10 transition-all cursor-pointer text-xs font-bold"
                   title={isSidebarCollapsed ? "Mostrar categorías" : "Ocultar categorías"}
                 >
-                  ☰ {isSidebarCollapsed ? 'Categorías' : 'Ocultar'}
+                  ☰
                 </button>
                 <div className="text-left">
                   <h1 className="font-serif text-lg font-bold tracking-widest text-pandora-gold uppercase leading-none">
@@ -631,33 +630,11 @@ export default function App() {
               
               {/* COLUMNA CENTRAL: BOTONES DEL MENÚ DE NAVEGACIÓN (Columna central con botones) */}
               {!isSidebarCollapsed && (
-                <div id="col_center" className="w-full md:w-64 border-b md:border-b-0 md:border-r border-pandora-wood/15 p-4 flex flex-col shrink-0 overflow-y-auto md:h-full" style={{ backgroundColor: '#C4A882' }}>
-                  
-                  <div className="mb-3.5 text-[9px] uppercase font-bold tracking-widest text-[#1e1208] font-mono flex justify-between items-center shrink-0">
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        id="collapse_sidebar_desktop_btn"
-                        onClick={() => setIsSidebarCollapsed(true)}
-                        className="py-0.5 px-1.5 rounded-md bg-white/20 hover:bg-white/30 text-[#1e1208] border border-black/10 transition-all cursor-pointer text-[10px] font-bold"
-                        title="Ocultar menú"
-                      >
-                        ☰
-                      </button>
-                      <span>CATEGORÍAS</span>
-                    </div>
-                  
-                  {/* Snack Hamburger icon to show/hide category list (on tablet / mobile only) */}
-                  <button
-                    id="toggle_categories_btn"
-                    onClick={() => setIsMobileCategoriesOpen(!isMobileCategoriesOpen)}
-                    className="md:hidden flex items-center justify-center p-1 rounded-md bg-white/20 hover:bg-white/30 text-[#1e1208] border border-black/10 transition-all cursor-pointer focus:outline-none"
-                    title="Menú de categorías"
-                  >
-                    <Menu className="w-4 h-4" />
-                  </button>
-
-                  {/* Desktop keeps the static number badge */}
-                  <span className="hidden md:inline px-1.5 py-0.5 rounded bg-white/20 text-[#1e1208] border border-black/10 font-mono">
+              <div id="col_center" className="w-full md:w-64 border-b md:border-b-0 md:border-r border-pandora-wood/15 p-4 flex flex-col shrink-0 overflow-y-auto md:h-full" style={{ backgroundColor: '#C4A882' }}>
+                
+                <div className="mb-3.5 text-[9px] uppercase font-bold tracking-widest text-[#1e1208] font-mono flex justify-between items-center shrink-0">
+                  <span>CATEGORÍAS</span>
+                  <span className="px-1.5 py-0.5 rounded bg-white/20 text-[#1e1208] border border-black/10 font-mono text-[9px] font-bold">
                     {visibleCategories.length}
                   </span>
                 </div>

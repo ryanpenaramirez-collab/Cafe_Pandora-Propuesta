@@ -107,11 +107,11 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
           }}
         >
           {/* Background image styled with zoom, center, and dark overlay */}
-          <div className="absolute inset-0 z-0 overflow-hidden bg-[#0c0704] flex items-center justify-center p-6">
+          <div className="absolute inset-0 z-0 overflow-hidden bg-[#0c0704] flex items-center justify-center p-2">
             <img 
               src="https://i.imgur.com/ARe5rPr.jpeg" 
               alt="Logo Café Pandora" 
-              className="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 object-cover rounded-full shadow-2xl border-2 border-pandora-gold/30 animate-pulse-slow"
+              className="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 object-cover rounded-full shadow-2xl border-2 border-pandora-gold/30 animate-pulse-slow"
               referrerPolicy="no-referrer"
             />
             {/* Elegant overlay to integrate the picture and render text perfectly */}
