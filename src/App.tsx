@@ -29,7 +29,7 @@ import { FinanzasDashboard, type FinanzasTab } from './apartado-finanza';
 
 const CATEGORIES = [
   { id: 'pedidos', name: 'Pedidos', label: 'Toma de Pedidos', icon: ClipboardList, buttonIds: ['crear_pedido', 'pedidos_pendientes'] },
-  { id: 'menu', name: 'Menú', label: 'Platos, Bebidas y Más', icon: Sparkles, buttonIds: ['platos', 'bebidas'] },
+  { id: 'menu', name: 'Menú', label: 'Platillos, Bebidas y Más', icon: Sparkles, buttonIds: ['platos', 'bebidas'] },
   { id: 'caja_finanzas', name: 'Caja y Finanzas', label: 'Contabilidad y Caja', icon: DollarSign, buttonIds: ['abrir_caja', 'ventas_dia', 'facturas'] }
 ];
 
@@ -543,7 +543,7 @@ export default function App() {
             
             {/* Logo de la app dentro de un marco circular arriba */}
             <div className="text-center">
-              <div className="w-20 h-20 rounded-full bg-pandora-accent flex items-center justify-center border-4 border-pandora-wood/30 shadow-lg mx-auto mb-3.5 relative overflow-hidden">
+              <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg mx-auto mb-3.5 relative overflow-hidden">
                 <img 
                   src="https://i.imgur.com/ARe5rPr.jpeg" 
                   alt="Logo Café Pandora" 
@@ -581,7 +581,7 @@ export default function App() {
                 className="w-full text-center py-2 bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/30 rounded-lg text-[10px] font-bold text-rose-300 transition-colors flex items-center justify-center gap-1.5 cursor-pointer uppercase font-mono tracking-wider shadow-sm"
               >
                 <LogOut className="w-3.5 h-3.5" />
-                Cerrar Sesión (Salir)
+                Cerrar Sesión
               </button>
             </div>
 
@@ -790,6 +790,7 @@ export default function App() {
                             orders={orders}
                             onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'caja')}
                             onCancelOrder={(id) => handleCancelOrder(id)}
+                            userRole={user?.role}
                           />
                         )}
                       </div>
@@ -824,7 +825,7 @@ export default function App() {
                           </span>
                         </div>
                         <h2 className="font-serif text-base sm:text-lg font-bold text-slate-800 mt-1.5">
-                          ¡Hola, {user.name}! ☕
+                          ¡Hola, {user.name}!
                         </h2>
                         <p className="text-[11px] text-slate-600 font-light mt-0.5">
                           Tienes <strong>{orders.filter(o => o.status !== 'listo' && o.status !== 'caja' && o.status !== 'facturado').length}</strong> pedidos pendientes por atender. Revisa las comandas pendientes o dirígete a caja para facturar.
@@ -866,6 +867,7 @@ export default function App() {
                         orders={orders}
                         onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'caja')}
                         onCancelOrder={(id) => handleCancelOrder(id)}
+                        userRole={user?.role}
                       />
                     </div>
                   </div>
