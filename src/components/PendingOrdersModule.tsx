@@ -13,9 +13,10 @@ interface PendingOrdersModuleProps {
   orders: Order[];
   onCompleteOrder: (orderId: string) => void;
   onCancelOrder: (orderId: string) => void;
+  userRole?: 'administrador' | 'mesero';
 }
 
-export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelOrder }: PendingOrdersModuleProps) {
+export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelOrder, userRole = 'administrador' }: PendingOrdersModuleProps) {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<'Efectivo' | 'Nequi' | 'Bancolombia'>('Efectivo');
   const [includeTax, setIncludeTax] = useState<boolean>(false);
@@ -312,7 +313,10 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -15 }}
                   transition={{ type: "spring", stiffness: 350, damping: 25 }}
-                  onClick={() => setSelectedOrder(order)}
+                  onClick={() => {
+  if (userRole === 'mesero') return;
+  setSelectedOrder(order);
+}}
                   className="bg-pandora-dark border border-pandora-wood shadow-lg rounded-xl flex flex-col justify-between overflow-hidden group text-pandora-cream cursor-pointer hover:border-pandora-accent transition-all duration-300 transform hover:scale-[1.01]"
                 >
                   {/* Card Header with Turn and Time swapped: Top-left Table, Bottom-left Time, Top-right Turn, Bottom-right ID */}
@@ -361,6 +365,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                   </div>
 
                   {/* Action buttons matching exact layout: Generar Recibo Cocina left, Cancelar right */}
+                  {userRole !== 'mesero' && (
                   <div className="bg-[#1C1510] border-t border-pandora-wood/30 p-2.5 grid grid-cols-2 gap-2 shrink-0">
                     <button
                       onClick={(e) => {
@@ -388,6 +393,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                       Cancelar
                     </button>
                   </div>
+                  )}
 
                 </motion.div>
               );
@@ -498,7 +504,8 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                         </div>
                       </button>
 
-                      {/* Option 2: Show Bill Config (Transit into pay flow) */}
+                      {userRole !== 'mesero' && (
+                      // Option 2: Show Bill Config (Transit into pay flow)
                       <button
                         type="button"
                         onClick={() => setShowBillingConfig(true)}
@@ -515,6 +522,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                           </p>
                         </div>
                       </button>
+                      )}
                     </div>
                   </div>
                 ) : (
