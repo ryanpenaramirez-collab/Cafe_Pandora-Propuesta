@@ -19,9 +19,15 @@ const CATEGORY_MAP: Record<string, 'platillo' | 'bebida' | 'gaseosa'> = {
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
-  platos: 'Plato',
-  bebidas: 'Bebida',
-  gaseosas: 'Gaseosa',
+  platos: 'PLATILLO',
+  bebidas: 'BEBIDA',
+  gaseosas: 'GASEOSA',
+};
+
+const TAB_LABELS: Record<string, string> = {
+  platos: 'PLATILLOS',
+  bebidas: 'BEBIDAS',
+  gaseosas: 'GASEOSAS',
 };
 
 export default function MenuTabContent({
@@ -35,7 +41,7 @@ export default function MenuTabContent({
   const [formName, setFormName] = useState('');
   const [formPrice, setFormPrice] = useState('');
   const [formDescription, setFormDescription] = useState('');
-  const [formCategory, setFormCategory] = useState<'platillo' | 'bebida' | 'gaseosa'>('platillo');
+  const [formSubcategory, setFormSubcategory] = useState<string>('');
   const [formAvailable, setFormAvailable] = useState(true);
   const [formImage, setFormImage] = useState<string>('');
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
@@ -80,9 +86,10 @@ export default function MenuTabContent({
         name: formName,
         price: priceNum,
         description: formDescription,
-        category: formCategory,
-        available: formAvailable,
-        image: formImage || isEditingItem.image,
+      category: CATEGORY_MAP[tab],
+      subcategory: formSubcategory,
+      available: formAvailable,
+      image: formImage || isEditingItem.image,
       };
       onUpdateMenuItem(updated);
       triggerNotification(`Producto "${formName}" actualizado con éxito`);
@@ -92,7 +99,8 @@ export default function MenuTabContent({
         name: formName,
         price: priceNum,
         description: formDescription,
-        category: formCategory,
+        category: CATEGORY_MAP[tab],
+        subcategory: formSubcategory,
         available: formAvailable,
         image: formImage || undefined,
       };
@@ -103,7 +111,7 @@ export default function MenuTabContent({
     setFormName('');
     setFormPrice('');
     setFormDescription('');
-    setFormCategory('platillo');
+    setFormSubcategory('');
     setFormAvailable(true);
     setFormImage('');
     setIsAdding(false);
@@ -121,7 +129,7 @@ export default function MenuTabContent({
     setFormName(item.name);
     setFormPrice(item.price.toString());
     setFormDescription(item.description);
-    setFormCategory(item.category);
+    setFormSubcategory(item.subcategory || '');
     setFormAvailable(item.available);
     setFormImage(item.image || '');
     setIsEditingItem(item);
@@ -193,7 +201,7 @@ export default function MenuTabContent({
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-[#FAF5EE] border border-slate-200 p-4 rounded-xl gap-3 text-xs font-bold text-slate-700 shadow-sm">
         <span className="uppercase text-slate-800 tracking-wider font-serif">
-          GESTIÓN DE CARTA ({tab.toUpperCase()})
+          GESTIÓN DE CARTA ({TAB_LABELS[tab]})
         </span>
         {!isAdding && (
           <button
@@ -201,7 +209,7 @@ export default function MenuTabContent({
               setFormName('');
               setFormPrice('');
               setFormDescription('');
-              setFormCategory(CATEGORY_MAP[tab]);
+              setFormSubcategory(tab === 'platos' ? 'entradas' : 'gaseosas');
               setFormAvailable(true);
               setFormImage('');
               setIsEditingItem(null);
@@ -254,15 +262,31 @@ export default function MenuTabContent({
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">Categoría *</label>
                 <select
-                  value={formCategory}
-                  onChange={(e) => setFormCategory(e.target.value as 'platillo' | 'bebida' | 'gaseosa')}
+                  value={formSubcategory}
+                  onChange={(e) => setFormSubcategory(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs focus:ring-1 focus:ring-emerald-500 font-semibold text-slate-800 outline-none"
                 >
-                  <option value="platillo">Platillo / Comida</option>
-                  <option value="bebida">Bebida / Café</option>
-                  <option value="gaseosa">Gaseosa</option>
+                  {tab === 'platos' ? (
+                    <>
+                      <option value="entradas">Entradas</option>
+                      <option value="principales">Principales</option>
+                      <option value="ensaladas">Ensaladas</option>
+                      <option value="postres">Postres</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="gaseosas">Gaseosas</option>
+                      <option value="cervezas">Cervezas</option>
+                      <option value="vinos">Vinos</option>
+                      <option value="café">Café</option>
+                      <option value="té">Té</option>
+                      <option value="jugos">Jugos</option>
+                      <option value="agua">Agua</option>
+                    </>
+                  )}
                 </select>
               </div>
+
             </div>
 
             <div>
@@ -444,13 +468,28 @@ export default function MenuTabContent({
                   <div>
                     <label className="block text-[11px] font-bold text-slate-700 mb-1">Categoría</label>
                     <select
-                      value={formCategory}
-                      onChange={(e) => setFormCategory(e.target.value as 'platillo' | 'bebida' | 'gaseosa')}
+                      value={formSubcategory}
+                      onChange={(e) => setFormSubcategory(e.target.value)}
                       className="w-full bg-slate-50 border border-slate-300 rounded p-2 text-xs focus:ring-1 focus:ring-emerald-500 font-semibold text-slate-800 outline-none"
                     >
-                      <option value="platillo">Platillo / Comida</option>
-                      <option value="bebida">Bebida / Café</option>
-                      <option value="gaseosa">Gaseosa</option>
+                      {tab === 'platos' ? (
+                        <>
+                          <option value="entradas">Entradas</option>
+                          <option value="principales">Principales</option>
+                          <option value="ensaladas">Ensaladas</option>
+                          <option value="postres">Postres</option>
+                        </>
+                      ) : (
+                        <>
+                          <option value="gaseosas">Gaseosas</option>
+                          <option value="cervezas">Cervezas</option>
+                          <option value="vinos">Vinos</option>
+                          <option value="café">Café</option>
+                          <option value="té">Té</option>
+                          <option value="jugos">Jugos</option>
+                          <option value="agua">Agua</option>
+                        </>
+                      )}
                     </select>
                   </div>
 

@@ -7,7 +7,7 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Plus, Minus, ShoppingCart, Check, Trash2, 
-  Utensils, Coffee, Search, ClipboardList, RefreshCw, Wine 
+  Utensils, Coffee, ClipboardList, RefreshCw, Wine 
 } from 'lucide-react';
 import { MenuItem, Table, Order, OrderItem } from '../types';
 
@@ -26,7 +26,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
   const [newTableName, setNewTableName] = useState('');
   const [newTableType, setNewTableType] = useState<'Exterior' | 'Terraza'>('Exterior');
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeCatalogTab, setActiveCatalogTab] = useState<'todos' | 'platillo' | 'bebida' | 'gaseosa'>('todos');
+  const [activeCatalogTab, setActiveCatalogTab] = useState<'todos' | 'platillo' | 'bebida'>('todos');
+  const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
   const [cart, setCart] = useState<OrderItem[]>([]);
   const [showsSuccess, setShowsSuccess] = useState(false);
 
@@ -43,17 +44,19 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
     return menu.filter(item => {
       const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             item.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = activeCatalogTab === 'todos' || item.category === activeCatalogTab;
-      return matchesSearch && matchesCategory && item.available;
+      const matchesCategory = activeCatalogTab === 'todos'
+        || item.category === activeCatalogTab
+        || (activeCatalogTab === 'bebida' && item.category === 'gaseosa');
+      const matchesSubcategory = !activeSubcategory || item.subcategory === activeSubcategory;
+      return matchesSearch && matchesCategory && matchesSubcategory && item.available;
     });
-  }, [menu, searchTerm, activeCatalogTab]);
+  }, [menu, searchTerm, activeCatalogTab, activeSubcategory]);
 
   // Catalog grouped by category
   const groupedCatalog = useMemo(() => {
     const platillos = filteredCatalog.filter(item => item.category === 'platillo');
-    const bebidas = filteredCatalog.filter(item => item.category === 'bebida');
-    const gaseosas = filteredCatalog.filter(item => item.category === 'gaseosa');
-    return { platillos, bebidas, gaseosas };
+    const bebidas = filteredCatalog.filter(item => item.category === 'bebida' || item.category === 'gaseosa');
+    return { platillos, bebidas };
   }, [filteredCatalog]);
 
   // Cart operations
@@ -97,7 +100,10 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
 
     // Determine type: 'comida' | 'bebida' | 'mixto'
     const hasComida = cart.some(ci => menu.find(m => m.id === ci.menuItemId)?.category === 'platillo');
-    const hasBebida = cart.some(ci => menu.find(m => m.id === ci.menuItemId)?.category === 'bebida');
+    const hasBebida = cart.some(ci => {
+      const cat = menu.find(m => m.id === ci.menuItemId)?.category;
+      return cat === 'bebida' || cat === 'gaseosa';
+    });
     let type: 'comida' | 'bebida' | 'mixto' = 'mixto';
     if (hasComida && !hasBebida) type = 'comida';
     if (!hasComida && hasBebida) type = 'bebida';
@@ -360,37 +366,59 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
               </button>
             </div>
 
-            {/* Selection tools: Tabs & Search */}
-            <div className="flex flex-col sm:flex-row gap-2.5 mb-4 shrink-0">
-              {/* Category selector */}
-              <div className="bg-slate-100 p-0.5 rounded-lg border border-slate-200 flex flex-wrap items-center gap-1">
-                {(['todos', 'platillo', 'bebida', 'gaseosa'] as const).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveCatalogTab(tab)}
-                    className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase transition-all tracking-wider cursor-pointer ${
-                      activeCatalogTab === tab
-                        ? 'bg-white text-slate-800 shadow-xs border border-slate-200/50'
-                        : 'text-slate-500 hover:text-slate-800'
-                    }`}
-                  >
-                    {tab === 'todos' ? 'Todos' : tab === 'platillo' ? 'Platillos' : tab === 'bebida' ? 'Bebidas' : 'Gaseosas'}
-                  </button>
-                ))}
+            {/* Selection tools: Tabs & Search — 2-row layout */}
+            <div className="flex flex-col gap-2.5 mb-4 shrink-0">
+              {/* Fila 1: 65% category tabs + 35% search (no icon) */}
+              <div className="flex gap-2.5">
+                <div className="w-[65%] bg-slate-100 p-0.5 rounded-lg border border-slate-200 flex items-center gap-1">
+                  {(['todos', 'platillo', 'bebida'] as const).map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => { setActiveCatalogTab(tab); setActiveSubcategory(null); }}
+                      className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase transition-all tracking-wider cursor-pointer flex-1 ${
+                        activeCatalogTab === tab
+                          ? 'bg-white text-slate-800 shadow-xs border border-slate-200/50'
+                          : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      {tab === 'todos' ? 'Todos' : tab === 'platillo' ? 'Platillos' : 'Bebidas'}
+                    </button>
+                  ))}
+                </div>
+                <div className="w-[35%]">
+                  <input
+                    type="text"
+                    placeholder="Buscar producto..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-accent text-slate-800 placeholder-slate-400"
+                  />
+                </div>
               </div>
-
-              {/* Real-time search */}
-              <div className="relative flex-1">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  placeholder="Buscar producto..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-accent text-slate-800 placeholder-slate-400"
-                />
-              </div>
+              {/* Fila 2: subcategorías dinámicas */}
+              {activeCatalogTab !== 'todos' && (
+                <div className="flex flex-wrap gap-1.5">
+                  {(activeCatalogTab === 'platillo'
+                    ? ['entradas', 'principales', 'ensaladas', 'postres']
+                    : ['gaseosas', 'cervezas', 'vinos', 'café', 'té', 'jugos', 'agua']
+                  ).map(sub => (
+                    <button
+                      key={sub}
+                      onClick={() => setActiveSubcategory(activeSubcategory === sub ? null : sub)}
+                      className={`px-2.5 py-1 rounded-md text-[9px] font-bold uppercase transition-all tracking-wider cursor-pointer ${
+                        activeSubcategory === sub
+                          ? 'bg-pandora-accent text-white shadow-xs'
+                          : 'bg-white text-slate-500 border border-slate-200 hover:border-pandora-accent'
+                      }`}
+                    >
+                      {sub}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
+
+
 
             {/* Catalog Items lists grouped nicely */}
             <div className="flex-1 overflow-y-auto max-h-[400px] pr-1 space-y-6">
@@ -399,7 +427,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
               {(activeCatalogTab === 'todos' || activeCatalogTab === 'platillo') && groupedCatalog.platillos.length > 0 && (
                 <div>
                   <h5 className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] border-b border-dashed border-slate-200 pb-1 mb-2 font-mono flex items-center gap-1.5">
-                    <Utensils className="w-3.5 h-3.5 inline text-pandora-accent" /> Platillos &amp; Alimentos
+                    <Utensils className="w-3.5 h-3.5 inline text-pandora-accent" /> {activeCatalogTab === 'todos' ? 'PLATILLOS & BEBIDAS' : 'PLATILLOS & ALIMENTOS'}
                   </h5>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {groupedCatalog.platillos.map(item => {
@@ -443,54 +471,10 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
               {(activeCatalogTab === 'todos' || activeCatalogTab === 'bebida') && groupedCatalog.bebidas.length > 0 && (
                 <div>
                   <h5 className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] border-b border-dashed border-slate-200 pb-1 mb-2 font-mono flex items-center gap-1.5">
-                    <Coffee className="w-3.5 h-3.5 inline text-pandora-accent" /> Bebidas &amp; Cafetería
+                    <Coffee className="w-3.5 h-3.5 inline text-pandora-accent" /> Bebidas & Barra
                   </h5>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {groupedCatalog.bebidas.map(item => {
-                      const cartItem = cart.find(i => i.menuItemId === item.id);
-                      return (
-                        <div
-                          key={item.id}
-                          onClick={() => addToCart(item)}
-                          className={`p-2.5 rounded-xl border transition-all hover:bg-slate-50 cursor-pointer text-left flex items-center gap-3 min-h-[90px] shrink-0 ${
-                            cartItem 
-                              ? 'border-pandora-accent bg-amber-50/20' 
-                              : 'border-slate-200 bg-white hover:border-slate-350'
-                          }`}
-                        >
-                          {item.image && (
-                            <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-slate-200/60 shadow-xs">
-                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                            </div>
-                          )}
-                          <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
-                            <div>
-                              <span className="font-serif font-bold text-xs text-slate-850 line-clamp-1 block uppercase leading-tight">{item.name}</span>
-                              <p className="text-[9.5px] text-slate-405 font-light line-clamp-2 mt-0.5 leading-normal">{item.description}</p>
-                            </div>
-                            <span className="text-[11px] font-mono font-bold text-pandora-accent block mt-1">${item.price.toLocaleString('es-CO')}</span>
-                          </div>
-                          
-                          {cartItem && (
-                            <span className="bg-pandora-accent text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-xs shrink-0 self-center">
-                              {cartItem.quantity}
-                            </span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* GASEOSAS GROUP */}
-              {(activeCatalogTab === 'todos' || activeCatalogTab === 'gaseosa') && groupedCatalog.gaseosas.length > 0 && (
-                <div>
-                  <h5 className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] border-b border-dashed border-slate-200 pb-1 mb-2 font-mono flex items-center gap-1.5">
-                    <Wine className="w-3.5 h-3.5 inline text-pandora-accent" /> Gaseosas &amp; Sodas
-                  </h5>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {groupedCatalog.gaseosas.map(item => {
                       const cartItem = cart.find(i => i.menuItemId === item.id);
                       return (
                         <div

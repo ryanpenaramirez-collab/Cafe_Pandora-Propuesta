@@ -29,7 +29,7 @@ import { FinanzasDashboard, type FinanzasTab } from './apartado-finanza';
 
 const CATEGORIES = [
   { id: 'pedidos', name: 'Pedidos', label: 'Toma de Pedidos', icon: ClipboardList, buttonIds: ['crear_pedido', 'pedidos_pendientes'] },
-  { id: 'menu', name: 'Menú', label: 'Platos, Bebidas y Más', icon: Sparkles, buttonIds: ['platos', 'bebidas', 'gaseosas'] },
+  { id: 'menu', name: 'Menú', label: 'Platos, Bebidas y Más', icon: Sparkles, buttonIds: ['platos', 'bebidas'] },
   { id: 'caja_finanzas', name: 'Caja y Finanzas', label: 'Contabilidad y Caja', icon: DollarSign, buttonIds: ['abrir_caja', 'ventas_dia', 'facturas'] }
 ];
 
@@ -177,7 +177,7 @@ export default function App() {
   const [tabFocusParam, setTabFocusParam] = useState<any>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activePedidosTab, setActivePedidosTab] = useState<'nuevo' | 'pendientes'>('nuevo');
-  const [activeMenuTab, setActiveMenuTab] = useState<'platos' | 'bebidas' | 'gaseosas'>('platos');
+  const [activeMenuTab, setActiveMenuTab] = useState<'platos' | 'bebidas'>('platos');
   const [activeFinanzasTab, setActiveFinanzasTab] = useState<FinanzasTab>('facturacion');
   const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -406,10 +406,9 @@ export default function App() {
     { id: 'ventas_dia', name: 'VENTAS DIA', color: 'yellow', icon: TrendingUp, label: 'Efectivo Caja', modal: 'financials', param: 'ventas', count: 0 },
     { id: 'mapa_mesas', name: 'MAPA MESAS', color: 'yellow', icon: Map, label: 'Layout Salón', modal: 'tables', param: 'mapa', count: 0 },
 
-    // Verde: PLATOS, BEBIDAS, RESERVA, GASEOSAS
-    { id: 'platos', name: 'PLATOS', color: 'green', icon: Sparkles, label: 'Comidas Menú', modal: 'menu_inventory', param: 'platos', count: 0 },
+    // Verde: PLATILLOS, BEBIDAS, RESERVA
+    { id: 'platos', name: 'PLATILLOS', color: 'green', icon: Sparkles, label: 'Comidas Menú', modal: 'menu_inventory', param: 'platos', count: 0 },
     { id: 'bebidas', name: 'BEBIDAS', color: 'green', icon: Wine, label: 'Bebidas Menú', modal: 'menu_inventory', param: 'bebidas', count: 0 },
-    { id: 'gaseosas', name: 'GASEOSAS', color: 'green', icon: Wine, label: 'Gaseosas Menú', modal: 'menu_inventory', param: 'gaseosas', count: 0 },
     { id: 'reserva', name: 'RESERVA', color: 'green', icon: Calendar, label: 'Reserva Agenda', modal: 'menu_inventory', param: 'reserva', count: 0 },
 
     // Magenta/Púrpura: INFORMES, CAJERO, ALERTA
@@ -492,9 +491,9 @@ export default function App() {
       setModalFocus(null);
       return;
     }
-    if (['platos', 'bebidas', 'gaseosas'].includes(btn.id)) {
+    if (['platos', 'bebidas'].includes(btn.id)) {
       setActiveCategory('menu');
-      setActiveMenuTab(btn.id as 'platos' | 'bebidas' | 'gaseosas');
+      setActiveMenuTab(btn.id as 'platos' | 'bebidas');
       return;
     }
     if (['ventas_dia', 'abrir_caja', 'informes', 'cajero', 'egresos', 'facturas'].includes(btn.id)) {
@@ -608,21 +607,7 @@ export default function App() {
               </div>
 
               {/* Indicadores rápidos de la barra superior */}
-              <div className="flex flex-wrap items-center gap-2.5">
-
-                {/* Botón de salida rápido */}
-                <button 
-                  onClick={() => {
-                    if (confirm('¿Está seguro de cerrar sesión de Cafe Pandora?')) {
-                      handleLogout();
-                    }
-                  }}
-                  className="p-1 text-slate-300 hover:text-rose-450 hover:bg-white/5 rounded transition-all cursor-pointer"
-                  title="Cerrar sesión"
-                >
-                  <LogOut className="w-4 h-4 text-rose-400" />
-                </button>
-              </div>
+              <div className="flex flex-wrap items-center gap-2.5"></div>
             </header>
 
             {/* SECCIÓN INTERNA EN DOS COLUMNAS: COLUMNA CENTRAL DE MENÚ Y COLUMNA CONTENIDO DERECHA */}
@@ -731,7 +716,7 @@ export default function App() {
                     {activeCategory === 'menu' ? (
                       <div className="flex flex-col gap-4">
                         <div className="flex flex-wrap items-center gap-2 p-1 bg-[#FAF5EE]/75 rounded-xl border border-slate-300 self-start shrink-0">
-                          {(['platos', 'bebidas', 'gaseosas'] as const).map((tab) => (
+                          {(['platos', 'bebidas'] as const).map((tab) => (
                             <button
                               key={tab}
                               onClick={() => setActiveMenuTab(tab)}
@@ -741,7 +726,7 @@ export default function App() {
                                   : 'text-slate-650 hover:text-slate-800'
                               }`}
                             >
-                              {tab === 'platos' ? '🍽' : tab === 'bebidas' ? '☕' : '🥤'} {tab.toUpperCase()}
+                              {tab === 'platos' ? 'PLATILLOS' : 'BEBIDAS'}
                             </button>
                           ))}
                         </div>
