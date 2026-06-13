@@ -498,7 +498,7 @@ export default function App() {
     }
     if (['ventas_dia', 'abrir_caja', 'informes', 'cajero', 'egresos', 'facturas'].includes(btn.id)) {
       const tabMap: Record<string, FinanzasTab> = {
-        'ventas_dia': 'ventas',
+        'ventas_dia': 'movimientos',
         'cajero': 'cajero',
         'facturas': 'facturacion',
       };
@@ -806,6 +806,8 @@ export default function App() {
                         onUpdateOrderStatus={handleUpdateOrderStatus}
                         onCancelOrder={handleCancelOrder}
                         onSetShift={(s) => setShift(s)}
+                        expenses={expenses}
+                        onAddExpense={handleAddExpense}
                       />
                     ) : (
                       <></>
