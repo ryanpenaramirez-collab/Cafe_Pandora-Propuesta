@@ -106,15 +106,15 @@ export default function Ventas({ orders, menu, shift }: VentasProps) {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center gap-2 p-1 bg-[#FAF5EE]/75 rounded-xl border border-slate-300 self-start shrink-0">
+      <div className="flex gap-6 border-b border-slate-200">
         {PERIODOS.map((p) => (
           <button
             key={p.id}
             onClick={() => setPeriodo(p.id)}
-            className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider cursor-pointer ${
+            className={`text-xs font-semibold pb-2 border-b-2 transition-all cursor-pointer bg-transparent ${
               periodo === p.id
-                ? 'bg-pandora-dark text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-800 hover:bg-white/60'
+                ? 'text-slate-800 border-pandora-accent'
+                : 'text-slate-400 border-transparent hover:text-slate-600'
             }`}
           >
             {p.label}
@@ -123,63 +123,35 @@ export default function Ventas({ orders, menu, shift }: VentasProps) {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="bg-white rounded-xl border border-amber-200 p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[9px] uppercase font-bold tracking-widest text-amber-700 font-mono">Ventas</span>
-            <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center">
-              <svg className="w-3.5 h-3.5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-          </div>
-          <span className="block font-mono font-black text-lg text-amber-800">{formatCOP(metrics.totalSales)}</span>
-          <span className="block text-[9px] text-slate-400 mt-0.5 font-mono">
+        <div className="bg-white rounded-lg border border-slate-200 p-3">
+          <span className="text-[9px] uppercase font-bold tracking-widest text-emerald-700 font-mono block">Ventas</span>
+          <span className="block font-mono font-black text-lg text-emerald-800 mt-1">{formatCOP(metrics.totalSales)}</span>
+          <span className="block text-[9px] text-slate-400 font-mono">
             {periodo === 'dia' ? 'Hoy' : periodo === 'semanal' ? 'Esta semana' : 'Este mes'}
           </span>
         </div>
 
-        <div className="bg-white rounded-xl border border-emerald-200 p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[9px] uppercase font-bold tracking-widest text-emerald-700 font-mono">Pedidos</span>
-            <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center">
-              <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-            </div>
-          </div>
-          <span className="block font-mono font-black text-lg text-emerald-800">{metrics.orderCount}</span>
-          <span className="block text-[9px] text-slate-400 mt-0.5 font-mono">Completados</span>
+        <div className="bg-white rounded-lg border border-slate-200 p-3">
+          <span className="text-[9px] uppercase font-bold tracking-widest text-amber-700 font-mono block">Pedidos</span>
+          <span className="block font-mono font-black text-lg text-amber-800 mt-1">{metrics.orderCount}</span>
+          <span className="block text-[9px] text-slate-400 font-mono">Completados</span>
         </div>
 
-        <div className="bg-white rounded-xl border border-blue-200 p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[9px] uppercase font-bold tracking-widest text-blue-700 font-mono">Ticket Prom.</span>
-            <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
-              <svg className="w-3.5 h-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-              </svg>
-            </div>
-          </div>
-          <span className="block font-mono font-black text-lg text-blue-800">{formatCOP(metrics.avgTicket)}</span>
-          <span className="block text-[9px] text-slate-400 mt-0.5 font-mono">Por pedido</span>
+        <div className="bg-white rounded-lg border border-slate-200 p-3">
+          <span className="text-[9px] uppercase font-bold tracking-widest text-blue-700 font-mono block">Ticket Prom.</span>
+          <span className="block font-mono font-black text-lg text-blue-800 mt-1">{formatCOP(metrics.avgTicket)}</span>
+          <span className="block text-[9px] text-slate-400 font-mono">Por pedido</span>
         </div>
 
-        <div className="bg-white rounded-xl border border-purple-200 p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[9px] uppercase font-bold tracking-widest text-purple-700 font-mono">Items</span>
-            <div className="w-7 h-7 rounded-lg bg-purple-100 flex items-center justify-center">
-              <svg className="w-3.5 h-3.5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
-            </div>
-          </div>
-          <span className="block font-mono font-black text-lg text-purple-800">{metrics.itemCount}</span>
-          <span className="block text-[9px] text-slate-400 mt-0.5 font-mono">Vendidos</span>
+        <div className="bg-white rounded-lg border border-slate-200 p-3">
+          <span className="text-[9px] uppercase font-bold tracking-widest text-purple-700 font-mono block">Items</span>
+          <span className="block font-mono font-black text-lg text-purple-800 mt-1">{metrics.itemCount}</span>
+          <span className="block text-[9px] text-slate-400 font-mono">Vendidos</span>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        <div className="lg:col-span-3 bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+        <div className="lg:col-span-3 bg-white rounded-lg border border-slate-200 p-4">
           <h4 className="font-serif font-bold text-slate-800 text-sm mb-4">Ventas por Categoría</h4>
           {categoryData.every((c) => c.value === 0) ? (
             <div className="py-10 text-center text-slate-400 text-xs">No hay datos de ventas para este período.</div>
@@ -209,7 +181,7 @@ export default function Ventas({ orders, menu, shift }: VentasProps) {
           )}
         </div>
 
-        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+        <div className="lg:col-span-2 bg-white rounded-lg border border-slate-200 p-4">
           <h4 className="font-serif font-bold text-slate-800 text-sm mb-4">Productos Más Vendidos</h4>
           {topItems.length === 0 ? (
             <div className="py-10 text-center text-slate-400 text-xs">No hay productos vendidos en este período.</div>
@@ -237,7 +209,7 @@ export default function Ventas({ orders, menu, shift }: VentasProps) {
         </div>
       </div>
 
-      <div className="bg-[#FDF8F0] rounded-xl border border-slate-200 p-4 shadow-sm">
+      <div className="bg-white rounded-lg border border-slate-200 p-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-pandora-accent/10 flex items-center justify-center">
