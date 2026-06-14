@@ -269,7 +269,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
   };
 
   return (
-    <div id="pending_orders_module" className="flex flex-col gap-5 min-h-[500px]">
+    <div id="pending_orders_module" className="flex flex-col gap-5 min-h-0">
       
       {/* Header section with count */}
       <div className="flex justify-between items-center pb-2.5 border-b border-pandora-wood/20">

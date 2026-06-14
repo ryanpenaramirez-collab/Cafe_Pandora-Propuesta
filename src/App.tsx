@@ -179,9 +179,6 @@ export default function App() {
   const [activePedidosTab, setActivePedidosTab] = useState<'nuevo' | 'pendientes'>('nuevo');
   const [activeMenuTab, setActiveMenuTab] = useState<'platos' | 'bebidas'>('platos');
   const [activeFinanzasTab, setActiveFinanzasTab] = useState<FinanzasTab>('facturacion');
-  const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-
 
 
   // --- SHARED POS SYSTEM STATE MUTATOR CALLBACKS ---
@@ -533,7 +530,7 @@ export default function App() {
     <div className="h-screen max-h-screen bg-pandora-cream wood-grain font-sans text-slate-800 flex flex-col selection:bg-pandora-accent selection:text-white p-2 sm:p-3 overflow-hidden">
       
       {/* CONTENEDOR PRINCIPAL CON DISEÑO DE MARCO (CON BORDES CLAROS COMO EL WIREFRAME) */}
-      <div className="flex-1 w-full max-w-7xl mx-auto bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden border-2 border-pandora-dark h-full md:h-[calc(100vh-2.5rem)] lg:h-[calc(100vh-2rem)]">
+      <div className="flex-1 w-full bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden border-2 border-pandora-dark">
         
         {/* FILA DE CONTENIDO MULTICOLUMNA INTEGRADA */}
         <div className="flex-grow flex flex-col md:flex-row min-h-0 overflow-hidden h-full">
@@ -591,13 +588,6 @@ export default function App() {
           <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
             <header id="main_header" className="bg-pandora-dark text-white border-b-2 border-pandora-wood py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
-                <button
-                  onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-                  className="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-lg bg-[#1e1208] text-pandora-gold hover:bg-[#2c1a0a] border border-white/10 transition-all cursor-pointer text-xs font-bold"
-                  title={isSidebarCollapsed ? "Mostrar categorías" : "Ocultar categorías"}
-                >
-                  ☰
-                </button>
                 <div className="text-left">
                   <h1 className="font-serif text-lg font-bold tracking-widest text-pandora-gold uppercase leading-none">
                     Cafe Pandora
@@ -610,24 +600,13 @@ export default function App() {
               <div className="flex flex-wrap items-center gap-2.5"></div>
             </header>
 
-            {/* SECCIÓN INTERNA EN DOS COLUMNAS: COLUMNA CENTRAL DE MENÚ Y COLUMNA CONTENIDO DERECHA */}
-            <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0 h-full">
-              
-              {/* COLUMNA CENTRAL: BOTONES DEL MENÚ DE NAVEGACIÓN (Columna central con botones) */}
-              {!isSidebarCollapsed && (
-              <div id="col_center" className="w-full md:w-64 border-b md:border-b-0 md:border-r border-pandora-wood/15 p-4 flex flex-col shrink-0 overflow-y-auto md:h-full" style={{ backgroundColor: '#C4A882' }}>
+            {/* COLUMNA DERECHA: AREA DE CONTENIDO PRINCIPAL INTEGRADO (Columna derecha grande) */}
+              <div id="col_right_content" className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start" style={{ backgroundColor: '#D4BFA0' }}>
                 
-                <div className="mb-3.5 text-[9px] uppercase font-bold tracking-widest text-[#1e1208] font-mono flex justify-between items-center shrink-0">
-                  <span>CATEGORÍAS</span>
-                  <span className="px-1.5 py-0.5 rounded bg-white/20 text-[#1e1208] border border-black/10 font-mono text-[9px] font-bold">
-                    {visibleCategories.length}
-                  </span>
-                </div>
-
-                {/* Lista vertical de categorías (collapsible on mobile/tablet) */}
-                <div className={`flex-col gap-2 flex-grow overflow-y-auto pr-1 md:flex ${isMobileCategoriesOpen ? 'flex' : 'hidden'}`}>
+                {/* Slider horizontal de categorías */}
+                <div className="overflow-x-auto scrollbar-hide flex gap-2 pb-1 snap-x snap-mandatory scroll-smooth shrink-0">
                   {visibleCategories.length === 0 ? (
-                    <div className="p-8 text-center text-slate-400 text-xs font-light">
+                    <div className="p-4 text-center text-slate-400 text-xs font-light w-full">
                       Ninguna categoría activa.
                     </div>
                   ) : (
@@ -638,38 +617,20 @@ export default function App() {
 
                       return (
                         <motion.button
-                           key={cat.id}
+                          key={cat.id}
                           id={`cat_${cat.id}`}
-                          whileHover={{ scale: 1.015 }}
-                          whileTap={{ scale: 0.985 }}
-                          onClick={() => {
-                            setActiveCategory(isActive ? null : cat.id);
-                            setIsMobileCategoriesOpen(false); // Close menu on select
-                          }}
-                          className={`flex items-center justify-between p-3 rounded-lg border text-left transition-all overflow-hidden group focus:outline-none cursor-pointer w-full shrink-0 ${
-                            isActive 
-                              ? 'bg-pandora-dark border-pandora-dark text-white' 
-                              : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 shadow-sm'
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => setActiveCategory(isActive ? null : cat.id)}
+                          className={`snap-start shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all cursor-pointer ${
+                            isActive
+                              ? 'bg-pandora-dark border-pandora-dark text-white shadow-md'
+                              : 'bg-white/80 border-slate-300 text-slate-700 hover:bg-white shadow-sm'
                           }`}
                         >
-                          <div className="flex items-center gap-3.5 overflow-hidden">
-                            <IconComponent className={`w-5 h-5 shrink-0 transition-colors duration-200 ${
-                              isActive ? 'text-pandora-gold' : 'text-slate-600'
-                            }`} />
-                            <div className="truncate">
-                              <span className="font-serif font-bold text-xs block tracking-wider uppercase truncate leading-tight">
-                                {cat.name}
-                              </span>
-                              <span className={`text-[10px] font-light block truncate mt-0.5 ${
-                                isActive ? 'text-slate-200' : 'text-slate-500'
-                              }`}>
-                                {cat.label}
-                              </span>
-                            </div>
-                          </div>
-
+                          <IconComponent className={`w-4 h-4 ${isActive ? 'text-pandora-gold' : 'text-slate-500'}`} />
+                          <span className="text-xs font-bold uppercase tracking-wider whitespace-nowrap">{cat.name}</span>
                           {count > 0 && (
-                            <span className="h-5 min-w-[20px] px-1 rounded-full bg-rose-600 border border-white text-[9px] font-extrabold text-white flex items-center justify-center animate-pulse shrink-0">
+                            <span className="h-4 min-w-[16px] px-1 rounded-full bg-rose-600 text-white text-[8px] font-extrabold flex items-center justify-center animate-pulse">
                               {count}
                             </span>
                           )}
@@ -678,12 +639,7 @@ export default function App() {
                     })
                   )}
                 </div>
-              </div>
-              )}
 
-              {/* COLUMNA DERECHA: AREA DE CONTENIDO PRINCIPAL INTEGRADO (Columna derecha grande) */}
-              <div id="col_right_content" className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start" style={{ backgroundColor: '#D4BFA0' }}>
-                
                 {activeCategory ? (
                   <div className="flex flex-col gap-4">
                     {/* Breadcrumb / Back button */}
@@ -875,8 +831,6 @@ export default function App() {
                   </div>
                 )}
               </div>
-
-            </div>
 
           </div>
 

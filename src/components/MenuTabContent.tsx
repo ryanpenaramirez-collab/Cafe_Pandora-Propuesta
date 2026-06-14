@@ -419,11 +419,11 @@ export default function MenuTabContent({
           <AnimatePresence>
             {isEditingItem && (
               <motion.div
-                initial={{ x: 320, opacity: 0 }}
+                initial={{ x: '100%', opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                exit={{ x: 320, opacity: 0 }}
+                exit={{ x: '100%', opacity: 0 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="w-80 shrink-0 bg-white border-l border-slate-200 rounded-xl shadow-lg overflow-y-auto"
+                className="w-full max-w-xs md:w-80 shrink-0 bg-white border-l border-slate-200 rounded-xl shadow-lg overflow-y-auto"
               >
                 <form onSubmit={handleSaveProduct} className="p-4 space-y-4">
                   <div className="flex items-center justify-between border-b pb-2">
