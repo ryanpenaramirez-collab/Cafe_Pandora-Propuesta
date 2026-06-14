@@ -152,7 +152,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
   };
 
   return (
-    <div id="order_taking_module" className="bg-[#FDF8F0] border border-slate-300 rounded-2xl shadow-sm overflow-hidden flex flex-col min-h-[500px]">
+    <div id="order_taking_module" className="bg-[#FDF8F0] border border-slate-300 rounded-2xl shadow-sm overflow-hidden flex flex-col min-h-0">
       
       {showsSuccess ? (
         <motion.div 
@@ -341,7 +341,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
         </div>
       ) : (
         /* STEP 2: CATÁLOGOS Y SELECCIÓN DE PRODUCTOS */
-        <div className="flex flex-col lg:flex-row min-h-[500px]">
+        <div className="flex flex-col lg:flex-row min-h-0 flex-1">
           
           {/* CATALOG PANEL (LEFT/MID) */}
           <div className="flex-1 p-4 border-b lg:border-b-0 lg:border-r border-slate-200 flex flex-col min-w-0">
@@ -421,7 +421,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
 
 
             {/* Catalog Items lists grouped nicely */}
-            <div className="flex-1 overflow-y-auto max-h-[400px] pr-1 space-y-6">
+            <div className="flex-1 overflow-y-auto pr-1 space-y-6">
               
               {/* FOOD GROUP */}
               {(activeCatalogTab === 'todos' || activeCatalogTab === 'platillo') && groupedCatalog.platillos.length > 0 && (
@@ -521,7 +521,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
           </div>
 
           {/* ORDER SUMMARY PANEL (RIGHT) */}
-          <div className="w-full lg:w-80 p-4 bg-slate-50/60 flex flex-col shrink-0 min-h-[400px]">
+          <div className="w-full lg:w-80 p-4 bg-slate-50/60 flex flex-col shrink-0">
             <div className="border-b border-slate-150 pb-2.5 mb-3">
               <h4 className="font-serif text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
                 <ShoppingCart className="w-4 h-4 text-pandora-accent" /> Resumen de {tableDisplayName}
@@ -529,7 +529,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
             </div>
 
             {/* Cart Elements Scroll list */}
-            <div className="flex-1 overflow-y-auto space-y-2 pr-1 max-h-[280px]">
+            <div className="flex-1 overflow-y-auto space-y-2 pr-1">
               {cart.length === 0 ? (
                 <div className="h-full min-h-[180px] flex flex-col items-center justify-center text-slate-400">
                   <ShoppingCart className="w-7 h-7 text-slate-350 stroke-[1.5] mb-2" />

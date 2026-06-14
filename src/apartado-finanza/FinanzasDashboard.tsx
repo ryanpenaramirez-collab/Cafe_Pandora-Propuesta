@@ -75,7 +75,7 @@ export default function FinanzasDashboard({
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-3 lg:grid-cols-6 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
         <div className="bg-white rounded-lg border border-slate-200 p-2.5 flex flex-col items-center text-center">
           <span className="text-[18px] font-mono font-black text-emerald-600 leading-none">{formatCOP(metrics.ventasHoy)}</span>
           <span className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mt-0.5">Ventas Hoy</span>
