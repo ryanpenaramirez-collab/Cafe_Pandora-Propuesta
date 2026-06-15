@@ -85,27 +85,27 @@ export default function TablesModule({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-[#3A7AB5]/20 z-50 flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="bg-white w-full max-w-6xl h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden relative"
+        className="bg-[#FFFFFF] w-full max-w-6xl h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden relative"
       >
-        <div className="bg-pandora-dark p-4 shrink-0 flex items-center justify-between gap-4">
+        <div className="bg-[#3A7AB5] p-4 shrink-0 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Map className="w-5 h-5 text-pandora-gold" />
+            <Map className="w-5 h-5 text-[#C8A96E]" />
             <div>
-              <h3 className="font-serif text-lg font-bold text-pandora-gold">
+              <h3 className="font-serif text-lg font-bold text-[#C8A96E]">
                 Gestión de Mesas — Café Pandora
               </h3>
-              <p className="text-[10px] text-slate-400 font-light">
+              <p className="text-[10px] text-[#8AAAC8] font-light">
                 Estatus de servicio y facturación en salón
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-white/10 rounded-lg p-1">
+          <div className="flex items-center gap-2 bg-[#FFFFFF]/10 rounded-lg p-1">
             {VIEW_TABS.map(({ key, icon: Icon, label }) => (
               <button
                 key={key}
@@ -115,8 +115,8 @@ export default function TablesModule({
                 }}
                 className={`px-3 py-1.5 rounded-md text-[11px] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
                   activeView === key && !isBillingActive
-                    ? 'bg-pandora-gold text-pandora-dark shadow-sm'
-                    : 'text-slate-300 hover:text-white hover:bg-white/5'
+                    ? 'bg-pandora-gold text-[#FFFFFF] shadow-sm'
+                    : 'text-[#B8D8F0] hover:text-white hover:bg-[#FFFFFF]/5'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -126,15 +126,15 @@ export default function TablesModule({
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-mono">
+            <span className="text-[10px] bg-[#E8F5EE] text-emerald-300 px-2 py-0.5 rounded-full font-mono">
               {stats.occupied} ocup
             </span>
-            <span className="text-[10px] bg-slate-500/20 text-slate-300 px-2 py-0.5 rounded-full font-mono">
+            <span className="text-[10px] bg-slate-500/20 text-[#B8D8F0] px-2 py-0.5 rounded-full font-mono">
               {stats.vacant} libres
             </span>
             <button
               onClick={onClose}
-              className="p-1 hover:bg-white/10 rounded-full text-slate-300 hover:text-white transition-colors cursor-pointer"
+              className="p-1 hover:bg-[#FFFFFF]/10 rounded-full text-[#B8D8F0] hover:text-white transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -142,7 +142,7 @@ export default function TablesModule({
         </div>
 
         <div className="flex-1 flex overflow-hidden">
-          <div className="flex-1 overflow-y-auto p-5 bg-slate-50">
+          <div className="flex-1 overflow-y-auto p-5 bg-[#F0F6FF]">
             {activeView === 'map' && (
               <TableMap
                 tables={tables}
@@ -164,7 +164,7 @@ export default function TablesModule({
             )}
           </div>
 
-          <div className="w-80 shrink-0 border-l border-slate-200 bg-white overflow-y-auto flex flex-col">
+          <div className="w-80 shrink-0 border-l border-[#D0E8F8] bg-[#FFFFFF] overflow-y-auto flex flex-col">
             {isBillingActive && liveTable ? (
               <BillingPanel
                 table={liveTable}
@@ -182,7 +182,7 @@ export default function TablesModule({
                 onClose={handleCloseDetail}
               />
             ) : (
-              <div className="flex-1 flex flex-col items-center justify-center text-slate-400 p-8 text-center">
+              <div className="flex-1 flex flex-col items-center justify-center text-[#8AAAC8] p-8 text-center">
                 <Map className="w-16 h-16 opacity-20 mb-3" />
                 <p className="text-sm font-medium">Seleccione una mesa</p>
                 <p className="text-[11px] mt-1">para ver sus detalles y operaciones</p>

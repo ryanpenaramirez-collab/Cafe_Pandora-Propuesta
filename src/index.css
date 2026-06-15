@@ -7,15 +7,15 @@
   --font-serif: "Playfair Display", serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --color-pandora-dark: #1e1208; /* Deep warm coffee-brown background and borders */
-  --color-pandora-teal: #2a1b10; /* Standard coffee-slate block color for highlights/categories */
-  --color-pandora-accent: #d66c50; /* Perfect terracotta shade */
-  --color-pandora-accent-hover: #be593e; /* Slightly darker terracotta hover */
-  --color-pandora-cream: #faf5ee; /* Warm elegant cafe creme background */
-  --color-pandora-card-bg: #ffffff; /* Ultra clean card background */
-  --color-pandora-wood: #7c4d3a; /* Warm mahogany wood color */
-  --color-pandora-gold: #e5b974; /* Soft warm lighting gold accent */
-  --color-pandora-grey: #64748b; /* Slate-grey for text */
+  --color-pandora-dark: #3A7AB5; /* Deep sky blue background and borders */
+  --color-pandora-teal: #5B9BD5; /* Medium sky blue block color for highlights/categories */
+  --color-pandora-accent: #5B9BD5; /* Sky blue accent */
+  --color-pandora-accent-hover: #3A7AB5; /* Slightly darker sky blue hover */
+  --color-pandora-cream: #F5EDD8; /* Golden sand light background */
+  --color-pandora-card-bg: #FFFFFF; /* Cloud white card background */
+  --color-pandora-wood: #D0E8F8; /* Light sky blue border color */
+  --color-pandora-gold: #C8A96E; /* Golden sand primary */
+  --color-pandora-grey: #8AAAC8; /* Muted blue-grey text */
 }
 
 /* Animations and custom scrollbars */
@@ -38,12 +38,46 @@
 }
 
 .wood-grain {
-  background-image: radial-gradient(rgba(214, 108, 80, 0.05) 1px, transparent 0);
-  background-size: 16px 16px;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(91,155,213,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(200,169,110,0.04) 0%, transparent 50%);
 }
+
+.bg-pandora-elevated { background-color: #F5F9FF; }
+.bg-pandora-subtle   { background-color: #E2EDF7; }
+.bg-pandora-gold-muted { background-color: #F5EDD8; }
+
+.text-pandora-cream      { color: #2C3E55; }
+.text-pandora-cream-soft { color: #5A7A9A; }
+.text-pandora-muted      { color: #8AAAC8; }
+.text-pandora-dark       { color: #FFFFFF; }
+.text-pandora-gold       { color: #C8A96E; }
+.text-pandora-gold-light { color: #E0C98A; }
+
+.border-pandora-gold   { border-color: #C8A96E; }
+.border-pandora-subtle { border-color: #D0E8F8; }
 
 /* Soft thermal paper effect for receipt view */
 .thermal-paper {
   background: radial-gradient(circle, #fffffb 0%, #fdfbf7 100%);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), inset 0 0 50px rgba(0,0,0,0.01);
 }
+
+/* Increased base font */
+body {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Escala de texto aumentada */
+.text-\[8px\]    { font-size: 11px !important; }
+.text-\[9px\]    { font-size: 12px !important; }
+.text-\[10px\]   { font-size: 13px !important; }
+.text-\[11px\]   { font-size: 14px !important; }
+.text-\[10\.5px\] { font-size: 13px !important; }
+.text-xs  { font-size: 0.85rem !important; }
+.text-sm  { font-size: 0.95rem !important; }
+.text-base { font-size: 1.1rem !important; }
+.text-lg  { font-size: 1.25rem !important; }
+.text-xl  { font-size: 1.4rem !important; }
+.text-2xl { font-size: 1.6rem !important; }

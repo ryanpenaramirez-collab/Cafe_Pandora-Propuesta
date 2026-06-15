@@ -41,12 +41,12 @@ export default function TableMap({ tables, selectedTableId, onSelectTable }: Tab
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-3 text-xs">
-        <span className="font-bold text-slate-700 uppercase tracking-wider">Leyenda:</span>
+        <span className="font-bold text-[#5A7A9A] uppercase tracking-wider">Leyenda:</span>
         <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-slate-300" /> Vacía</span>
         <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-rose-300" /> Ocupada</span>
         <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-emerald-300" /> Reservada</span>
         <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-amber-300" /> Por pagar</span>
-        <span className="ml-auto text-[10px] text-slate-400 font-mono">
+        <span className="ml-auto text-[10px] text-[#8AAAC8] font-mono">
           {stats.occupied} ocup · {stats.vacant} libres
         </span>
       </div>
@@ -57,11 +57,11 @@ export default function TableMap({ tables, selectedTableId, onSelectTable }: Tab
         return (
           <div key={zoneKey}>
             <div className="flex items-center gap-3 mb-2">
-              <span className="font-serif font-bold text-xs uppercase tracking-widest text-pandora-dark">
+              <span className="font-serif font-bold text-xs uppercase tracking-widest text-[#FFFFFF]">
                 {ZONE_LABELS[zoneKey]}
               </span>
-              <div className="flex-1 h-px bg-slate-200" />
-              <span className="text-[10px] text-slate-400 font-mono">{zoneTables.length} mesa(s)</span>
+              <div className="flex-1 h-px bg-[#E2EDF7]" />
+              <span className="text-[10px] text-[#8AAAC8] font-mono">{zoneTables.length} mesa(s)</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {zoneTables.map(t => (
@@ -78,9 +78,9 @@ export default function TableMap({ tables, selectedTableId, onSelectTable }: Tab
         );
       })}
 
-      <div className="mt-2 pt-3 border-t border-slate-200 flex justify-between text-xs text-slate-500">
+      <div className="mt-2 pt-3 border-t border-[#D0E8F8] flex justify-between text-xs text-[#8AAAC8]">
         <span>{stats.occupied} ocupadas · {stats.vacant} libres</span>
-        <span className="font-bold text-slate-700">Total acumulado: {formatCOP(stats.totalRevenue)}</span>
+        <span className="font-bold text-[#5A7A9A]">Total acumulado: {formatCOP(stats.totalRevenue)}</span>
       </div>
     </div>
   );

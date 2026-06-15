@@ -19,7 +19,7 @@ export default function TableCard({ table, isSelected, onClick }: TableCardProps
           ? 'ring-2 scale-[0.97] shadow-lg'
           : 'shadow-sm'
       }`}
-      style={isSelected ? { ringColor: '#D4A017', boxShadow: '0 4px 16px rgba(212,160,23,0.25)' } : undefined}
+      style={isSelected ? { ringColor: '#C8A96E', boxShadow: '0 4px 16px rgba(212,160,23,0.25)' } : undefined}
     >
       <div className="flex justify-between items-start w-full">
         <span className="font-serif font-bold text-sm leading-tight tracking-tight">
@@ -40,17 +40,17 @@ export default function TableCard({ table, isSelected, onClick }: TableCardProps
         </div>
 
         {table.status === 'ocupada' && (
-          <div className="font-mono font-bold text-sm text-rose-600">
+          <div className="font-mono font-bold text-sm text-[#C45A5A]">
             {formatCOP(table.totalAmount)}
           </div>
         )}
         {table.status === 'por_pagar' && (
-          <div className="font-mono font-bold text-sm text-amber-600 animate-pulse">
+          <div className="font-mono font-bold text-sm text-[#C4A84A] animate-pulse">
             {formatCOP(table.totalAmount)}
           </div>
         )}
         {table.status === 'reservada' && table.guestName && (
-          <div className="text-[10px] text-emerald-600 truncate font-medium">
+          <div className="text-[10px] text-[#5BA882] truncate font-medium">
             {table.guestName}
           </div>
         )}

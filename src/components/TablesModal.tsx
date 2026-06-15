@@ -128,34 +128,34 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
 
   const getStatusBadgeClass = (status: TableStatus) => {
     switch (status) {
-      case 'vacía': return 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300';
-      case 'ocupada': return 'bg-rose-100 hover:bg-rose-200 text-rose-700 border-rose-300';
-      case 'reservada': return 'bg-emerald-100 hover:bg-emerald-200 text-emerald-700 border-emerald-300';
-      case 'por_pagar': return 'bg-amber-100 hover:bg-amber-200 text-amber-700 border-amber-300';
-      default: return 'bg-slate-100 text-slate-700';
+      case 'vacía': return 'bg-[#D0E8F8] hover:bg-[#E2EDF7] text-[#5A7A9A] border-[#D0E8F8]';
+      case 'ocupada': return 'bg-[#FFF0F0] hover:bg-rose-200 text-[#C45A5A] border-[#F0A8A8]';
+      case 'reservada': return 'bg-[#E8F5EE] hover:bg-emerald-200 text-[#5BA882] border-[#A0C8B0]';
+      case 'por_pagar': return 'bg-[#F5EDD8] hover:bg-amber-200 text-[#C8A96E] border-[#DCC89A]';
+      default: return 'bg-[#D0E8F8] text-[#5A7A9A]';
     }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-[#3A7AB5]/20 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="bg-white w-full max-w-5xl h-[80vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-100 relative"
+        className="bg-[#FFFFFF] w-full max-w-5xl h-[80vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-[#E2EDF7] relative"
       >
         {/* Header Tab Actions */}
-        <div className="bg-cyan-600 p-4 shrink-0 flex flex-col sm:flex-row justify-between sm:items-center gap-3 text-white">
+        <div className="bg-[#5B9BD5] p-4 shrink-0 flex flex-col sm:flex-row justify-between sm:items-center gap-3 text-white">
           <div className="flex items-center gap-2">
-            <Map className="w-5 h-5 text-pandora-cream animate-pulse" />
+            <Map className="w-5 h-5 text-[#FFFFFF] animate-pulse" />
             <div>
               <h3 className="font-serif text-lg font-bold">Distribución Física y Control de Mesas</h3>
               <p className="text-[11px] text-cyan-100 font-light">Estatus de servicio y facturaciones rápidas en salón</p>
             </div>
           </div>
-          <div className="flex gap-1 bg-cyan-700/50 p-1 rounded-lg self-start">
+          <div className="flex gap-1 bg-[#3A7AB5]/50 p-1 rounded-lg self-start">
             <button
               id="tab-btn-map"
               onClick={() => {
@@ -184,7 +184,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
           <button 
             id="btn-close-tables-modal"
             onClick={onClose}
-            className="absolute top-4 right-4 p-1 hover:bg-cyan-700 rounded-full text-white transition-colors cursor-pointer"
+            className="absolute top-4 right-4 p-1 hover:bg-[#3A7AB5] rounded-full text-white transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -194,28 +194,28 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
         <div className="flex-1 overflow-hidden flex flex-col md:flex-row relative">
           
           {/* Main Panel Content (Table Map, Quick List or spacious Billing workspace) */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-50 flex flex-col">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#F0F6FF] flex flex-col">
             
             {isBillingActive && selectedDetails ? (
               // ----- SECCION DE FACTURACION (FORMULARIO Y DETALLES) -----
               <div id="billing-workspace" className="space-y-5 flex-1 flex flex-col">
-                <div className="flex justify-between items-center bg-amber-50/50 border border-amber-200/60 p-3.5 rounded-xl">
+                <div className="flex justify-between items-center bg-[#FFF8E8]/50 border border-[#EAD9B8]/60 p-3.5 rounded-xl">
                   <div className="flex items-center gap-3">
                     <button
                       id="btn-back-to-tables"
                       onClick={() => setIsBillingActive(false)}
-                      className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors"
+                      className="bg-[#E2EDF7] hover:bg-slate-300 text-[#2C3E55] px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" /> Volver a Mesas
                     </button>
                     <div>
-                      <h4 className="font-serif font-bold text-sm text-slate-800 uppercase tracking-wide">
+                      <h4 className="font-serif font-bold text-sm text-[#2C3E55] uppercase tracking-wide">
                         SISTEMA DE FACTURACIÓN: {selectedDetails.name}
                       </h4>
-                      <p className="text-[10px] text-slate-400">Verifique los consumos y aplique impuestos correspondientes antes de cerrar.</p>
+                      <p className="text-[10px] text-[#8AAAC8]">Verifique los consumos y aplique impuestos correspondientes antes de cerrar.</p>
                     </div>
                   </div>
-                  <span className="text-xs bg-slate-200 px-3 py-1 rounded-full font-mono font-bold text-slate-700 select-none">
+                  <span className="text-xs bg-[#E2EDF7] px-3 py-1 rounded-full font-mono font-bold text-[#5A7A9A] select-none">
                     Mesa-{selectedDetails.id}
                   </span>
                 </div>
@@ -223,31 +223,31 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 flex-1">
                   
                   {/* Left Column: Client orders summary */}
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                  <div className="bg-[#FFFFFF] p-5 rounded-2xl border border-[#D0E8F8] shadow-sm flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-center pb-2 border-b">
-                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">📋 RESUMEN DE CONSUMOS</span>
-                        <span className="text-[10.5px] text-slate-400 font-mono bg-slate-100 px-1.5 py-0.5 rounded font-bold">FACTURA POS</span>
+                        <span className="text-xs font-bold text-[#8AAAC8] uppercase tracking-wide">📋 RESUMEN DE CONSUMOS</span>
+                        <span className="text-[10.5px] text-[#8AAAC8] font-mono bg-[#D0E8F8] px-1.5 py-0.5 rounded font-bold">FACTURA POS</span>
                       </div>
                       
-                      <div className="py-2.5 space-y-1.5 text-xs text-slate-600 border-b">
+                      <div className="py-2.5 space-y-1.5 text-xs text-[#5A7A9A] border-b">
                         <div className="flex justify-between">
                           <span>Fecha y Hora de Emisión:</span>
-                          <span className="font-bold text-slate-800 font-mono">{displayTime}</span>
+                          <span className="font-bold text-[#2C3E55] font-mono">{displayTime}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Mesa asociada:</span>
-                          <span className="font-bold text-slate-800 uppercase">{selectedDetails.name} (Cap. {selectedDetails.capacity} paxs)</span>
+                          <span className="font-bold text-[#2C3E55] uppercase">{selectedDetails.name} (Cap. {selectedDetails.capacity} paxs)</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Mesero asignado:</span>
-                          <span className="font-semibold text-slate-700">{selectedDetails.currentWaiter || 'Administrador de Caja'}</span>
+                          <span className="font-semibold text-[#5A7A9A]">{selectedDetails.currentWaiter || 'Administrador de Caja'}</span>
                         </div>
                       </div>
 
                       {/* Food & beverage products list */}
                       <div className="mt-3 overflow-y-auto max-h-56 divide-y divide-slate-100 pr-1">
-                        <div className="grid grid-cols-12 text-[10px] font-bold text-slate-400 uppercase py-1 select-none">
+                        <div className="grid grid-cols-12 text-[10px] font-bold text-[#8AAAC8] uppercase py-1 select-none">
                           <span className="col-span-6">Producto / Rubro</span>
                           <span className="col-span-2 text-center">Cant</span>
                           <span className="col-span-2 text-right">Unitario</span>
@@ -255,29 +255,29 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                         </div>
 
                         {combinedItems.map((item, idx) => (
-                          <div key={idx} className="grid grid-cols-12 text-xs py-2 text-slate-700 font-medium items-center">
-                            <span className="col-span-6 font-serif font-bold text-[#2D2A26]">{item.name}</span>
-                            <span className="col-span-2 text-center font-mono font-bold text-slate-800">x{item.quantity}</span>
+                          <div key={idx} className="grid grid-cols-12 text-xs py-2 text-[#5A7A9A] font-medium items-center">
+                            <span className="col-span-6 font-serif font-bold text-[#2C3E55]">{item.name}</span>
+                            <span className="col-span-2 text-center font-mono font-bold text-[#2C3E55]">x{item.quantity}</span>
                             <span className="col-span-2 text-right font-mono">${item.price.toLocaleString('es-CO')}</span>
-                            <span className="col-span-2 text-right font-mono font-bold text-[#2D2A26]">${(item.price * item.quantity).toLocaleString('es-CO')}</span>
+                            <span className="col-span-2 text-right font-mono font-bold text-[#2C3E55]">${(item.price * item.quantity).toLocaleString('es-CO')}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="pt-3 border-t bg-slate-50 p-3 rounded-lg flex justify-between items-center select-none">
-                      <span className="text-xs font-bold text-slate-600">Subtotal Neto calculado:</span>
-                      <span className="text-base font-bold font-mono text-slate-800">${calculatedSubtotal.toLocaleString('es-CO')} COP</span>
+                    <div className="pt-3 border-t bg-[#F0F6FF] p-3 rounded-lg flex justify-between items-center select-none">
+                      <span className="text-xs font-bold text-[#5A7A9A]">Subtotal Neto calculado:</span>
+                      <span className="text-base font-bold font-mono text-[#2C3E55]">${calculatedSubtotal.toLocaleString('es-CO')} COP</span>
                     </div>
                   </div>
 
                   {/* Right Column: Payment controls */}
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+                  <div className="bg-[#FFFFFF] p-5 rounded-2xl border border-[#D0E8F8] shadow-sm flex flex-col justify-between space-y-4">
                     <div className="space-y-4">
                       
                       {/* Método de pago selector */}
                       <div className="space-y-2">
-                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide">💳 MÉTODO DE PAGO *</label>
+                        <label className="block text-xs font-bold text-[#8AAAC8] uppercase tracking-wide">💳 MÉTODO DE PAGO *</label>
                         <div className="grid grid-cols-3 gap-2">
                           {(['Efectivo', 'Nequi', 'Bancolombia'] as const).map((method) => {
                             const isChosen = paymentMethod === method;
@@ -289,8 +289,8 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                                 onClick={() => setPaymentMethod(method)}
                                 className={`py-2 rounded-xl border text-xs font-semibold flex flex-col items-center justify-center gap-1 cursor-pointer transition-all ${
                                   isChosen 
-                                    ? 'bg-cyan-50 border-cyan-400 text-cyan-800 shadow-sm ring-1 ring-cyan-400 scale-[0.98]' 
-                                    : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-600'
+                                    ? 'bg-[#F0F6FF] border-cyan-400 text-cyan-800 shadow-sm ring-1 ring-cyan-400 scale-[0.98]' 
+                                    : 'bg-[#FFFFFF] border-[#D0E8F8] hover:bg-[#F5F9FF] text-[#5A7A9A]'
                                 }`}
                               >
                                 <span className="text-lg">
@@ -306,19 +306,19 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                       </div>
 
                       {/* Impuesto al consumo toggle (switch) */}
-                      <div className="space-y-2 bg-[#FDF8F0] border border-amber-200 p-4 rounded-xl">
+                      <div className="space-y-2 bg-[#FFFFFF] border border-[#EAD9B8] p-4 rounded-xl">
                         <div className="flex justify-between items-center">
                           <div>
-                            <span className="block text-xs font-bold text-slate-800">Impuesto al Consumo (8%)</span>
-                            <span className="text-[10px] text-slate-500 font-light block leading-none">Aplicar gravamen culinario</span>
+                            <span className="block text-xs font-bold text-[#2C3E55]">Impuesto al Consumo (8%)</span>
+                            <span className="text-[10px] text-[#8AAAC8] font-light block leading-none">Aplicar gravamen culinario</span>
                           </div>
-                          <div className="flex border rounded-lg overflow-hidden shrink-0 border-slate-300 bg-white">
+                          <div className="flex border rounded-lg overflow-hidden shrink-0 border-[#D0E8F8] bg-[#FFFFFF]">
                             <button
                               id="tax-toggle-on"
                               type="button"
                               onClick={() => setApplyTax(true)}
                               className={`px-3 py-1 text-[11px] font-bold cursor-pointer transition-colors ${
-                                applyTax ? 'bg-emerald-600 text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-500'
+                                applyTax ? 'bg-[#5BA882] text-white' : 'bg-[#F0F6FF] hover:bg-[#E2EDF7] text-[#8AAAC8]'
                               }`}
                             >
                               SÍ
@@ -328,7 +328,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                               type="button"
                               onClick={() => setApplyTax(false)}
                               className={`px-3 py-1 text-[11px] font-bold cursor-pointer transition-colors ${
-                                !applyTax ? 'bg-amber-600 text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-500'
+                                !applyTax ? 'bg-[#5B9BD5] text-white' : 'bg-[#F0F6FF] hover:bg-[#E2EDF7] text-[#8AAAC8]'
                               }`}
                             >
                               NO
@@ -336,9 +336,9 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                           </div>
                         </div>
                         
-                        <div className="flex justify-between items-center pt-2 border-t border-dashed border-amber-300 text-[11px] text-slate-600">
+                        <div className="flex justify-between items-center pt-2 border-t border-dashed border-[#DCC89A] text-[11px] text-[#5A7A9A]">
                           <span>Suma de Impuesto (8%):</span>
-                          <span className="font-mono font-bold text-slate-800">
+                          <span className="font-mono font-bold text-[#2C3E55]">
                             {applyTax ? `+$${taxAmount.toLocaleString('es-CO')} COP` : '$0 COP'}
                           </span>
                         </div>
@@ -349,12 +349,12 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                     {/* Final results display */}
                     <div className="pt-4 border-t space-y-1 select-none">
                       <div className="flex justify-between items-center px-1">
-                        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">TOTAL FINAL A PAGAR:</span>
+                        <span className="text-xs font-bold text-[#8AAAC8] uppercase tracking-widest">TOTAL FINAL A PAGAR:</span>
                         <div className="text-right">
-                          <span className="text-2xl font-mono font-extrabold text-emerald-700 block" id="final-total-display">
+                          <span className="text-2xl font-mono font-extrabold text-[#5BA882] block" id="final-total-display">
                             ${finalTotal.toLocaleString('es-CO')} COP
                           </span>
-                          <span className="text-[9px] text-slate-400 font-light block">
+                          <span className="text-[9px] text-[#8AAAC8] font-light block">
                             Impuesto al consumo {applyTax ? 'aplicado (8%)' : 'no aplicado (0%)'}
                           </span>
                         </div>
@@ -366,10 +366,10 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
               </div>
             ) : activeTab === 'mapa' ? (
               <div id="map_visual" className="flex-1 flex flex-col">
-                <div className="flex justify-between items-center text-slate-700 text-xs font-bold mb-4 select-none">
+                <div className="flex justify-between items-center text-[#5A7A9A] text-xs font-bold mb-4 select-none">
                   <span>🗺️ FLOOR PLAN — DISTRIBUCIÓN CAFÉ PANDORA</span>
                   <div className="flex gap-2">
-                    <span className="flex items-center gap-1 text-[10px] font-normal"><span className="w-2.5 h-2.5 bg-slate-200 rounded-full"></span> Vacía</span>
+                    <span className="flex items-center gap-1 text-[10px] font-normal"><span className="w-2.5 h-2.5 bg-[#E2EDF7] rounded-full"></span> Vacía</span>
                     <span className="flex items-center gap-1 text-[10px] font-normal"><span className="w-2.5 h-2.5 bg-rose-200 rounded-full"></span> Ocupada</span>
                     <span className="flex items-center gap-1 text-[10px] font-normal"><span className="w-2.5 h-2.5 bg-emerald-200 rounded-full"></span> Reservada</span>
                     <span className="flex items-center gap-1 text-[10px] font-normal"><span className="w-2.5 h-2.5 bg-amber-200 rounded-full"></span> Por Pagar</span>
@@ -382,10 +382,10 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                     const isSelected = selectedTable?.id === table.id;
                     let colorStyle = '';
                     switch (table.status) {
-                      case 'vacía': colorStyle = 'border-slate-200 bg-white hover:border-slate-400 text-slate-700'; break;
-                      case 'ocupada': colorStyle = 'border-rose-300 bg-rose-50/40 hover:bg-rose-50 hover:border-rose-400 text-rose-800'; break;
-                      case 'reservada': colorStyle = 'border-emerald-300 bg-emerald-50/40 hover:bg-emerald-50 hover:border-emerald-400 text-emerald-800'; break;
-                      case 'por_pagar': colorStyle = 'border-amber-300 bg-amber-50/40 hover:bg-amber-50 hover:border-amber-400 text-amber-800'; break;
+                      case 'vacía': colorStyle = 'border-[#D0E8F8] bg-[#FFFFFF] hover:border-slate-400 text-[#5A7A9A]'; break;
+                      case 'ocupada': colorStyle = 'border-[#F0A8A8] bg-[#FFF0F0]/40 hover:bg-[#FFF0F0] hover:border-rose-400 text-rose-800'; break;
+                      case 'reservada': colorStyle = 'border-[#A0C8B0] bg-[#E8F5EE]/40 hover:bg-[#E8F5EE] hover:border-emerald-400 text-[#4A9872]'; break;
+                      case 'por_pagar': colorStyle = 'border-[#DCC89A] bg-[#FFF8E8]/40 hover:bg-[#FFF8E8] hover:border-amber-400 text-amber-800'; break;
                     }
 
                     return (
@@ -401,27 +401,27 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                       >
                         <div className="flex justify-between items-start w-full">
                           <span className="font-serif font-bold text-sm block leading-tight">{table.name}</span>
-                          <span className="text-[10px] bg-white px-1.5 py-0.5 rounded-full border border-slate-100 font-bold shrink-0">{table.status}</span>
+                          <span className="text-[10px] bg-[#FFFFFF] px-1.5 py-0.5 rounded-full border border-[#E2EDF7] font-bold shrink-0">{table.status}</span>
                         </div>
 
                         <div>
-                          <div className="flex items-center gap-1 text-[11px] text-slate-500">
+                          <div className="flex items-center gap-1 text-[11px] text-[#8AAAC8]">
                             <Users className="w-3 h-3 shrink-0" />
                             <span>Cap: {table.capacity} paxs</span>
                           </div>
                           
                           {table.status === 'ocupada' && (
-                            <div className="text-[11px] font-mono font-bold text-rose-600 mt-1">
+                            <div className="text-[11px] font-mono font-bold text-[#C45A5A] mt-1">
                               Suma: ${table.totalAmount.toLocaleString('es-CO')} COP
                             </div>
                           )}
                           {table.status === 'por_pagar' && (
-                            <div className="text-[11px] font-mono font-bold text-amber-600 mt-1 animate-pulse">
+                            <div className="text-[11px] font-mono font-bold text-[#C4A84A] mt-1 animate-pulse">
                               Cobro: ${table.totalAmount.toLocaleString('es-CO')} COP
                             </div>
                           )}
                           {table.status === 'reservada' && (
-                            <div className="text-[9px] text-emerald-600 truncate mt-1">
+                            <div className="text-[9px] text-[#5BA882] truncate mt-1">
                               📝 {table.guestName}
                             </div>
                           )}
@@ -434,9 +434,9 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
             ) : (
               /* Quick List Status */
               <div id="quick_list" className="space-y-2">
-                <h4 className="text-xs font-bold text-slate-700 uppercase tracking-widest mb-3 select-none">📋 Listado de Mesas y Ocupación</h4>
-                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-                  <div className="grid grid-cols-5 bg-slate-100 p-2.5 text-xs font-bold text-slate-600 select-none">
+                <h4 className="text-xs font-bold text-[#5A7A9A] uppercase tracking-widest mb-3 select-none">📋 Listado de Mesas y Ocupación</h4>
+                <div className="bg-[#FFFFFF] rounded-xl border border-[#D0E8F8] overflow-hidden">
+                  <div className="grid grid-cols-5 bg-[#D0E8F8] p-2.5 text-xs font-bold text-[#5A7A9A] select-none">
                     <span className="col-span-2">Mesa</span>
                     <span>Capacidad</span>
                     <span>Estatus</span>
@@ -449,16 +449,16 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                         setIsBillingActive(false);
                         setSelectedTable(table);
                       }}
-                      className="grid grid-cols-5 items-center p-2.5 text-xs text-slate-700 border-b border-slate-100 hover:bg-slate-50 cursor-pointer"
+                      className="grid grid-cols-5 items-center p-2.5 text-xs text-[#5A7A9A] border-b border-[#E2EDF7] hover:bg-[#F5F9FF] cursor-pointer"
                     >
                       <span className="col-span-2 font-serif font-bold text-slate-900">{table.name}</span>
                       <span>{table.capacity} personas</span>
                       <div>
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                          table.status === 'vacía' ? 'bg-slate-100 text-slate-600' :
-                          table.status === 'ocupada' ? 'bg-rose-100 text-rose-700' :
-                          table.status === 'reservada' ? 'bg-emerald-100 text-emerald-700' :
-                          'bg-amber-100 text-amber-700'
+                          table.status === 'vacía' ? 'bg-[#D0E8F8] text-[#5A7A9A]' :
+                          table.status === 'ocupada' ? 'bg-[#FFF0F0] text-[#C45A5A]' :
+                          table.status === 'reservada' ? 'bg-[#E8F5EE] text-[#5BA882]' :
+                          'bg-[#F5EDD8] text-[#C8A96E]'
                         }`}>
                           {table.status}
                         </span>
@@ -475,21 +475,21 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
           </div>
 
           {/* Right Column: Interaction Controls & Direct Actions */}
-          <div className="w-full md:w-80 shrink-0 bg-slate-100 p-4 border-t md:border-t-0 md:border-l border-slate-200 overflow-y-auto flex flex-col justify-between">
+          <div className="w-full md:w-80 shrink-0 bg-[#D0E8F8] p-4 border-t md:border-t-0 md:border-l border-[#D0E8F8] overflow-y-auto flex flex-col justify-between">
             {isBillingActive && selectedDetails ? (
               // ----- SECCION DE FACTURACION (CONTROLES DE COBRO) -----
               <div id="billing-actions" className="space-y-4 flex flex-col h-full justify-between">
                 <div className="space-y-3">
-                  <h5 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest leading-none select-none">IMP PREVIAS / ACCIONES</h5>
+                  <h5 className="text-[11px] font-bold text-[#8AAAC8] uppercase tracking-widest leading-none select-none">IMP PREVIAS / ACCIONES</h5>
                   
                   {/* Realtime updating visual indicator widget */}
-                  <div className="bg-white p-4 rounded-xl border border-slate-200 text-slate-600 space-y-2 select-none shadow-sm">
+                  <div className="bg-[#FFFFFF] p-4 rounded-xl border border-[#D0E8F8] text-[#5A7A9A] space-y-2 select-none shadow-sm">
                     <div className="flex gap-1.5 items-center">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                      <span className="text-[9px] font-bold text-emerald-800 uppercase tracking-wide">CAJA COBRO ACTIVO</span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#E8F5EE]0 animate-ping"></span>
+                      <span className="text-[9px] font-bold text-[#4A9872] uppercase tracking-wide">CAJA COBRO ACTIVO</span>
                     </div>
-                    <p className="text-[10px] text-slate-500 leading-relaxed">
-                      La mesa <strong className="text-slate-800 font-bold">{selectedDetails.name}</strong> tiene un consumo acumulado de <strong className="text-slate-900 font-bold">${calculatedSubtotal.toLocaleString('es-CO')} COP</strong>. Proceda a previsualizar e imprimir.
+                    <p className="text-[10px] text-[#8AAAC8] leading-relaxed">
+                      La mesa <strong className="text-[#2C3E55] font-bold">{selectedDetails.name}</strong> tiene un consumo acumulado de <strong className="text-slate-900 font-bold">${calculatedSubtotal.toLocaleString('es-CO')} COP</strong>. Proceda a previsualizar e imprimir.
                     </p>
                   </div>
                 </div>
@@ -499,7 +499,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                   <button
                     id="btn-print-kitchen-ticket"
                     onClick={() => setPrintType('cooking')}
-                    className="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow transition-all hover:scale-[1.01]"
+                    className="w-full py-2.5 bg-[#2C3E55] hover:bg-[#2C3E55] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow transition-all hover:scale-[1.01]"
                   >
                     <Printer className="w-3.5 h-3.5" /> Recibo de Cocina
                   </button>
@@ -508,7 +508,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                   <button
                     id="btn-print-payment-invoice"
                     onClick={() => setPrintType('payment')}
-                    className="w-full py-2.5 bg-cyan-700 hover:bg-cyan-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow transition-all hover:scale-[1.01]"
+                    className="w-full py-2.5 bg-[#3A7AB5] hover:bg-cyan-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow transition-all hover:scale-[1.01]"
                   >
                     <Printer className="w-3.5 h-3.5" /> Factura de Pago
                   </button>
@@ -518,11 +518,11 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                     <button
                       id="btn-confirm-payment-settle"
                       onClick={handleConfirmPayment}
-                      className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:scale-[1.01]"
+                      className="w-full py-3 bg-[#5BA882] hover:bg-[#4A9872] text-white text-xs font-extrabold rounded-xl shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:scale-[1.01]"
                     >
                       <CheckCircle className="w-4 h-4" /> Registrar Pago y Liberar
                     </button>
-                    <span className="block text-[8px] text-slate-400 text-center mt-1 select-none">
+                    <span className="block text-[8px] text-[#8AAAC8] text-center mt-1 select-none">
                       Esta operación registrará con éxito ${finalTotal.toLocaleString('es-CO')} COP en su consola fiscal general.
                     </span>
                   </div>
@@ -531,34 +531,34 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
             ) : selectedDetails ? (
               // ----- SECCION ESTÁNDAR CONTROL DE MESAS -----
               <div id="standard-table-controls" className="space-y-4">
-                <div className="p-3 bg-white rounded-xl border border-slate-200 text-slate-800">
-                  <h4 className="font-serif font-bold text-base text-pandora-dark">{selectedDetails.name}</h4>
-                  <p className="text-[10px] text-slate-500 font-mono select-none">ID: Mesa-{selectedDetails.id} • Cap: {selectedDetails.capacity} personas</p>
+                <div className="p-3 bg-[#FFFFFF] rounded-xl border border-[#D0E8F8] text-[#2C3E55]">
+                  <h4 className="font-serif font-bold text-base text-[#FFFFFF]">{selectedDetails.name}</h4>
+                  <p className="text-[10px] text-[#8AAAC8] font-mono select-none">ID: Mesa-{selectedDetails.id} • Cap: {selectedDetails.capacity} personas</p>
                   
-                  <div className="mt-3 pt-2.5 border-t border-slate-100 flex justify-between items-center text-xs">
-                    <span className="font-semibold text-slate-600 select-none">Estatus actual:</span>
+                  <div className="mt-3 pt-2.5 border-t border-[#E2EDF7] flex justify-between items-center text-xs">
+                    <span className="font-semibold text-[#5A7A9A] select-none">Estatus actual:</span>
                     <span className={`px-2 py-0.5 rounded-full font-bold uppercase text-[9px] select-none ${
-                      selectedDetails.status === 'vacía' ? 'bg-slate-100 text-slate-700' :
-                      selectedDetails.status === 'ocupada' ? 'bg-rose-100 text-rose-700' :
-                      selectedDetails.status === 'reservada' ? 'bg-emerald-100 text-emerald-700' :
-                      'bg-amber-100 text-amber-700'
+                      selectedDetails.status === 'vacía' ? 'bg-[#D0E8F8] text-[#5A7A9A]' :
+                      selectedDetails.status === 'ocupada' ? 'bg-[#FFF0F0] text-[#C45A5A]' :
+                      selectedDetails.status === 'reservada' ? 'bg-[#E8F5EE] text-[#5BA882]' :
+                      'bg-[#F5EDD8] text-[#C8A96E]'
                     }`}>
                       {selectedDetails.status}
                     </span>
                   </div>
 
                   {selectedDetails.status !== 'vacía' && (
-                    <div className="mt-2 bg-slate-50 p-2 rounded-lg text-xs font-mono text-slate-700 space-y-1">
+                    <div className="mt-2 bg-[#F0F6FF] p-2 rounded-lg text-xs font-mono text-[#5A7A9A] space-y-1">
                       {selectedDetails.totalAmount > 0 && (
                         <div className="flex justify-between">
                           <span>Consumo actual:</span>
-                          <span className="font-bold text-rose-600">${selectedDetails.totalAmount.toLocaleString('es-CO')} COP</span>
+                          <span className="font-bold text-[#C45A5A]">${selectedDetails.totalAmount.toLocaleString('es-CO')} COP</span>
                         </div>
                       )}
                       {selectedDetails.guestName && (
                         <div>
-                          <span className="block text-[10px] text-slate-400 select-none">Reserva titular:</span>
-                          <span className="font-bold text-emerald-700 truncate block">{selectedDetails.guestName}</span>
+                          <span className="block text-[10px] text-[#8AAAC8] select-none">Reserva titular:</span>
+                          <span className="font-bold text-[#5BA882] truncate block">{selectedDetails.guestName}</span>
                         </div>
                       )}
                     </div>
@@ -567,46 +567,46 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
 
                 {/* State Toggles */}
                 <div className="space-y-2.5">
-                  <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest select-none">Cambiar Estatus Mesa</span>
+                  <span className="block text-[10px] font-bold text-[#8AAAC8] uppercase tracking-widest select-none">Cambiar Estatus Mesa</span>
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       id="btn-status-vacant"
                       onClick={() => handleSetStatus('vacía')}
-                      className="py-1.5 bg-white border hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-semibold cursor-pointer transition-colors"
+                      className="py-1.5 bg-[#FFFFFF] border hover:bg-[#F5F9FF] text-[#5A7A9A] rounded-lg text-xs font-semibold cursor-pointer transition-colors"
                     >
                       ⚪ Vacía (Reset)
                     </button>
                     <button
                       id="btn-status-occupied"
                       onClick={() => handleSetStatus('ocupada')}
-                      className="py-1.5 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded-lg text-xs font-semibold cursor-pointer transition-colors"
+                      className="py-1.5 bg-[#FFF0F0] border border-[#F8C8C8] hover:bg-[#FFF0F0] text-[#C45A5A] rounded-lg text-xs font-semibold cursor-pointer transition-colors"
                     >
                       🔴 Ocupada
                     </button>
                     <button
                       id="btn-status-toward-pay"
                       onClick={() => handleSetStatus('por_pagar')}
-                      className="py-1.5 bg-amber-50 border border-amber-200 hover:bg-amber-100 text-amber-700 rounded-lg text-xs font-semibold cursor-pointer transition-colors"
+                      className="py-1.5 bg-[#FFF8E8] border border-[#EAD9B8] hover:bg-[#F5EDD8] text-[#C8A96E] rounded-lg text-xs font-semibold cursor-pointer transition-colors"
                     >
                       🟡 Por Pagar
                     </button>
                   </div>
 
                   {/* Add simulated reservation info */}
-                  <div className="p-3 bg-white rounded-lg border border-slate-150">
-                    <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 select-none">Asignar Reserva</span>
+                  <div className="p-3 bg-[#FFFFFF] rounded-lg border border-slate-150">
+                    <span className="block text-[10px] font-bold text-[#8AAAC8] uppercase tracking-widest mb-2 select-none">Asignar Reserva</span>
                     <input 
                       id="input-reservation-guest"
                       type="text" 
                       value={customGuest}
                       onChange={(e) => setCustomGuest(e.target.value)}
                       placeholder="Nombre Cliente y hora"
-                      className="w-full bg-slate-50 border border-slate-200 rounded p-1.5 text-xs text-slate-700 mb-2 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      className="w-full bg-[#F0F6FF] border border-[#D0E8F8] rounded p-1.5 text-xs text-[#5A7A9A] mb-2 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                     <button
                       id="btn-submit-reservation"
                       onClick={() => handleSetStatus('reservada')}
-                      className="w-full py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-semibold cursor-pointer transition-colors"
+                      className="w-full py-1.5 bg-[#5BA882] hover:bg-[#4A9872] text-white rounded text-xs font-semibold cursor-pointer transition-colors"
                     >
                       🟢 Reservar Mesa
                     </button>
@@ -614,20 +614,20 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                 </div>
 
                 {/* Consumption simulator */}
-                <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-2">
-                  <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest select-none">Pruebas de Consumo</span>
+                <div className="bg-[#FFFFFF] p-3 rounded-xl border border-[#D0E8F8] space-y-2">
+                  <span className="block text-[10px] font-bold text-[#8AAAC8] uppercase tracking-widest select-none">Pruebas de Consumo</span>
                   <div className="flex gap-1.5">
                     <input 
                       id="input-custom-spend-test"
                       type="number" 
                       value={customSpend}
                       onChange={(e) => setCustomSpend(Number(e.target.value))}
-                      className="bg-slate-50 border border-slate-200 rounded p-1 text-xs w-20 text-center font-mono font-bold"
+                      className="bg-[#F0F6FF] border border-[#D0E8F8] rounded p-1 text-xs w-20 text-center font-mono font-bold"
                     />
                     <button
                       id="btn-add-spend-test"
                       onClick={handleAddConsumption}
-                      className="flex-1 py-1 bg-cyan-600 hover:bg-cyan-700 text-white rounded text-xs font-semibold truncate cursor-pointer transition-colors"
+                      className="flex-1 py-1 bg-[#5B9BD5] hover:bg-[#3A7AB5] text-white rounded text-xs font-semibold truncate cursor-pointer transition-colors"
                     >
                       ➕ Consumo
                     </button>
@@ -639,7 +639,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                   <button
                     id="btn-open-billing-form-trigger"
                     onClick={handleOpenBilling}
-                    className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:scale-[1.01]"
+                    className="w-full py-2.5 bg-[#5BA882] hover:bg-[#4A9872] text-white text-xs font-bold rounded-xl shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:scale-[1.01]"
                   >
                     <Receipt className="w-4 h-4" /> Cobrar y Facturar Mesa
                   </button>
@@ -647,13 +647,13 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
 
               </div>
             ) : (
-              <div className="h-full flex flex-col justify-center items-center text-center text-slate-400 py-12 select-none">
+              <div className="h-full flex flex-col justify-center items-center text-center text-[#8AAAC8] py-12 select-none">
                 <Map className="w-12 h-12 opacity-30 mb-2" />
                 <p className="text-xs">Seleccione una mesa física de salón para operar su estado o generar cobros.</p>
               </div>
             )}
 
-            <span className="text-[9px] font-mono text-slate-400 text-center mt-3 block select-none">Sincronización de mesa en tiempo real</span>
+            <span className="text-[9px] font-mono text-[#8AAAC8] text-center mt-3 block select-none">Sincronización de mesa en tiempo real</span>
           </div>
 
         </div>
@@ -665,20 +665,20 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/70 z-50 p-4 flex flex-col justify-center items-center text-slate-900"
+              className="absolute inset-0 bg-[#3A7AB5]/20 z-50 p-4 flex flex-col justify-center items-center text-slate-900"
             >
               <motion.div
                 initial={{ y: 50, scale: 0.95 }}
                 animate={{ y: 0, scale: 1 }}
                 exit={{ y: 50, scale: 0.95 }}
-                className="w-full max-w-sm bg-[#FAF8F5] p-6 rounded-2xl shadow-2xl relative border-t-8 border-cyan-600 flex flex-col leading-tight max-h-[90vh] overflow-y-auto"
+                className="w-full max-w-sm bg-[#F5F9FF] p-6 rounded-2xl shadow-2xl relative border-t-8 border-cyan-600 flex flex-col leading-tight max-h-[90vh] overflow-y-auto"
                 id="simulated-receipt-card"
               >
                 {/* Close action */}
                 <button
                   id="btn-close-print-preview"
                   onClick={() => setPrintType(null)}
-                  className="absolute top-3 right-3 p-1.5 hover:bg-slate-200 rounded-full text-slate-700 font-bold transition-all cursor-pointer"
+                  className="absolute top-3 right-3 p-1.5 hover:bg-[#E2EDF7] rounded-full text-[#5A7A9A] font-bold transition-all cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -687,7 +687,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                   
                   {/* Dynamic interactive option to toggle the Consumption Tax (Impuesto al Consumo 8%) directly inside the receipt! */}
                   {printType === 'payment' && (
-                    <div className="w-full bg-cyan-50 border border-cyan-200 p-2.5 rounded-xl flex justify-between items-center select-none text-xs">
+                    <div className="w-full bg-[#F0F6FF] border border-cyan-200 p-2.5 rounded-xl flex justify-between items-center select-none text-xs">
                       <div className="flex flex-col leading-tight">
                         <span className="font-extrabold text-cyan-900 flex items-center gap-1">
                           ⚖️ Impuesto Consumo (8%)
@@ -699,8 +699,8 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                         onClick={() => setApplyTax(!applyTax)}
                         className={`px-2.5 py-1 rounded-lg text-[10px] font-bold shadow-sm transition-all cursor-pointer ${
                           applyTax 
-                            ? 'bg-emerald-600 hover:bg-emerald-700 text-white' 
-                            : 'bg-white hover:bg-slate-100 text-slate-600 border border-slate-200'
+                            ? 'bg-[#5BA882] hover:bg-[#4A9872] text-white' 
+                            : 'bg-[#FFFFFF] hover:bg-[#E2EDF7] text-[#5A7A9A] border border-[#D0E8F8]'
                         }`}
                       >
                         {applyTax ? 'DESACTIVAR' : 'ACTIVAR'}
@@ -712,38 +712,38 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                   <div className="w-full thermal-paper pt-2">
                     {printType === 'cooking' ? (
                       <>
-                        <div className="text-center pb-3 border-b border-dashed border-slate-300">
+                        <div className="text-center pb-3 border-b border-dashed border-[#D0E8F8]">
                           <span className="text-[10px] bg-red-100 text-red-800 px-2.5 py-0.5 rounded font-sans uppercase font-bold tracking-wider mb-2 inline-block select-none">
                             TICKET DE COCINA
                           </span>
-                          <h5 className="font-serif font-black text-sm tracking-widest text-[#2D2A26] uppercase leading-none">PANDORA COMANDA</h5>
-                          <p className="text-[8px] text-slate-500 mt-1 uppercase font-mono tracking-widest select-none">PREPARACIÓN EN COCINA</p>
+                          <h5 className="font-serif font-black text-sm tracking-widest text-[#2C3E55] uppercase leading-none">PANDORA COMANDA</h5>
+                          <p className="text-[8px] text-[#8AAAC8] mt-1 uppercase font-mono tracking-widest select-none">PREPARACIÓN EN COCINA</p>
                         </div>
 
-                        <div className="py-2.5 space-y-1.5 text-xs text-slate-700 font-mono border-b border-dashed border-slate-350">
+                        <div className="py-2.5 space-y-1.5 text-xs text-[#5A7A9A] font-mono border-b border-dashed border-slate-350">
                           <div className="flex justify-between">
                             <span>NÚMERO DE MESA:</span>
-                            <span className="font-bold text-[#2D2A26] text-sm uppercase">Mesa No. {selectedDetails.id}</span>
+                            <span className="font-bold text-[#2C3E55] text-sm uppercase">Mesa No. {selectedDetails.id}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>Mesa Nombre:</span>
-                            <span className="font-semibold text-slate-800 uppercase">{selectedDetails.name}</span>
+                            <span className="font-semibold text-[#2C3E55] uppercase">{selectedDetails.name}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>FECHA Y HORA:</span>
-                            <span className="text-slate-800 font-bold">{displayTime}</span>
+                            <span className="text-[#2C3E55] font-bold">{displayTime}</span>
                           </div>
                         </div>
 
                         <div className="py-3">
-                          <div className="grid grid-cols-12 font-bold text-[10px] uppercase text-slate-500 pb-2 border-b font-mono select-none">
+                          <div className="grid grid-cols-12 font-bold text-[10px] uppercase text-[#8AAAC8] pb-2 border-b font-mono select-none">
                             <span className="col-span-9">PRODUCTOS / DETALLE</span>
                             <span className="col-span-3 text-right">CANTIDAD</span>
                           </div>
 
                           <div className="divide-y divide-dotted pt-1 font-mono">
                             {combinedItems.map((item, idx) => (
-                              <div key={idx} className="grid grid-cols-12 text-sm text-[#2D2A26] font-bold py-2">
+                              <div key={idx} className="grid grid-cols-12 text-sm text-[#2C3E55] font-bold py-2">
                                 <span className="col-span-9 font-serif">{item.name}</span>
                                 <span className="col-span-3 text-right font-mono font-black text-slate-900 text-base">x{item.quantity}</span>
                               </div>
@@ -751,43 +751,43 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                           </div>
                         </div>
 
-                        <div className="text-center pt-3 border-t border-dashed border-slate-300 text-[10px] text-slate-400 italic font-mono select-none">
+                        <div className="text-center pt-3 border-t border-dashed border-[#D0E8F8] text-[10px] text-[#8AAAC8] italic font-mono select-none">
                           <p>✨ - Control de Servicio Interno - ✨</p>
                           <p className="mt-1 text-[8px] font-sans uppercase font-bold">Café Pandora S.A.S.</p>
                         </div>
                       </>
                     ) : (
                       <>
-                        <div className="text-center pb-3 border-b border-dashed border-slate-300">
-                          <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded font-sans uppercase font-bold tracking-wider mb-2 inline-block select-none">
+                        <div className="text-center pb-3 border-b border-dashed border-[#D0E8F8]">
+                          <span className="text-[10px] bg-[#E8F5EE] text-[#4A9872] px-2.5 py-0.5 rounded font-sans uppercase font-bold tracking-wider mb-2 inline-block select-none">
                             FACTURA DE COBRO / POS
                           </span>
-                          <h5 className="font-serif font-black text-sm tracking-widest text-[#2D2A26] uppercase leading-none">CAFÉ PANDORA SLATE</h5>
-                          <p className="text-[9px] text-slate-500 mt-1">Av. Providencia #1904 - Reconciliación Fiscal</p>
-                          <p className="text-[8px] text-slate-400 leading-none font-mono">NIT. 901.381.189-4</p>
+                          <h5 className="font-serif font-black text-sm tracking-widest text-[#2C3E55] uppercase leading-none">CAFÉ PANDORA SLATE</h5>
+                          <p className="text-[9px] text-[#8AAAC8] mt-1">Av. Providencia #1904 - Reconciliación Fiscal</p>
+                          <p className="text-[8px] text-[#8AAAC8] leading-none font-mono">NIT. 901.381.189-4</p>
                         </div>
 
-                        <div className="py-2.5 space-y-1.5 text-xs text-slate-700 font-mono border-b border-dashed border-slate-350 leading-none">
+                        <div className="py-2.5 space-y-1.5 text-xs text-[#5A7A9A] font-mono border-b border-dashed border-slate-350 leading-none">
                           <div className="flex justify-between">
                             <span>Factura No:</span>
-                            <span className="font-bold text-[#2D2A26]">#BP-{Math.floor(100000 + Math.random()*900000)}</span>
+                            <span className="font-bold text-[#2C3E55]">#BP-{Math.floor(100000 + Math.random()*900000)}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>NÚMERO DE MESA:</span>
-                            <span className="font-bold text-[#2D2A26]">No. {selectedDetails.id} ({selectedDetails.name})</span>
+                            <span className="font-bold text-[#2C3E55]">No. {selectedDetails.id} ({selectedDetails.name})</span>
                           </div>
                           <div className="flex justify-between">
                             <span>FECHA Y HORA:</span>
-                            <span className="font-bold text-[#2D2A26]">{displayTime}</span>
+                            <span className="font-bold text-[#2C3E55]">{displayTime}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>Medio de Pago:</span>
-                            <span className="font-bold text-slate-800 uppercase text-[10px] bg-slate-100 px-1.5 py-0.5 rounded">{paymentMethod}</span>
+                            <span className="font-bold text-[#2C3E55] uppercase text-[10px] bg-[#D0E8F8] px-1.5 py-0.5 rounded">{paymentMethod}</span>
                           </div>
                         </div>
 
                         <div className="py-3 font-mono">
-                          <div className="grid grid-cols-12 text-[9px] font-black uppercase text-slate-500 pb-1.5 border-b border-dashed select-none">
+                          <div className="grid grid-cols-12 text-[9px] font-black uppercase text-[#8AAAC8] pb-1.5 border-b border-dashed select-none">
                             <span className="col-span-6">PRODUCTOS</span>
                             <span className="col-span-2 text-center">CANT</span>
                             <span className="col-span-2 text-right">UNITARIO</span>
@@ -796,7 +796,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
 
                           <div className="space-y-1.5 pt-2 font-mono">
                             {combinedItems.map((item, idx) => (
-                              <div key={idx} className="grid grid-cols-12 text-xs text-[#2D2A26] items-center">
+                              <div key={idx} className="grid grid-cols-12 text-xs text-[#2C3E55] items-center">
                                 <span className="col-span-6 font-serif font-bold text-slate-900 truncate leading-tight">{item.name}</span>
                                 <span className="col-span-2 text-center">x{item.quantity}</span>
                                 <span className="col-span-2 text-right">${item.price.toLocaleString('es-CO')}</span>
@@ -807,24 +807,24 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                         </div>
 
                         <div className="border-t border-dashed border-slate-350 py-2.5 text-xs font-mono space-y-1">
-                          <div className="flex justify-between text-slate-600">
+                          <div className="flex justify-between text-[#5A7A9A]">
                             <span>Subtotal Neto:</span>
                             <span>${calculatedSubtotal.toLocaleString('es-CO')} COP</span>
                           </div>
                           {applyTax && (
-                            <div className="flex justify-between text-slate-800 font-semibold">
+                            <div className="flex justify-between text-[#2C3E55] font-semibold">
                               <span>Impuesto Consumo (8%):</span>
                               <span>+${taxAmount.toLocaleString('es-CO')} COP</span>
                             </div>
                           )}
                           
-                          <div className="flex justify-between text-[#2D2A26] font-extrabold text-sm border-t border-dotted border-slate-300 pt-2 mt-2 leading-none">
+                          <div className="flex justify-between text-[#2C3E55] font-extrabold text-sm border-t border-dotted border-[#D0E8F8] pt-2 mt-2 leading-none">
                             <span>TOTAL CLIENTE:</span>
-                            <span className="text-emerald-700 text-base">${finalTotal.toLocaleString('es-CO')} COP</span>
+                            <span className="text-[#5BA882] text-base">${finalTotal.toLocaleString('es-CO')} COP</span>
                           </div>
                         </div>
 
-                        <div className="text-center pt-3 border-t border-dashed border-slate-300 text-[10px] text-slate-500 space-y-1 select-none">
+                        <div className="text-center pt-3 border-t border-dashed border-[#D0E8F8] text-[10px] text-[#8AAAC8] space-y-1 select-none">
                           <p>☕️ ¡Muchísimas gracias por su visita! 🌿</p>
                           <p className="text-[8px] font-sans tracking-wide uppercase font-bold">Impuesto al Consumo: {applyTax ? 'Habilitado (8%)' : 'Deshabilitado (-)'}</p>
                         </div>
@@ -841,7 +841,7 @@ export default function TablesModal({ isOpen, onClose, tables, orders, onUpdateT
                         setPrintType(null);
                       }}
                       className={`w-full py-2.5 rounded-xl text-xs font-extrabold text-white flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:scale-[1.01] transition-all relative z-50 ${
-                        printType === 'cooking' ? 'bg-slate-800 hover:bg-slate-950' : 'bg-cyan-600 hover:bg-cyan-750'
+                        printType === 'cooking' ? 'bg-[#2C3E55] hover:bg-slate-950' : 'bg-[#5B9BD5] hover:bg-cyan-750'
                       }`}
                     >
                       <Printer className="w-4 h-4" /> Enviar a Impr. Térmica

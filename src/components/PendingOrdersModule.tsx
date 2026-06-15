@@ -272,14 +272,14 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
     <div id="pending_orders_module" className="flex flex-col gap-5 min-h-0">
       
       {/* Header section with count */}
-      <div className="flex justify-between items-center pb-2.5 border-b border-pandora-wood/20">
+      <div className="flex justify-between items-center pb-2.5 border-b border-[#D0E8F8]">
         <div>
-          <h3 className="font-serif text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-            <Clock className="w-4 h-4 text-pandora-accent" /> Cola de Comandas Pendientes
+          <h3 className="font-serif text-sm font-bold text-[#2C3E55] uppercase tracking-wider flex items-center gap-2">
+            <Clock className="w-4 h-4 text-[#5B9BD5]" /> Cola de Comandas Pendientes
           </h3>
-          <p className="text-[11px] text-slate-500 mt-0.5">Control de despachos en cocina y barra ordenados por orden de llegada.</p>
+          <p className="text-[11px] text-[#8AAAC8] mt-0.5">Control de despachos en cocina y barra ordenados por orden de llegada.</p>
         </div>
-        <span className="px-2 py-0.5 rounded-full bg-pandora-accent/15 text-pandora-accent border border-pandora-accent/30 font-mono text-[10px] font-bold">
+        <span className="px-2 py-0.5 rounded-full bg-[#D0E8F8] text-[#5B9BD5] border border-[#5B9BD5] font-mono text-[10px] font-bold">
           {pendingOrders.length} {pendingOrders.length === 1 ? 'Pedido' : 'Pedidos'}
         </span>
       </div>
@@ -290,13 +290,13 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="flex-1 flex flex-col items-center justify-center py-20 px-4 bg-pandora-dark/5 border border-dashed border-pandora-wood/20 rounded-2xl"
+            className="flex-1 flex flex-col items-center justify-center py-20 px-4 bg-[#3A7AB5]/5 border border-dashed border-[#D0E8F8] rounded-2xl"
           >
-            <div className="w-12 h-12 bg-pandora-cream rounded-full flex items-center justify-center text-pandora-accent/50 mb-3 border border-pandora-wood/10">
+            <div className="w-12 h-12 bg-pandora-cream rounded-full flex items-center justify-center text-[#5B9BD5]/50 mb-3 border border-[#D0E8F8]">
               <Check className="w-6 h-6" />
             </div>
-            <p className="font-serif font-bold text-slate-700 text-sm tracking-wider uppercase">¡No hay pedidos pendientes!</p>
-            <p className="text-[11px] text-slate-400 font-light mt-1 text-center max-w-xs">Todos los servicios de mesa están despachados y al día.</p>
+            <p className="font-serif font-bold text-[#5A7A9A] text-sm tracking-wider uppercase">¡No hay pedidos pendientes!</p>
+            <p className="text-[11px] text-[#8AAAC8] font-light mt-1 text-center max-w-xs">Todos los servicios de mesa están despachados y al día.</p>
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -317,24 +317,24 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
   if (userRole === 'mesero') return;
   setSelectedOrder(order);
 }}
-                  className="bg-pandora-dark border border-pandora-wood shadow-lg rounded-xl flex flex-col justify-between overflow-hidden group text-pandora-cream cursor-pointer hover:border-pandora-accent transition-all duration-300 transform hover:scale-[1.01]"
+                  className="bg-[#3A7AB5] border border-[#D0E8F8] shadow-lg rounded-xl flex flex-col justify-between overflow-hidden group text-[#FFFFFF] cursor-pointer hover:border-[#5B9BD5] transition-all duration-300 transform hover:scale-[1.01]"
                 >
                   {/* Card Header with Turn and Time swapped: Top-left Table, Bottom-left Time, Top-right Turn, Bottom-right ID */}
-                  <div className="bg-[#1C1510] p-3.5 border-b border-pandora-wood/30 flex justify-between items-stretch shrink-0">
+                  <div className="bg-[#3A7AB5] p-3.5 border-b border-[#D0E8F8] flex justify-between items-stretch shrink-0">
                     <div className="text-left flex flex-col justify-between">
-                      <span className="font-serif font-extrabold text-xs text-pandora-gold block tracking-wider uppercase">
+                      <span className="font-serif font-extrabold text-xs text-[#C8A96E] block tracking-wider uppercase">
                         MESA {order.tableId}
                       </span>
-                      <span className="text-[10.5px] font-mono font-light text-pandora-cream flex items-center gap-1 mt-1 leading-none">
-                        <Clock className="w-2.5 h-2.5 text-pandora-gold shrink-0" /> {placedTime}
+                      <span className="text-[10.5px] font-mono font-light text-[#FFFFFF] flex items-center gap-1 mt-1 leading-none">
+                        <Clock className="w-2.5 h-2.5 text-[#C8A96E] shrink-0" /> {placedTime}
                       </span>
                     </div>
 
                     <div className="text-right flex flex-col justify-between items-end">
-                      <span className="text-[10.5px] font-mono font-bold text-pandora-cream/80 block leading-none">
+                      <span className="text-[10.5px] font-mono font-bold text-[#FFFFFF] block leading-none">
                         Turno #{turnNumber}
                       </span>
-                      <span className="text-[8px] text-pandora-cream/40 font-mono block mt-1 uppercase leading-none">
+                      <span className="text-[8px] text-[#FFFFFF] font-mono block mt-1 uppercase leading-none">
                         ID: #{order.id.slice(-4)}
                       </span>
                     </div>
@@ -343,7 +343,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                   {/* Card Body (ItemList) displaying products with their quantity only, no totals */}
                   <div className="p-3.5 flex-1 flex flex-col justify-between">
                     <div className="space-y-2">
-                      <span className="text-[9px] uppercase font-bold tracking-widest text-pandora-gold/60 block font-mono">
+                      <span className="text-[9px] uppercase font-bold tracking-widest text-[#C8A96E] block font-mono">
                         📝 ÍTEMS EN COMANDA
                       </span>
                       <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
@@ -352,10 +352,10 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                             key={item.menuItemId}
                             className="flex justify-between items-center text-xs border-b border-white/5 pb-1 select-none last:border-0"
                           >
-                            <span className="text-pandora-cream leading-tight uppercase font-medium">
+                            <span className="text-[#FFFFFF] leading-tight uppercase font-medium">
                               {item.name}
                             </span>
-                            <span className="font-mono text-pandora-gold font-bold bg-[#1C1510] px-2 py-0.5 rounded text-[11px]">
+                            <span className="font-mono text-[#C8A96E] font-bold bg-[#3A7AB5] px-2 py-0.5 rounded text-[11px]">
                               Cant: {item.quantity}
                             </span>
                           </div>
@@ -366,7 +366,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
 
                   {/* Action buttons matching exact layout: Generar Recibo Cocina left, Cancelar right */}
                   {userRole !== 'mesero' && (
-                  <div className="bg-[#1C1510] border-t border-pandora-wood/30 p-2.5 grid grid-cols-2 gap-2 shrink-0">
+                  <div className="bg-[#3A7AB5] border-t border-[#D0E8F8] p-2.5 grid grid-cols-2 gap-2 shrink-0">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -375,7 +375,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                         // 2. Perform transition to 'caja' state to disappear from Pedidos Pendientes
                         onCompleteOrder(order.id);
                       }}
-                      className="py-1.5 px-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-[#1C1510] font-mono font-bold text-[10px] flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wider transition-all text-center leading-none"
+                      className="py-1.5 px-2 rounded-lg bg-[#5B9BD5] hover:bg-[#3A7AB5] text-[#1C1510] font-mono font-bold text-[10px] flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wider transition-all text-center leading-none"
                       title="Generar Recibo Cocina"
                     >
                       Generar Recibo Cocina
@@ -387,7 +387,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                           onCancelOrder(order.id);
                         }
                       }}
-                      className="py-1.5 px-2 rounded-lg border border-rose-800 bg-[#3a1a1a]/60 hover:bg-rose-950 text-rose-200 hover:text-white transition-all text-[10px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer shadow-xs uppercase tracking-wider text-center"
+                      className="py-1.5 px-2 rounded-lg border border-[#C45A5A] bg-[#C45A5A]/20 hover:bg-[#C45A5A] text-rose-200 hover:text-white transition-all text-[10px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer shadow-xs uppercase tracking-wider text-center"
                       title="Cancelar"
                     >
                       Cancelar
@@ -416,23 +416,23 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-slate-200"
+              className="bg-[#FFFFFF] w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-[#D0E8F8]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="bg-pandora-dark text-pandora-cream p-5 shrink-0 flex justify-between items-center border-b border-pandora-wood/30">
+              <div className="bg-[#3A7AB5] text-[#FFFFFF] p-5 shrink-0 flex justify-between items-center border-b border-[#D0E8F8]">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-pandora-accent flex items-center justify-center text-sm font-serif font-extrabold text-white">
+                  <div className="w-8 h-8 rounded-lg bg-[#5B9BD5] flex items-center justify-center text-sm font-serif font-extrabold text-white">
                     {selectedOrder.tableId}
                   </div>
                   <div>
-                    <h3 className="font-serif text-base font-bold text-pandora-gold uppercase tracking-wider font-display">Mesa {selectedOrder.tableId} &bull; Detalles</h3>
-                    <p className="text-[10px] text-slate-300 font-mono">Comanda #{selectedOrder.id.slice(-4).toUpperCase()}</p>
+                    <h3 className="font-serif text-base font-bold text-[#C8A96E] uppercase tracking-wider font-display">Mesa {selectedOrder.tableId} &bull; Detalles</h3>
+                    <p className="text-[10px] text-[#B8D8F0] font-mono">Comanda #{selectedOrder.id.slice(-4).toUpperCase()}</p>
                   </div>
                 </div>
                 <button 
                   onClick={() => setSelectedOrder(null)}
-                  className="p-1.5 hover:bg-white/10 rounded-full transition-colors text-slate-300 hover:text-white cursor-pointer"
+                  className="p-1.5 hover:bg-[#FFFFFF]/10 rounded-full transition-colors text-[#B8D8F0] hover:text-white cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -441,31 +441,31 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
               {/* Body */}
               <div className="p-6 overflow-y-auto space-y-5">
                 {/* Meta details */}
-                <div className="grid grid-cols-2 gap-4 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600">
+                <div className="grid grid-cols-2 gap-4 bg-[#F0F6FF] p-3.5 rounded-xl border border-[#D0E8F8] text-xs text-[#5A7A9A]">
                   <div>
-                    <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block font-mono">Hora Comanda</span>
-                    <span className="font-semibold block text-slate-700 mt-0.5">{selectedOrder.timestamp}</span>
+                    <span className="text-[9px] uppercase font-bold tracking-widest text-[#8AAAC8] block font-mono">Hora Comanda</span>
+                    <span className="font-semibold block text-[#5A7A9A] mt-0.5">{selectedOrder.timestamp}</span>
                   </div>
                   <div>
-                    <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block font-mono">Mesero Atiende</span>
-                    <span className="font-semibold block text-slate-700 mt-0.5">{selectedOrder.waiterName}</span>
+                    <span className="text-[9px] uppercase font-bold tracking-widest text-[#8AAAC8] block font-mono">Mesero Atiende</span>
+                    <span className="font-semibold block text-[#5A7A9A] mt-0.5">{selectedOrder.waiterName}</span>
                   </div>
                 </div>
 
                 {/* Items details */}
                 <div className="space-y-2.5">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-pandora-wood block font-mono border-b border-slate-100 pb-1">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-pandora-wood block font-mono border-b border-[#E2EDF7] pb-1">
                     Productos Solicitados
                   </span>
                   
                   <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
                     {selectedOrder.items.map((item) => (
-                      <div key={item.menuItemId} className="flex justify-between items-center text-xs py-1 border-b border-dashed border-slate-100 last:border-0 pb-1 last:pb-0">
+                      <div key={item.menuItemId} className="flex justify-between items-center text-xs py-1 border-b border-dashed border-[#E2EDF7] last:border-0 pb-1 last:pb-0">
                         <div>
-                          <span className="font-serif font-bold text-slate-800 uppercase tracking-wide">{item.name}</span>
-                          <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">${item.price.toLocaleString('es-CO')} c/u &times; {item.quantity}</span>
+                          <span className="font-serif font-bold text-[#2C3E55] uppercase tracking-wide">{item.name}</span>
+                          <span className="text-[10px] text-[#8AAAC8] block mt-0.5 font-mono">${item.price.toLocaleString('es-CO')} c/u &times; {item.quantity}</span>
                         </div>
-                        <span className="font-mono font-bold text-slate-700">
+                        <span className="font-mono font-bold text-[#5A7A9A]">
                           ${(item.price * item.quantity).toLocaleString('es-CO')}
                         </span>
                       </div>
@@ -476,7 +476,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                 {/* Selection or Configuration Option */}
                 {!showBillingConfig ? (
                   <div className="space-y-3.5 pt-1">
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] block font-mono border-b border-slate-100 pb-1">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#5B9BD5] block font-mono border-b border-[#E2EDF7] pb-1">
                       Seleccione una opción para continuar
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -490,14 +490,14 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                             setSelectedOrder(null);
                           }
                         }}
-                        className="p-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-pandora-accent bg-slate-50 hover:bg-amber-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                        className="p-4 rounded-xl border-2 border-dashed border-[#D0E8F8] hover:border-[#5B9BD5] bg-[#F0F6FF] hover:bg-[#FFF8E8]/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
                         title="Imprimir comanda para personal de cocina (Sin precios)"
                       >
-                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-pandora-cream flex items-center justify-center group-hover:bg-pandora-accent group-hover:scale-105 transition-all">
-                          <Utensils className="w-4 h-4 text-pandora-gold" />
+                        <div className="w-8 h-8 rounded-lg bg-[#2C3E55] text-[#FFFFFF] flex items-center justify-center group-hover:bg-[#5B9BD5] group-hover:scale-105 transition-all">
+                          <Utensils className="w-4 h-4 text-[#C8A96E]" />
                         </div>
                         <div className="mt-2.5">
-                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Recibo de Cocina</h4>
+                          <h4 className="font-serif font-bold text-[#2C3E55] uppercase tracking-wide text-[11px]">Recibo de Cocina</h4>
                           <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
                             Descarga la comanda de preparación directa sin precios para cocina.
                           </p>
@@ -509,14 +509,14 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                       <button
                         type="button"
                         onClick={() => setShowBillingConfig(true)}
-                        className="p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-500 bg-slate-50 hover:bg-emerald-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                        className="p-4 rounded-xl border-2 border-[#D0E8F8] hover:border-[#5BA882] bg-[#F0F6FF] hover:bg-[#E8F5EE]/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
                         title="Configurar factura de pago oficial detallada"
                       >
-                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-emerald-600 group-hover:scale-105 transition-all">
+                        <div className="w-8 h-8 rounded-lg bg-[#2C3E55] text-white flex items-center justify-center group-hover:bg-[#5BA882] group-hover:scale-105 transition-all">
                           <FileText className="w-4 h-4" />
                         </div>
                         <div className="mt-2.5">
-                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Generar Factura</h4>
+                          <h4 className="font-serif font-bold text-[#2C3E55] uppercase tracking-wide text-[11px]">Generar Factura</h4>
                           <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
                             Abre la configuración de medios de pago, impuestos consumo 8% y totales.
                           </p>
@@ -528,15 +528,15 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                 ) : (
                   <>
                     {/* Billing Configuration Form */}
-                    <div className="bg-[#FAF5EE] border border-slate-250 p-4 rounded-xl space-y-4">
-                      <div className="flex justify-between items-center border-b border-[#FAF5EE]/70 pb-1">
-                        <span className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] block font-mono">
+                    <div className="bg-[#F0F6FF] border border-[#D0E8F8] p-4 rounded-xl space-y-4">
+                      <div className="flex justify-between items-center border-b border-[#F0F6FF] pb-1">
+                        <span className="text-[10px] uppercase font-bold tracking-widest text-[#5B9BD5] block font-mono">
                           Configuración de Facturación
                         </span>
                         <button
                           type="button"
                           onClick={() => setShowBillingConfig(false)}
-                          className="text-[10px] text-pandora-accent hover:underline flex items-center gap-1 font-mono font-bold cursor-pointer"
+                          className="text-[10px] text-[#5B9BD5] hover:underline flex items-center gap-1 font-mono font-bold cursor-pointer"
                         >
                           <ArrowLeft className="w-3 h-3" /> VOLVER
                         </button>
@@ -544,7 +544,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
 
                       {/* Payment Method Selector */}
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-[10px] uppercase font-bold tracking-wide text-slate-600">Método de Pago</label>
+                        <label className="text-[10px] uppercase font-bold tracking-wide text-[#5A7A9A]">Método de Pago</label>
                         <div className="grid grid-cols-3 gap-2">
                           {(['Efectivo', 'Nequi', 'Bancolombia'] as const).map((method) => (
                             <button
@@ -553,8 +553,8 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                               onClick={() => setPaymentMethod(method)}
                               className={`py-1.5 px-2 text-[10px] font-bold rounded-lg border uppercase font-mono tracking-wider transition-all cursor-pointer ${
                                 paymentMethod === method
-                                  ? 'bg-[#1C1510] text-[#FDF8F0] border-[#1C1510]'
-                                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                  ? 'bg-[#3A7AB5] text-[#FFFFFF] border-[#3A7AB5]'
+                                  : 'bg-[#FFFFFF] text-[#5A7A9A] border-[#D0E8F8] hover:bg-[#F5F9FF]'
                               }`}
                             >
                               {method}
@@ -564,25 +564,25 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                       </div>
 
                       {/* Consumption tax Toggle Switch */}
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-200/50">
+                      <div className="flex items-center justify-between pt-2 border-t border-[#D0E8F8]/50">
                         <div>
-                          <span className="text-[11px] font-bold text-slate-800 block uppercase">Cobrar Impuesto de Consumo (8%)</span>
-                          <span className="text-[9.5px] text-slate-400 font-light block">Calcula y suma el 8% al subtotal del pedido</span>
+                          <span className="text-[11px] font-bold text-[#2C3E55] block uppercase">Cobrar Impuesto de Consumo (8%)</span>
+                          <span className="text-[9.5px] text-[#8AAAC8] font-light block">Calcula y suma el 8% al subtotal del pedido</span>
                         </div>
                         <button
                           type="button"
                           onClick={() => setIncludeTax(!includeTax)}
                           className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-200 ease-in-out focus:outline-none flex items-center relative ${
-                            includeTax ? 'bg-emerald-500 justify-end' : 'bg-slate-300 justify-start'
+                            includeTax ? 'bg-[#E8F5EE]0 justify-end' : 'bg-[#D0E8F8] justify-start'
                           }`}
                         >
-                          <span className="w-5 h-5 rounded-full bg-white shadow-sm block transition-all" />
+                          <span className="w-5 h-5 rounded-full bg-[#FFFFFF] shadow-sm block transition-all" />
                         </button>
                       </div>
                     </div>
 
                     {/* Totals Summary */}
-                    <div className="border-t border-slate-200 pt-3 space-y-1.5 text-xs">
+                    <div className="border-t border-[#D0E8F8] pt-3 space-y-1.5 text-xs">
                       <div className="flex justify-between text-slate-550">
                         <span>Subtotal Neto:</span>
                         <span className="font-mono font-medium">${selectedOrder.total.toLocaleString('es-CO')}</span>
@@ -590,12 +590,12 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                       {includeTax && (
                         <div className="flex justify-between text-slate-550">
                           <span>Impuestos (8% Consumo):</span>
-                          <span className="font-mono font-medium text-amber-700">+ ${(selectedOrder.total * 0.08).toLocaleString('es-CO')}</span>
+                          <span className="font-mono font-medium text-[#C8A96E]">+ ${(selectedOrder.total * 0.08).toLocaleString('es-CO')}</span>
                         </div>
                       )}
-                      <div className="flex justify-between border-t border-dashed border-slate-200 pt-2 text-slate-800 font-black">
+                      <div className="flex justify-between border-t border-dashed border-[#D0E8F8] pt-2 text-[#2C3E55] font-black">
                         <span className="font-serif text-[13px] uppercase tracking-wide">TOTAL FACTURA (COP):</span>
-                        <span className="font-mono text-base text-pandora-accent">
+                        <span className="font-mono text-base text-[#5B9BD5]">
                           ${(selectedOrder.total + (includeTax ? selectedOrder.total * 0.08 : 0)).toLocaleString('es-CO')}
                         </span>
                       </div>
@@ -606,28 +606,28 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
 
               {/* Action Buttons Footer dynamic content based on state */}
               {!showBillingConfig ? (
-                <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-end shrink-0">
+                <div className="p-4 bg-[#F0F6FF] border-t border-[#D0E8F8] flex justify-end shrink-0">
                   <button
                     type="button"
                     onClick={() => setSelectedOrder(null)}
-                    className="w-full sm:w-auto px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 border border-slate-300 rounded-lg font-mono text-xs font-bold tracking-wider uppercase transition-all text-center cursor-pointer"
+                    className="w-full sm:w-auto px-5 py-2.5 bg-[#E2EDF7] hover:bg-[#D0E8F8] text-[#5A7A9A] border border-slate-300 rounded-lg font-mono text-xs font-bold tracking-wider uppercase transition-all text-center cursor-pointer"
                   >
                     Cerrar Detalles
                   </button>
                 </div>
               ) : (
-                <div className="p-4 bg-slate-50 border-t border-slate-200 grid grid-cols-2 gap-3 shrink-0">
+                <div className="p-4 bg-[#F0F6FF] border-t border-[#D0E8F8] grid grid-cols-2 gap-3 shrink-0">
                   <button
                     type="button"
                     onClick={() => setShowBillingConfig(false)}
-                    className="bg-slate-200 hover:bg-slate-300 text-slate-755 py-3 px-3.5 rounded-lg font-mono text-[10px] font-extrabold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 border border-slate-300 cursor-pointer"
+                    className="bg-[#E2EDF7] hover:bg-[#D0E8F8] text-slate-755 py-3 px-3.5 rounded-lg font-mono text-[10px] font-extrabold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 border border-slate-300 cursor-pointer"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" /> Volver Atrás
                   </button>
                   <button
                     type="button"
                     onClick={() => handleGenerateInvoice(selectedOrder, paymentMethod, includeTax)}
-                    className="bg-[#2E7D32] hover:bg-emerald-700 text-white py-3 px-3.5 rounded-lg font-mono text-[10px] font-semibold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg cursor-pointer"
+                    className="bg-[#5BA882] hover:bg-[#4A9872] text-white py-3 px-3.5 rounded-lg font-mono text-[10px] font-semibold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg cursor-pointer"
                     title="Generar factura de pago oficial detallada"
                   >
                     <Check className="w-3.5 h-3.5" /> Generar Factura
