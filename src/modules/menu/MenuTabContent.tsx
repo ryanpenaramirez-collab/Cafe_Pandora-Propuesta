@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Edit, X, Trash2 } from 'lucide-react';
-import { MenuItem } from '../types';
+import { MenuItem } from '../../types';
 
 interface MenuTabContentProps {
   tab: 'platos' | 'bebidas' | 'gaseosas';

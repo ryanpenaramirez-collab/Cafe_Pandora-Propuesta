@@ -6,7 +6,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Search, Plus, Minus, ShoppingCart, Check, Trash2, Utensils, Coffee } from 'lucide-react';
-import { MenuItem, Table, Order, OrderItem } from '../types';
+import { MenuItem, Table, Order, OrderItem } from '../../types';
 
 interface OrderModalProps {
   isOpen: boolean;

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'motion/react';
-import { Order, MenuItem, ShiftState } from '../types';
+import { Order, MenuItem, ShiftState } from '../../types';
 
 const formatCOP = (amount: number) =>
   new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(amount);

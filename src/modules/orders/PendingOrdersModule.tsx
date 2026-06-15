@@ -6,7 +6,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Clock, Check, Trash2, Utensils, AlertCircle, ShoppingBag, MapPin, X, FileText, CheckSquare, Square, ArrowLeft } from 'lucide-react';
-import { Order } from '../types';
+import { Order } from '../../types';
 import { jsPDF } from 'jspdf';
 
 interface PendingOrdersModuleProps {

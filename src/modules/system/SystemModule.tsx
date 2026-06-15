@@ -6,8 +6,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Users, AlertTriangle, Play, Printer, Bell, Shield, Sparkles, RefreshCw } from 'lucide-react';
-import { SystemAlert } from '../types';
-import { STAFF_USERS } from '../data';
+import { SystemAlert } from '../../types';
+import { STAFF_USERS } from '../../data';
 
 interface SystemModalProps {
   isOpen: boolean;

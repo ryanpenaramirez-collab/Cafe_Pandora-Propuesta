@@ -19,7 +19,7 @@ export default function TableCard({ table, isSelected, onClick }: TableCardProps
           ? 'ring-2 scale-[0.97] shadow-lg'
           : 'shadow-sm'
       }`}
-      style={isSelected ? { ringColor: '#C8A96E', boxShadow: '0 4px 16px rgba(212,160,23,0.25)' } : undefined}
+      style={isSelected ? { boxShadow: '0 0 0 2px #C8A96E, 0 4px 16px rgba(212,160,23,0.25)' } : undefined}
     >
       <div className="flex justify-between items-start w-full">
         <span className="font-serif font-bold text-sm leading-tight tracking-tight">

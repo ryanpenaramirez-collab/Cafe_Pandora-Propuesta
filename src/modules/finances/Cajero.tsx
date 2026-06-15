@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { ShiftState, Expense } from '../types';
+import { ShiftState, Expense } from '../../types';
+import { formatMiles, parseMiles } from '../../utils';
 
 const formatCOP = (amount: number) =>
   new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(amount);
@@ -47,7 +48,7 @@ export default function Cajero({ shift, onSetShift, expenses, onAddExpense }: Ca
 
   const handleCreateExpense = (e: React.FormEvent) => {
     e.preventDefault();
-    const amount = parseFloat(expenseAmount);
+    const amount = parseMiles(expenseAmount);
     if (!expenseDesc.trim() || isNaN(amount) || amount <= 0) return;
 
     const newExpense: Expense = {
@@ -161,11 +162,12 @@ export default function Cajero({ shift, onSetShift, expenses, onAddExpense }: Ca
                 <div>
                   <label className="block text-[10px] text-text-secondary mb-0.5 font-semibold">Monto</label>
                   <input
-                    type="number"
+                    type="text"
                     value={expenseAmount}
-                    onChange={(e) => setExpenseAmount(e.target.value)}
+                    onChange={(e) => setExpenseAmount(formatMiles(e.target.value))}
                     placeholder="0"
                     className="w-full border border-border-default bg-surface-input rounded-lg p-2 text-xs font-mono text-text-primary focus:ring-2 focus:ring-pandora-danger focus:border-pandora-danger outline-none"
+                    inputMode="numeric"
                   />
                 </div>
                 <div>
@@ -202,7 +204,7 @@ export default function Cajero({ shift, onSetShift, expenses, onAddExpense }: Ca
             </div>
           ) : (
             <div className="space-y-1 max-h-80 overflow-y-auto">
-              {expenses.slice(0, 10).map((exp) => (
+              {expenses.map((exp) => (
                 <div key={exp.id} className="flex justify-between items-center py-2 border-b border-border-default/30 last:border-0">
                   <div className="min-w-0 flex-1 pr-2">
                     <span className="block text-[10px] text-text-primary truncate font-medium">{exp.description}</span>

@@ -9,7 +9,7 @@ import {
   Plus, Minus, ShoppingCart, Check, Trash2, 
   Utensils, Coffee, ClipboardList, RefreshCw, Wine 
 } from 'lucide-react';
-import { MenuItem, Table, Order, OrderItem } from '../types';
+import { MenuItem, Table, Order, OrderItem } from '../../types';
 
 interface OrderTakingModuleProps {
   menu: MenuItem[];

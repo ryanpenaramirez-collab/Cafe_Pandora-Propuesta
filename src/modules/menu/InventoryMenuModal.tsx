@@ -6,7 +6,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Utensils, Coffee, Edit, Plus, Trash2 } from 'lucide-react';
-import { MenuItem } from '../types';
+import { MenuItem } from '../../types';
 
 interface InventoryMenuModalProps {
   isOpen: boolean;
@@ -36,7 +36,7 @@ export default function InventoryMenuModal({
   const [formName, setFormName] = useState('');
   const [formPrice, setFormPrice] = useState('');
   const [formDescription, setFormDescription] = useState('');
-  const [formCategory, setFormCategory] = useState<'platillo' | 'bebida'>('platillo');
+  const [formCategory, setFormCategory] = useState<'platillo' | 'bebida' | 'gaseosa'>('platillo');
   const [formSubcategory, setFormSubcategory] = useState<string>('entradas');
   const [formAvailable, setFormAvailable] = useState(true);
 

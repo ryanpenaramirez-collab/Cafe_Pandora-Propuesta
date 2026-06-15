@@ -6,10 +6,9 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Lock, ChefHat, Users } from 'lucide-react';
-import { UserSession } from '../types';
-import { STAFF_USERS } from '../data';
-// @ts-ignore
-import birdIllustration from '../assets/images/high_quality_detailed_illustration_of_a_crested_bird_perched_on_a_branch_surrounded_by_monstera_and_1yc17v04a2iybeq57gl3_1.png';
+import { UserSession } from '../../types';
+import { STAFF_USERS } from '../../data';
+import birdIllustration from '../../assets/images/high_quality_detailed_illustration_of_a_crested_bird_perched_on_a_branch_surrounded_by_monstera_and_1yc17v04a2iybeq57gl3_1.png';
 
 interface LoginViewProps {
   onLoginSuccess: (session: UserSession) => void;

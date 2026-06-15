@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { CreditCard, Banknote, ArrowLeft } from 'lucide-react';
-import { Order, Table } from '../types';
+import { Order, Table } from '../../types';
 import { jsPDF } from 'jspdf';
+import { formatMiles, parseMiles } from '../../utils';
 
 const formatCOP = (amount: number) =>
   new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(amount);
@@ -73,7 +74,7 @@ export default function Facturacion({
   const taxRate = 0.08;
   const taxAmount = applyTax ? subtotal * taxRate : 0;
   const finalTotal = subtotal + taxAmount;
-  const received = parseFloat(receivedAmount) || 0;
+  const received = parseMiles(receivedAmount);
   const cambio = received >= finalTotal ? received - finalTotal : 0;
 
   const handleGenerateInvoice = async (order: Order) => {
@@ -267,12 +268,13 @@ export default function Facturacion({
                 <div>
                   <label className="block text-[10px] font-semibold text-text-secondary mb-1">Recibido</label>
                   <input
-                    type="number"
+                    type="text"
                     value={receivedAmount}
-                    onChange={(e) => setReceivedAmount(e.target.value)}
+                    onChange={(e) => setReceivedAmount(formatMiles(e.target.value))}
                     placeholder="$0"
                     className="w-full border border-border-default rounded-lg p-2 text-sm font-mono font-bold text-text-primary bg-surface-input focus:ring-2 focus:ring-pandora-gold focus:border-pandora-gold outline-none"
                     autoFocus
+                    inputMode="numeric"
                   />
                 </div>
                 <div>

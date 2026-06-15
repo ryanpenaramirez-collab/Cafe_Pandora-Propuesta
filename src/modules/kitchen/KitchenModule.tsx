@@ -6,7 +6,7 @@
 import { useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ChefHat, Coffee, Clock, Check, Play, AlertCircle } from 'lucide-react';
-import { Order } from '../types';
+import { Order } from '../../types';
 
 interface KitchenBarModalProps {
   isOpen: boolean;
