@@ -25,7 +25,7 @@ import SystemModal from './components/SystemModal';
 import OrderTakingModule from './components/OrderTakingModule';
 import PendingOrdersModule from './components/PendingOrdersModule';
 import MenuTabContent from './components/MenuTabContent';
-import { FinanzasDashboard, type FinanzasTab } from './apartado-finanza';
+import { FinanzasDashboard, type FinanzasTab } from './components/apartado-finanza';
 
 const CATEGORIES = [
   { id: 'pedidos', name: 'Pedidos', label: 'Toma de Pedidos', icon: ClipboardList, buttonIds: ['crear_pedido', 'pedidos_pendientes'] },
@@ -511,13 +511,13 @@ export default function App() {
   // --- BUTTON COLOR STYLING MAPS ---
   const getButtonColorStyles = (color: string) => {
     switch(color) {
-      case 'yellow': return 'bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-900 focus:ring-amber-400 border-l-4 border-l-amber-500';
-      case 'green': return 'bg-emerald-50 hover:bg-emerald-100 border-emerald-250 text-emerald-900 focus:ring-emerald-400 border-l-4 border-l-emerald-600';
-      case 'magenta': return 'bg-fuchsia-50 hover:bg-fuchsia-100 border-fuchsia-250 text-fuchsia-950 focus:ring-fuchsia-400 border-l-4 border-l-fuchsia-600';
-      case 'red': return 'bg-rose-50 hover:bg-rose-100 border-rose-250 text-rose-900 focus:ring-rose-400 border-l-4 border-l-rose-600';
-      case 'cyan': return 'bg-cyan-50 hover:bg-cyan-100 border-cyan-250 text-cyan-900 focus:ring-cyan-400 border-l-4 border-l-cyan-600';
-      case 'orange': return 'bg-orange-50 hover:bg-orange-100 border-orange-255 border-orange-200 text-orange-950 focus:ring-orange-400 border-l-4 border-l-orange-600';
-      default: return 'bg-[#FFFFFF] hover:bg-[#E2EDF7] border-[#D0E8F8] text-[#2C3E55] shadow-sm';
+      case 'yellow': return 'bg-module-yellow-bg hover:bg-module-yellow-bg/80 border-module-yellow-border text-module-yellow-text focus:ring-module-yellow-text border-l-4 border-l-module-yellow-accent';
+      case 'green': return 'bg-module-green-bg hover:bg-module-green-bg/80 border-module-green-border text-module-green-text focus:ring-module-green-text border-l-4 border-l-module-green-accent';
+      case 'magenta': return 'bg-module-magenta-bg hover:bg-module-magenta-bg/80 border-module-magenta-border text-module-magenta-text focus:ring-module-magenta-text border-l-4 border-l-module-magenta-accent';
+      case 'red': return 'bg-module-red-bg hover:bg-module-red-bg/80 border-module-red-border text-module-red-text focus:ring-module-red-text border-l-4 border-l-module-red-accent';
+      case 'cyan': return 'bg-module-cyan-bg hover:bg-module-cyan-bg/80 border-module-cyan-border text-module-cyan-text focus:ring-module-cyan-text border-l-4 border-l-module-cyan-accent';
+      case 'orange': return 'bg-module-orange-bg hover:bg-module-orange-bg/80 border-module-orange-border text-module-orange-text focus:ring-module-orange-text border-l-4 border-l-module-orange-accent';
+      default: return 'bg-pandora-accent hover:bg-pandora-hover border-pandora-border text-pandora-title shadow-sm';
     }
   };
 
@@ -527,16 +527,16 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen max-h-screen bg-[#EAF2FB] wood-grain font-sans text-[#2C3E55] flex flex-col selection:bg-pandora-accent selection:text-white p-0 overflow-hidden">
+    <div className="h-screen max-h-screen bg-pandora-dark wood-grain font-sans text-pandora-body flex flex-col selection:bg-pandora-gold selection:text-pandora-dark p-0 overflow-hidden">
       
       {/* CONTENEDOR PRINCIPAL - OCUPA TODA LA PANTALLA SIN BORDES REDONDEADOS */}
-      <div className="flex-1 w-full max-w-full bg-white flex flex-col overflow-hidden">
+      <div className="flex-1 w-full max-w-full bg-pandora-hover flex flex-col overflow-hidden">
         
         {/* FILA DE CONTENIDO MULTICOLUMNA INTEGRADA */}
         <div className="flex-grow flex flex-col md:flex-row min-h-0 overflow-hidden h-full">
           
           {/* COLUMNA 1: IZQUIERDA ANGOSTA (Estática, nunca hace scroll) */}
-          <div id="col_left" className="w-full md:w-60 bg-pandora-dark text-[#FFFFFF] border-b-2 md:border-b-0 md:border-r-2 border-pandora-wood shrink-0 flex flex-col justify-between p-5 overflow-hidden md:h-full h-auto">
+          <div id="col_left" className="w-full md:w-60 bg-pandora-hover text-pandora-sidebar-text border-b-2 md:border-b-0 md:border-r-2 border-pandora-border shrink-0 flex flex-col justify-between p-5 overflow-hidden md:h-full h-auto">
             
             {/* Logo de la app dentro de un marco circular arriba */}
             <div className="text-center">
@@ -548,34 +548,34 @@ export default function App() {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <h2 className="font-serif text-base font-extrabold tracking-widest text-pandora-gold uppercase">
+              <h2 className="font-serif text-base font-extrabold tracking-widest text-pandora-cream uppercase">
                 Café Pandora
               </h2>
-              <p className="text-xs text-[#8AAAC8] font-mono tracking-wider mt-1 uppercase">POS Sistema Administrativo</p>
+              <p className="text-xs text-pandora-muted font-mono tracking-wider mt-1 uppercase">POS Sistema Administrativo</p>
             </div>
 
             {/* Decoración central de atmósfera */}
             <div className="hidden md:block my-4 text-center px-2 py-3 rounded bg-white/5 border border-white/5">
-              <span className="block text-xs font-serif italic text-pandora-cream">
+              <span className="block text-xs font-serif italic text-pandora-sidebar-text" style={{ opacity: 0.55 }}>
                 "Más que un lugar, una experiencia para tus sentidos."
               </span>
             </div>
 
             {/* Rol de usuario en la esquina inferior izquierda */}
             <div className="mt-6 md:mt-auto flex flex-col gap-2 shrink-0">
-              <span className="text-xs uppercase font-bold tracking-widest text-[#8AAAC8] block font-mono">ROL DE ACCESOS</span>
+              <span className="text-xs uppercase font-bold tracking-widest text-pandora-sidebar-text-secondary block font-mono">ROL DE ACCESOS</span>
               <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center gap-2">
                 <div id="user_avatar" className="w-8 h-8 rounded-full bg-pandora-accent flex items-center justify-center text-sm font-bold text-white uppercase shadow-sm shrink-0">
                   {user.name.charAt(0)}
                 </div>
                 <div className="text-left overflow-hidden flex-1">
-                  <span className="text-sm font-semibold text-pandora-cream block truncate leading-tight">{user.name}</span>
+                  <span className="text-sm font-semibold text-pandora-sidebar-text block truncate leading-tight">{user.name}</span>
                   <span className="text-xs text-pandora-gold uppercase tracking-wider block font-bold mt-0.5 capitalize">{user.role}</span>
                 </div>
               </div>
               <button 
                 onClick={handleLogout}
-                className="w-full text-center py-2 bg-[#C45A5A]/20 hover:bg-[#C45A5A]/30 border border-rose-500/30 rounded-lg text-xs font-bold text-[#FFB8B8] transition-colors flex items-center justify-center gap-1.5 cursor-pointer uppercase font-mono tracking-wider shadow-sm"
+                className="w-full text-center py-2 bg-transparent hover:bg-pandora-danger/10 border border-pandora-danger rounded-lg text-xs font-bold text-pandora-danger transition-colors flex items-center justify-center gap-1.5 cursor-pointer uppercase font-mono tracking-wider"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Cerrar Sesión
@@ -586,13 +586,13 @@ export default function App() {
 
           {/* CONTENEDOR DE HEADER SUPERIOR + COLUMNA CENTRAL Y DERECHA */}
           <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
-            <header id="main_header" className="bg-pandora-dark text-white border-b-2 border-pandora-wood py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
+            <header id="main_header" className="bg-pandora-accent text-pandora-title border-b-2 border-pandora-border py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
                 <div className="text-left">
                   <h1 className="font-serif text-xl font-bold tracking-widest text-pandora-gold uppercase leading-none">
                     Cafe Pandora
                   </h1>
-                  <span className="text-xs text-pandora-gold font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
+                  <span className="text-xs text-pandora-cream font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
                 </div>
               </div>
 
@@ -601,12 +601,12 @@ export default function App() {
             </header>
 
             {/* COLUMNA DERECHA: AREA DE CONTENIDO PRINCIPAL INTEGRADO (Columna derecha grande) */}
-              <div id="col_right_content" className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start" style={{ backgroundColor: '#EAF2FB' }}>
+              <div id="col_right_content" className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start bg-pandora-bg">
                 
                 {/* Slider horizontal de categorías */}
                 <div className="overflow-x-auto scrollbar-hide flex gap-2 pb-1 snap-x snap-mandatory scroll-smooth shrink-0">
                   {visibleCategories.length === 0 ? (
-                    <div className="p-4 text-center text-[#8AAAC8] text-xs font-light w-full">
+                    <div className="p-4 text-center text-pandora-muted text-xs font-light w-full">
                       Ninguna categoría activa.
                     </div>
                   ) : (
@@ -623,14 +623,14 @@ export default function App() {
                           onClick={() => setActiveCategory(isActive ? null : cat.id)}
                           className={`snap-start shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all cursor-pointer ${
                             isActive
-                              ? 'bg-pandora-dark border-pandora-dark text-white shadow-md'
-                              : 'bg-white/80 border-[#D0E8F8] text-[#5A7A9A] hover:bg-white shadow-sm'
+                              ? 'bg-pandora-gold-bg border-pandora-gold text-pandora-gold shadow-md'
+                              : 'bg-transparent border-pandora-border text-pandora-body hover:bg-pandora-accent/30 shadow-sm'
                           }`}
                         >
-                          <IconComponent className={`w-4 h-4 ${isActive ? 'text-pandora-gold' : 'text-[#8AAAC8]'}`} />
+                          <IconComponent className={`w-4 h-4 ${isActive ? 'text-pandora-gold' : 'text-pandora-body'}`} />
                           <span className="text-xs font-bold uppercase tracking-wider whitespace-nowrap">{cat.name}</span>
                           {count > 0 && (
-                            <span className="h-4 min-w-[16px] px-1 rounded-full bg-[#C45A5A] text-white text-[8px] font-extrabold flex items-center justify-center animate-pulse">
+                            <span className="h-4 min-w-[16px] px-1 rounded-full bg-pandora-gold-badge text-pandora-dark text-[8px] font-extrabold flex items-center justify-center">
                               {count}
                             </span>
                           )}
@@ -646,40 +646,40 @@ export default function App() {
                     <div className="flex items-center gap-2 text-xs font-mono">
                       <button 
                         onClick={() => setActiveCategory(null)}
-                        className="flex items-center gap-1.5 text-pandora-dark hover:text-pandora-accent font-extrabold transition-all cursor-pointer bg-transparent border-none outline-none"
+                        className="flex items-center gap-1.5 text-pandora-body hover:text-pandora-gold font-extrabold transition-all cursor-pointer bg-transparent border-none outline-none"
                       >
-                        <ChevronLeft className="w-4 h-4 text-pandora-accent" /> Volver al Inicio
+                        <ChevronLeft className="w-4 h-4 text-pandora-gold" /> Volver al Inicio
                       </button>
-                      <span className="text-[#5A7A9A]">/</span>
-                      <span className="text-[#2C3E55] font-extrabold uppercase">{selectedCategory?.name}</span>
+                      <span className="text-pandora-muted">/</span>
+                      <span className="text-pandora-title font-extrabold uppercase">{selectedCategory?.name}</span>
                     </div>
 
                     {/* Hero/Visual category description */}
-                    <div className="p-4 bg-[#FFFFFF] border border-[#D0E8F8] rounded-xl flex items-center gap-3 shadow-sm">
-                      <div className="p-2.5 bg-pandora-accent/10 rounded-lg border border-pandora-accent/20 flex items-center justify-center">
+                    <div className="p-4 bg-pandora-accent border border-pandora-border rounded-xl flex items-center gap-3 shadow-sm">
+                      <div className="p-2.5 bg-pandora-gold-bg rounded-lg border border-pandora-gold/20 flex items-center justify-center">
                         {(() => {
                           const IconComp = selectedCategory?.icon || Sparkles;
-                          return <IconComp className="w-5 h-5 text-pandora-accent" />;
+                          return <IconComp className="w-5 h-5 text-pandora-gold" />;
                         })()}
                       </div>
                       <div>
-                        <h2 className="font-serif text-sm font-bold text-[#2C3E55] uppercase tracking-wider">{selectedCategory?.name}</h2>
-                        <p className="text-[11px] text-[#5A7A9A] font-light mt-0.5 font-sans">Acceda a los servicios de {selectedCategory?.name.toLowerCase()} de Cafe Pandora</p>
+                        <h2 className="font-serif text-sm font-bold text-pandora-title uppercase tracking-wider">{selectedCategory?.name}</h2>
+                        <p className="text-[11px] text-pandora-muted font-light mt-0.5 font-sans">Acceda a los servicios de {selectedCategory?.name.toLowerCase()} de Cafe Pandora</p>
                       </div>
                     </div>
 
                     {/* Render content based on active category */}
                     {activeCategory === 'menu' ? (
                       <div className="flex flex-col gap-4">
-                        <div className="flex flex-wrap items-center gap-2 p-1 bg-[#F0F6FF]/75 rounded-xl border border-[#D0E8F8] self-start shrink-0">
+                        <div className="flex flex-wrap items-center gap-2 p-1 bg-pandora-accent/50 rounded-xl border border-pandora-border self-start shrink-0">
                           {(['platos', 'bebidas'] as const).map((tab) => (
                             <button
                               key={tab}
                               onClick={() => setActiveMenuTab(tab)}
                               className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${
                                 activeMenuTab === tab
-                                  ? 'bg-[#FFFFFF] text-[#2C3E55] shadow-sm border border-[#D0E8F8]'
-                                  : 'text-[#8AAAC8] hover:text-[#2C3E55]'
+                                  ? 'bg-pandora-accent text-pandora-title shadow-sm border border-pandora-border'
+                                  : 'text-pandora-disabled hover:text-pandora-title'
                               }`}
                             >
                               {tab === 'platos' ? 'PLATILLOS' : 'BEBIDAS'}
@@ -698,16 +698,16 @@ export default function App() {
                     ) : activeCategory === 'pedidos' ? (
                       <div className="flex flex-col gap-4">
                         {/* Selector de subcategorías para Pedidos */}
-                        <div className="flex flex-wrap items-center gap-2 p-1 bg-[#F0F6FF]/75 rounded-xl border border-[#D0E8F8] self-start shrink-0">
+                        <div className="flex flex-wrap items-center gap-2 p-1 bg-pandora-accent/50 rounded-xl border border-pandora-border self-start shrink-0">
                           <button
                             onClick={() => setActivePedidosTab('nuevo')}
                             className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${
                               activePedidosTab === 'nuevo'
-                                ? 'bg-[#FFFFFF] text-[#2C3E55] shadow-sm border border-[#D0E8F8]'
-                                : 'text-[#8AAAC8] hover:text-[#2C3E55]'
+                                ? 'bg-pandora-accent text-pandora-title shadow-sm border border-pandora-border'
+                                : 'text-pandora-disabled hover:text-pandora-title'
                             }`}
                           >
-                            <ClipboardList className="w-4 h-4 text-pandora-accent" />
+                            <ClipboardList className="w-4 h-4 text-pandora-gold" />
                             Nuevo Pedido
                           </button>
                           
@@ -715,14 +715,14 @@ export default function App() {
                             onClick={() => setActivePedidosTab('pendientes')}
                             className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${
                               activePedidosTab === 'pendientes'
-                                ? 'bg-[#FFFFFF] text-[#2C3E55] shadow-sm border border-[#D0E8F8]'
-                                : 'text-[#8AAAC8] hover:text-[#2C3E55]'
+                                ? 'bg-pandora-accent text-pandora-title shadow-sm border border-pandora-border'
+                                : 'text-pandora-disabled hover:text-pandora-title'
                             }`}
                           >
-                            <Clock className="w-4 h-4 text-pandora-accent" />
+                            <Clock className="w-4 h-4 text-pandora-gold" />
                             Pedidos Pendientes
                             {orders.filter(o => o.status !== 'listo').length > 0 && (
-                              <span className="bg-[#C45A5A] text-white font-mono text-[9px] font-extrabold h-4.5 px-1.5 rounded-full flex items-center justify-center animate-pulse">
+                              <span className="bg-pandora-gold-badge text-pandora-dark font-mono text-[9px] font-extrabold h-4.5 px-1.5 rounded-full flex items-center justify-center">
                                 {orders.filter(o => o.status !== 'listo').length}
                               </span>
                             )}
@@ -772,32 +772,32 @@ export default function App() {
             ) : (
                   <div className="flex flex-col gap-5">
                     {/* Banner de Bienvenida y Resumen Operacional en Vivo */}
-                    <div className="bg-[#FFFFFF] border border-[#D0E8F8] rounded-2xl p-4 sm:p-5 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div className="bg-pandora-accent border border-pandora-border rounded-2xl p-4 sm:p-5 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs uppercase font-mono tracking-widest bg-pandora-accent/10 text-pandora-accent px-2 py-0.5 rounded-full font-bold border border-pandora-accent/20">
+                          <span className="text-xs uppercase font-mono tracking-widest bg-pandora-gold-bg text-pandora-gold px-2 py-0.5 rounded-full font-bold border border-pandora-gold/20">
                             Servicio en Vivo
                           </span>
-                          <span className="text-xs font-mono text-[#8AAAC8]">
+                          <span className="text-xs font-mono text-pandora-muted">
                             {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
                           </span>
                         </div>
-                        <h2 className="font-serif text-lg sm:text-xl font-bold text-[#2C3E55] mt-1.5">
+                        <h2 className="font-serif text-lg sm:text-xl font-bold text-pandora-title mt-1.5">
                           ¡Hola, {user.name}!
                         </h2>
-                        <p className="text-sm text-[#5A7A9A] font-light mt-0.5">
-                          Tienes <strong>{orders.filter(o => o.status !== 'listo' && o.status !== 'caja' && o.status !== 'facturado').length}</strong> pedidos pendientes por atender. Revisa las comandas pendientes o dirígete a caja para facturar.
+                        <p className="text-sm text-pandora-muted font-light mt-0.5">
+                          Tienes <strong className="text-pandora-title font-semibold">{orders.filter(o => o.status !== 'listo' && o.status !== 'caja' && o.status !== 'facturado').length}</strong> pedidos pendientes por atender. Revisa las comandas pendientes o dirígete a caja para facturar.
                         </p>
                       </div>
 
                       {/* Contador de Comandas en Cola */}
-                      <div className="bg-[#F0F6FF]/80 border border-[#D0E8F8] rounded-xl p-3 flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
-                        <div className="w-9 h-9 rounded-lg bg-[#F5EDD8] border border-[#EAD9B8] flex items-center justify-center text-[#C8A96E] shrink-0">
+                      <div className="bg-pandora-hover border border-pandora-border rounded-xl p-3 flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
+                        <div className="w-9 h-9 rounded-lg bg-pandora-gold-bg border border-pandora-gold/20 flex items-center justify-center text-pandora-gold shrink-0">
                           <ClipboardList className="w-5 h-5" />
                         </div>
                         <div>
-                          <span className="text-xs uppercase font-mono font-bold text-[#8AAAC8] block tracking-wider">Comandas en Cola</span>
-                          <span className="font-sans text-sm font-bold text-[#2C3E55] block mt-0.5">
+                          <span className="text-xs uppercase font-mono font-bold text-pandora-muted block tracking-wider">Comandas en Cola</span>
+                          <span className="font-sans text-sm font-bold text-pandora-title block mt-0.5">
                             {orders.filter(o => o.status !== 'listo' && o.status !== 'caja' && o.status !== 'facturado').length === 1 ? '1 pedido por atender' : `${orders.filter(o => o.status !== 'listo' && o.status !== 'caja' && o.status !== 'facturado').length} pedidos por atender`}
                           </span>
                         </div>
@@ -805,17 +805,17 @@ export default function App() {
                     </div>
 
                     {/* Acceso rápido a pedidos pendientes */}
-                    <div className="bg-[#FFFFFF] border border-[#D0E8F8] rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col gap-4">
-                      <div className="flex justify-between items-center border-b border-[#D0E8F8] pb-2">
-                        <h3 className="font-serif text-sm font-extrabold text-[#2C3E55] uppercase tracking-wider flex items-center gap-1.5">
-                          <Clock className="w-4 h-4 text-pandora-accent animate-pulse" /> Acceso Rápido a Pedidos Pendientes
+                    <div className="bg-pandora-accent border border-pandora-border rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col gap-4">
+                      <div className="flex justify-between items-center border-b border-pandora-border pb-2">
+                        <h3 className="font-serif text-sm font-extrabold text-pandora-title uppercase tracking-wider flex items-center gap-1.5">
+                          <Clock className="w-4 h-4 text-pandora-gold" /> Acceso Rápido a Pedidos Pendientes
                         </h3>
                         <button
                           onClick={() => {
                             setActiveCategory('pedidos');
                             setActivePedidosTab('nuevo');
                           }}
-                          className="bg-[#5B9BD5] hover:bg-[#3A7AB5] text-white text-xs font-mono font-bold tracking-wider uppercase py-1.5 px-3 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                          className="bg-pandora-primary hover:bg-pandora-primary-hover text-pandora-dark text-xs font-mono font-bold tracking-wider uppercase py-1.5 px-3 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
                         >
                           <Plus className="w-3.5 h-3.5" /> Nuevo Pedido
                         </button>

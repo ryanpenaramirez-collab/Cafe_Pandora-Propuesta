@@ -69,53 +69,53 @@ export default function FinanzasDashboard({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-sm font-bold text-slate-800">Caja y Finanzas</h2>
-          <p className="text-[11px] text-slate-600 mt-0.5">Gestión de caja, ventas y facturación</p>
+          <h2 className="font-serif text-sm font-bold text-text-primary">Caja y Finanzas</h2>
+          <p className="text-[11px] text-text-secondary mt-0.5">Gestión de caja, ventas y facturación</p>
         </div>
       </div>
 
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
-        <div className="bg-white rounded-lg border border-slate-200 p-2.5 flex flex-col items-center text-center">
-          <span className="text-[18px] font-mono font-black text-emerald-600 leading-none">{formatCOP(metrics.ventasHoy)}</span>
-          <span className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mt-0.5">Ventas Hoy</span>
+        <div className="bg-surface-card rounded-lg border border-border-default p-2.5 flex flex-col items-center text-center">
+          <span className="text-[18px] font-mono font-black text-pandora-success leading-none">{formatCOP(metrics.ventasHoy)}</span>
+          <span className="text-[9px] uppercase tracking-wider font-semibold text-text-muted mt-0.5">Ventas Hoy</span>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-2.5 flex flex-col items-center text-center">
-          <span className="text-[18px] font-mono font-black text-sky-600 leading-none">{formatCOP(metrics.cajaActual)}</span>
-          <span className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mt-0.5">Caja Actual</span>
+        <div className="bg-surface-card rounded-lg border border-border-default p-2.5 flex flex-col items-center text-center">
+          <span className="text-[18px] font-mono font-black text-pandora-gold leading-none">{formatCOP(metrics.cajaActual)}</span>
+          <span className="text-[9px] uppercase tracking-wider font-semibold text-text-muted mt-0.5">Caja Actual</span>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-2.5 flex flex-col items-center text-center">
-          <span className="text-[18px] font-mono font-black text-amber-600 leading-none">{metrics.pedidosPendientes}</span>
-          <span className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mt-0.5">Pendientes</span>
+        <div className="bg-surface-card rounded-lg border border-border-default p-2.5 flex flex-col items-center text-center">
+          <span className="text-[18px] font-mono font-black text-pandora-gold leading-none">{metrics.pedidosPendientes}</span>
+          <span className="text-[9px] uppercase tracking-wider font-semibold text-text-muted mt-0.5">Pendientes</span>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-2.5 flex flex-col items-center text-center">
-          <span className="text-[18px] font-mono font-black text-rose-600 leading-none">{formatCOP(metrics.egresosHoy)}</span>
-          <span className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mt-0.5">Egresos Hoy</span>
+        <div className="bg-surface-card rounded-lg border border-border-default p-2.5 flex flex-col items-center text-center">
+          <span className="text-[18px] font-mono font-black text-pandora-danger leading-none">{formatCOP(metrics.egresosHoy)}</span>
+          <span className="text-[9px] uppercase tracking-wider font-semibold text-text-muted mt-0.5">Egresos Hoy</span>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-2.5 flex flex-col items-center text-center">
-          <span className={`text-[18px] font-mono font-black leading-none ${shift.isOpen ? 'text-emerald-600' : 'text-rose-600'}`}>
+        <div className="bg-surface-card rounded-lg border border-border-default p-2.5 flex flex-col items-center text-center">
+          <span className={`text-[18px] font-mono font-black leading-none ${shift.isOpen ? 'text-pandora-success' : 'text-pandora-danger'}`}>
             {shift.isOpen ? 'Abierta' : 'Cerrada'}
           </span>
-          <span className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mt-0.5">Caja Estado</span>
+          <span className="text-[9px] uppercase tracking-wider font-semibold text-text-muted mt-0.5">Caja Estado</span>
         </div>
-        <div className="bg-white rounded-lg border border-slate-200 p-2.5 flex flex-col items-center text-center">
-          <span className="text-[18px] font-mono font-black text-slate-700 leading-none truncate max-w-full">
+        <div className="bg-surface-card rounded-lg border border-border-default p-2.5 flex flex-col items-center text-center">
+          <span className="text-[18px] font-mono font-black text-text-primary leading-none truncate max-w-full">
             {shift.openedBy || '—'}
           </span>
-          <span className="text-[9px] uppercase tracking-wider font-semibold text-slate-500 mt-0.5">Responsable</span>
+          <span className="text-[9px] uppercase tracking-wider font-semibold text-text-muted mt-0.5">Responsable</span>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-6 border-b border-slate-200">
+      <div className="flex gap-6 border-b border-border-default">
         {TABS.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={`text-xs font-semibold pb-2 border-b-2 transition-all cursor-pointer bg-transparent ${
               activeTab === tab.id
-                ? 'text-slate-800 border-pandora-accent'
-                : 'text-slate-500 border-transparent hover:text-slate-700'
+                ? 'text-text-primary border-pandora-gold'
+                : 'text-text-muted border-transparent hover:text-text-secondary'
             }`}
           >
             {tab.label}
@@ -192,34 +192,34 @@ function MovimientosList({ orders, expenses, tables }: { orders: Order[]; expens
 
   if (movimientos.length === 0) {
     return (
-      <p className="text-xs text-slate-500 py-4 text-center">
+      <p className="text-xs text-text-muted py-4 text-center">
         No hay movimientos registrados hoy.
       </p>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
-      <div className="px-4 py-3 border-b border-slate-100">
-        <h4 className="text-xs font-bold text-slate-800">Movimientos Recientes</h4>
-        <p className="text-[10px] text-slate-400">Últimos 10 movimientos del día</p>
+    <div className="bg-surface-card rounded-lg border border-border-default overflow-hidden">
+      <div className="px-4 py-3 border-b border-border-default">
+        <h4 className="text-xs font-bold text-text-primary">Movimientos Recientes</h4>
+        <p className="text-[10px] text-text-muted">Últimos 10 movimientos del día</p>
       </div>
-      <div className="divide-y divide-slate-50">
+      <div className="divide-y divide-border-default/30">
         {movimientos.map((m) => (
-          <div key={m.id} className="flex items-center justify-between px-4 py-2.5 hover:bg-slate-50 transition-colors">
+          <div key={m.id} className="flex items-center justify-between px-4 py-2.5 hover:bg-surface-card-hover transition-colors">
             <div className="flex items-center gap-3 min-w-0 flex-1">
-              <span className="text-[10px] font-mono text-slate-400 shrink-0 w-10">{m.timestamp}</span>
+              <span className="text-[10px] font-mono text-text-muted shrink-0 w-10">{m.timestamp}</span>
               <span className={`inline-block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ${
                 m.tipo === 'ingreso'
-                  ? 'bg-emerald-100 text-emerald-700'
-                  : 'bg-rose-100 text-rose-700'
+                  ? 'bg-pandora-success-bg text-pandora-success'
+                  : 'bg-pandora-error-bg text-pandora-danger'
               }`}>
                 {m.tipo === 'ingreso' ? 'Venta' : 'Egreso'}
               </span>
-              <span className="text-[11px] text-slate-700 truncate">{m.descripcion}</span>
+              <span className="text-[11px] text-text-primary truncate">{m.descripcion}</span>
             </div>
             <span className={`font-mono text-[11px] font-bold shrink-0 ml-3 ${
-              m.tipo === 'ingreso' ? 'text-emerald-600' : 'text-rose-600'
+              m.tipo === 'ingreso' ? 'text-pandora-success' : 'text-pandora-danger'
             }`}>
               {m.tipo === 'ingreso' ? '+' : '-'}{formatCOP(m.monto)}
             </span>

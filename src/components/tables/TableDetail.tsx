@@ -6,10 +6,10 @@ import { TableDetailProps } from './types';
 import { formatCOP, getTableStatusColor, getElapsedTime } from './utils';
 
 const STATUS_ACTIONS: { status: TableStatus; label: string; color: string }[] = [
-  { status: 'vacía', label: 'Vacía', color: 'bg-[#D0E8F8] hover:bg-slate-200 text-[#5A7A9A] border-[#D0E8F8]' },
-  { status: 'ocupada', label: 'Ocupada', color: 'bg-[#FFF0F0] hover:bg-rose-200 text-[#C45A5A] border-[#F0A8A8]' },
-  { status: 'por_pagar', label: 'Por Pagar', color: 'bg-[#F5EDD8] hover:bg-amber-200 text-[#C8A96E] border-[#DCC89A]' },
-  { status: 'reservada', label: 'Reservada', color: 'bg-[#E8F5EE] hover:bg-emerald-200 text-[#5BA882] border-[#A0C8B0]' },
+  { status: 'vacía', label: 'Vacía', color: 'bg-pandora-border hover:bg-surface-card-hover text-pandora-muted border-pandora-border' },
+  { status: 'ocupada', label: 'Ocupada', color: 'bg-pandora-error-bg hover:bg-pandora-danger/20 text-pandora-danger border-pandora-danger/30' },
+  { status: 'por_pagar', label: 'Por Pagar', color: 'bg-pandora-warning-bg hover:bg-pandora-gold/20 text-pandora-gold border-pandora-gold/30' },
+  { status: 'reservada', label: 'Reservada', color: 'bg-pandora-success-bg hover:bg-pandora-success/20 text-pandora-success border-pandora-success/30' },
 ];
 
 export default function TableDetail({ table, orders, onStatusChange, onOpenBilling, onAddConsumption, onClose }: TableDetailProps) {
@@ -47,16 +47,16 @@ export default function TableDetail({ table, orders, onStatusChange, onOpenBilli
       transition={{ duration: 0.25, ease: 'easeOut' }}
       className="flex flex-col h-full"
     >
-      <div className="p-4 border-b border-[#D0E8F8] flex justify-between items-start">
+      <div className="p-4 border-b border-pandora-border flex justify-between items-start">
         <div>
-          <h4 className="font-serif font-bold text-base text-[#FFFFFF]">{table.name}</h4>
-          <p className="text-[10px] text-[#8AAAC8] font-mono">
+          <h4 className="font-serif font-bold text-base text-pandora-title">{table.name}</h4>
+          <p className="text-[10px] text-pandora-disabled font-mono">
             ID: Mesa-{table.id} · Cap: {table.capacity} pax
           </p>
         </div>
         <button
           onClick={onClose}
-          className="p-1 hover:bg-slate-100 rounded-full text-[#8AAAC8] hover:text-slate-600 transition-colors cursor-pointer"
+          className="p-1 hover:bg-surface-card-hover rounded-full text-pandora-disabled hover:text-slate-600 transition-colors cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
@@ -68,41 +68,41 @@ export default function TableDetail({ table, orders, onStatusChange, onOpenBilli
             {table.status}
           </span>
           {table.currentWaiter && (
-            <span className="text-[10px] text-[#8AAAC8]">Mesero: {table.currentWaiter}</span>
+            <span className="text-[10px] text-pandora-disabled">Mesero: {table.currentWaiter}</span>
           )}
         </div>
 
         {table.occupiedSince && (
-          <div className="flex items-center gap-1.5 text-[11px] text-[#8AAAC8]">
+          <div className="flex items-center gap-1.5 text-[11px] text-pandora-disabled">
             <Clock className="w-3 h-3" />
             <span>Tiempo: {getElapsedTime(table.occupiedSince)}</span>
           </div>
         )}
 
-        <div className="bg-[#F0F6FF] rounded-lg p-3 border border-[#E2EDF7]">
-          <span className="text-[10px] text-[#8AAAC8] uppercase tracking-wider font-bold">Consumo Acumulado</span>
-          <p className="text-xl font-bold font-mono text-[#C45A5A] mt-1">{formatCOP(table.totalAmount)}</p>
+        <div className="bg-pandora-bg rounded-lg p-3 border border-pandora-border">
+          <span className="text-[10px] text-pandora-muted uppercase tracking-wider font-bold">Consumo Acumulado</span>
+          <p className="text-xl font-bold font-mono text-pandora-danger mt-1">{formatCOP(table.totalAmount)}</p>
         </div>
 
         {tableOrders.length > 0 && (
           <div>
-            <h5 className="text-[10px] font-bold text-[#8AAAC8] uppercase tracking-wider mb-2">
+            <h5 className="text-[10px] font-bold text-pandora-muted uppercase tracking-wider mb-2">
               Órdenes Activas ({tableOrders.length})
             </h5>
             <div className="space-y-2">
               {tableOrders.map(order => (
-                <div key={order.id} className="bg-[#FFFFFF] border border-[#D0E8F8] rounded-lg p-2.5 text-xs">
+                <div key={order.id} className="bg-surface-card border border-pandora-border rounded-lg p-2.5 text-xs">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="font-bold text-[#5A7A9A]">{order.type}</span>
+                    <span className="font-bold text-pandora-muted">{order.type}</span>
                     <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold ${
-                      order.status === 'espera' ? 'bg-[#F5EDD8] text-[#C8A96E]' :
+                      order.status === 'espera' ? 'bg-pandora-warning-bg text-pandora-gold' :
                       order.status === 'preparacion' ? 'bg-blue-100 text-blue-700' :
-                      'bg-[#E8F5EE] text-[#5BA882]'
+                      'bg-pandora-success-bg text-pandora-success'
                     }`}>
                       {order.status}
                     </span>
                   </div>
-                  <div className="text-[#8AAAC8] space-y-0.5">
+                  <div className="text-pandora-disabled space-y-0.5">
                     {order.items.map((item, i) => (
                       <div key={i} className="flex justify-between">
                         <span>{item.name} x{item.quantity}</span>
@@ -110,7 +110,7 @@ export default function TableDetail({ table, orders, onStatusChange, onOpenBilli
                       </div>
                     ))}
                   </div>
-                  <div className="text-right font-bold font-mono text-[#5A7A9A] mt-1 pt-1 border-t border-[#E2EDF7]">
+                  <div className="text-right font-bold font-mono text-pandora-muted mt-1 pt-1 border-t border-pandora-border">
                     Total: {formatCOP(order.total)}
                   </div>
                 </div>
@@ -120,7 +120,7 @@ export default function TableDetail({ table, orders, onStatusChange, onOpenBilli
         )}
 
         <div>
-          <h5 className="text-[10px] font-bold text-[#8AAAC8] uppercase tracking-wider mb-2">Cambiar Estado</h5>
+          <h5 className="text-[10px] font-bold text-pandora-muted uppercase tracking-wider mb-2">Cambiar Estado</h5>
           <div className="grid grid-cols-2 gap-2">
             {STATUS_ACTIONS.map(action => (
               <button
@@ -140,25 +140,25 @@ export default function TableDetail({ table, orders, onStatusChange, onOpenBilli
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            className="bg-[#E8F5EE] border border-[#B8D8C8] rounded-lg p-3 space-y-2"
+            className="bg-pandora-success-bg border border-pandora-success/40 rounded-lg p-3 space-y-2"
           >
             <input
               type="text"
               value={guestName}
               onChange={e => setGuestName(e.target.value)}
               placeholder="Nombre del cliente"
-              className="w-full bg-[#FFFFFF] border border-[#B8D8C8] rounded p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full bg-surface-card border border-pandora-success/40 rounded p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
             />
             <div className="flex gap-2">
               <input
                 type="time"
                 value={reserveTime}
                 onChange={e => setReserveTime(e.target.value)}
-                className="flex-1 bg-[#FFFFFF] border border-[#B8D8C8] rounded p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="flex-1 bg-surface-card border border-pandora-success/40 rounded p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
               />
               <button
                 onClick={handleConfirmReservation}
-                className="px-3 py-1.5 bg-[#5BA882] hover:bg-[#4A9872] text-white rounded text-xs font-bold cursor-pointer transition-colors"
+                className="px-3 py-1.5 bg-pandora-success hover:bg-green-700 text-white rounded text-xs font-bold cursor-pointer transition-colors"
               >
                 Reservar
               </button>
@@ -167,17 +167,17 @@ export default function TableDetail({ table, orders, onStatusChange, onOpenBilli
         )}
 
         <div>
-          <h5 className="text-[10px] font-bold text-[#8AAAC8] uppercase tracking-wider mb-2">Agregar Consumo Manual</h5>
+          <h5 className="text-[10px] font-bold text-pandora-muted uppercase tracking-wider mb-2">Agregar Consumo Manual</h5>
           <div className="flex gap-2">
             <input
               type="number"
               value={customAmount}
               onChange={e => setCustomAmount(Number(e.target.value))}
-              className="w-24 bg-[#FFFFFF] border border-[#D0E8F8] rounded p-1.5 text-xs text-center font-mono focus:outline-none focus:ring-1 focus:ring-pandora-accent"
+              className="w-24 bg-surface-card border border-pandora-border rounded p-1.5 text-xs text-center font-mono focus:outline-none focus:ring-1 focus:ring-pandora-accent"
             />
             <button
               onClick={() => onAddConsumption(customAmount)}
-              className="flex-1 py-1.5 bg-[#5B9BD5] hover:bg-[#3A7AB5] text-white rounded text-xs font-bold cursor-pointer transition-colors"
+              className="flex-1 py-1.5 bg-pandora-primary hover:bg-pandora-primary-hover text-white rounded text-xs font-bold cursor-pointer transition-colors"
             >
               + Consumo
             </button>
@@ -186,10 +186,10 @@ export default function TableDetail({ table, orders, onStatusChange, onOpenBilli
       </div>
 
       {table.totalAmount > 0 && (
-        <div className="p-4 border-t border-[#D0E8F8]">
+        <div className="p-4 border-t border-pandora-border">
           <button
             onClick={onOpenBilling}
-            className="w-full py-3 bg-[#5BA882] hover:bg-[#4A9872] text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.02]"
+            className="w-full py-3 bg-pandora-success hover:bg-green-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.02]"
           >
             <Receipt className="w-4 h-4" />
             Cobrar Mesa

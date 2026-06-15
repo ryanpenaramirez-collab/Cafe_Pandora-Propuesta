@@ -240,9 +240,6 @@ export const INITIAL_STOCK: StockItem[] = [
 ];
 
 export const STAFF_USERS = [
-  { id: 'u1', name: 'Andres', role: 'administrador', email: 'andres@pandora.com', status: 'Activo', pin: '1234' },
-  { id: 'u2', name: 'Laura Restrepo', role: 'administrador', email: 'laura@pandora.com', status: 'Activo', pin: '1234' },
-  { id: 'u3', name: 'Meseros', role: 'mesero', email: 'luis@pandora.com', status: 'Activo', pin: '1234' },
-  { id: 'u4', name: 'Sofía Valenzuela', role: 'administrador', email: 'sofia@pandora.com', status: 'Activo', pin: '1234' },
-  { id: 'u5', name: 'Andrea Gómez', role: 'mesero', email: 'andrea@pandora.com', status: 'Activo', pin: '1234' }
+  { id: 'u1', name: 'Administrador', role: 'administrador', email: 'admin@pandora.com', password: 'admin123', status: 'Activo' },
+  { id: 'u2', name: 'Mesero', role: 'mesero', email: 'mesero@pandora.com', password: 'mesero123', status: 'Activo' }
 ];

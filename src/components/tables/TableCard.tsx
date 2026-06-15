@@ -40,17 +40,17 @@ export default function TableCard({ table, isSelected, onClick }: TableCardProps
         </div>
 
         {table.status === 'ocupada' && (
-          <div className="font-mono font-bold text-sm text-[#C45A5A]">
+          <div className="font-mono font-bold text-sm text-pandora-danger">
             {formatCOP(table.totalAmount)}
           </div>
         )}
         {table.status === 'por_pagar' && (
-          <div className="font-mono font-bold text-sm text-[#C4A84A] animate-pulse">
+          <div className="font-mono font-bold text-sm text-pandora-gold animate-pulse">
             {formatCOP(table.totalAmount)}
           </div>
         )}
         {table.status === 'reservada' && table.guestName && (
-          <div className="text-[10px] text-[#5BA882] truncate font-medium">
+          <div className="text-[10px] text-pandora-success truncate font-medium">
             {table.guestName}
           </div>
         )}

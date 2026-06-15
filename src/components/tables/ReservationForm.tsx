@@ -39,23 +39,23 @@ export default function ReservationForm({ tableId, tableName, onConfirm, onCance
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className="fixed inset-0 bg-[#3A7AB5]/20 z-[60] flex items-center justify-center p-4"
+        className="fixed inset-0 bg-pandora-gold/10 z-[60] flex items-center justify-center p-4"
         onClick={onCancel}
       >
         <motion.div
           initial={{ y: 30 }}
           animate={{ y: 0 }}
           onClick={e => e.stopPropagation()}
-          className="bg-[#FFFFFF] w-full max-w-md rounded-2xl shadow-2xl overflow-hidden"
+          className="bg-pandora-accent w-full max-w-md rounded-2xl shadow-2xl overflow-hidden"
         >
-          <div className="bg-[#3A7AB5] p-4 flex justify-between items-center">
+          <div className="bg-pandora-primary p-4 flex justify-between items-center">
             <div>
-              <h3 className="font-serif font-bold text-lg text-[#C8A96E]">Nueva Reserva</h3>
-              <p className="text-[11px] text-[#8AAAC8]">{tableName}</p>
+              <h3 className="font-serif font-bold text-lg text-pandora-gold">Nueva Reserva</h3>
+              <p className="text-[11px] text-pandora-muted">{tableName}</p>
             </div>
             <button
               onClick={onCancel}
-              className="p-1 hover:bg-[#FFFFFF]/10 rounded-full text-white cursor-pointer transition-colors"
+              className="p-1 hover:bg-pandora-accent/10 rounded-full text-white cursor-pointer transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -63,7 +63,7 @@ export default function ReservationForm({ tableId, tableName, onConfirm, onCance
 
           <div className="p-5 space-y-4 max-h-[70vh] overflow-y-auto">
             <div>
-              <label className="text-xs font-bold text-[#5A7A9A] flex items-center gap-1 mb-1">
+              <label className="text-xs font-bold text-pandora-body flex items-center gap-1 mb-1">
                 <Users className="w-3.5 h-3.5" /> Nombre del Cliente *
               </label>
               <input
@@ -71,14 +71,14 @@ export default function ReservationForm({ tableId, tableName, onConfirm, onCance
                 value={guestName}
                 onChange={e => setGuestName(e.target.value)}
                 placeholder="Nombre completo"
-                className={`w-full border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold ${errors.guestName ? 'border-red-300' : 'border-[#D0E8F8]'}`}
+                className={`w-full border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold ${errors.guestName ? 'border-red-300' : 'border-pandora-border'}`}
               />
               {errors.guestName && <p className="text-[10px] text-red-500 mt-0.5">{errors.guestName}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-bold text-[#5A7A9A] flex items-center gap-1 mb-1">
+                <label className="text-xs font-bold text-pandora-body flex items-center gap-1 mb-1">
                   <Calendar className="w-3.5 h-3.5" /> Fecha
                 </label>
                 <input
@@ -86,25 +86,25 @@ export default function ReservationForm({ tableId, tableName, onConfirm, onCance
                   value={date}
                   onChange={e => setDate(e.target.value)}
                   min={todayStr}
-                  className="w-full border border-[#D0E8F8] rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold"
+                  className="w-full border border-pandora-border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-[#5A7A9A] flex items-center gap-1 mb-1">
+                <label className="text-xs font-bold text-pandora-body flex items-center gap-1 mb-1">
                   <Clock className="w-3.5 h-3.5" /> Hora
                 </label>
                 <input
                   type="time"
                   value={time}
                   onChange={e => setTime(e.target.value)}
-                  className={`w-full border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold ${errors.time ? 'border-red-300' : 'border-[#D0E8F8]'}`}
+                  className={`w-full border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold ${errors.time ? 'border-red-300' : 'border-pandora-border'}`}
                 />
                 {errors.time && <p className="text-[10px] text-red-500 mt-0.5">{errors.time}</p>}
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#5A7A9A] flex items-center gap-1 mb-1">
+              <label className="text-xs font-bold text-pandora-body flex items-center gap-1 mb-1">
                 <Users className="w-3.5 h-3.5" /> Número de Personas
               </label>
               <input
@@ -113,18 +113,18 @@ export default function ReservationForm({ tableId, tableName, onConfirm, onCance
                 onChange={e => setPersons(Math.min(12, Math.max(1, Number(e.target.value))))}
                 min={1}
                 max={12}
-                className="w-full border border-[#D0E8F8] rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold"
+                className="w-full border border-pandora-border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold"
               />
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#5A7A9A] flex items-center gap-1 mb-1">
+              <label className="text-xs font-bold text-pandora-body flex items-center gap-1 mb-1">
                 <FileText className="w-3.5 h-3.5" /> Ocasión
               </label>
               <select
                 value={occasion}
                 onChange={e => setOccasion(e.target.value)}
-                className="w-full border border-[#D0E8F8] rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold bg-[#FFFFFF]"
+                className="w-full border border-pandora-border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold bg-pandora-accent"
               >
                 <option value="Normal">Normal</option>
                 <option value="Cumpleaños">Cumpleaños</option>
@@ -135,37 +135,37 @@ export default function ReservationForm({ tableId, tableName, onConfirm, onCance
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#5A7A9A] mb-1 block">Notas Especiales</label>
+              <label className="text-xs font-bold text-pandora-body mb-1 block">Notas Especiales</label>
               <textarea
                 value={notes}
                 onChange={e => setNotes(e.target.value)}
                 placeholder="Alergias, preferencias, ocasión especial..."
                 rows={3}
-                className="w-full border border-[#D0E8F8] rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold resize-none"
+                className="w-full border border-pandora-border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold resize-none"
               />
             </div>
 
-            <label className="flex items-center gap-2 text-xs text-[#5A7A9A]">
+            <label className="flex items-center gap-2 text-xs text-pandora-body">
               <input
                 type="checkbox"
                 checked={specialDecoration}
                 onChange={e => setSpecialDecoration(e.target.checked)}
-                className="rounded border-[#D0E8F8] text-[#5B9BD5] focus:ring-pandora-accent"
+                className="rounded border-pandora-border text-pandora-primary focus:ring-pandora-accent"
               />
               ¿Requiere decoración especial?
             </label>
           </div>
 
-          <div className="p-4 border-t border-[#E2EDF7] flex gap-3">
+          <div className="p-4 border-t border-pandora-border flex gap-3">
             <button
               onClick={onCancel}
-              className="flex-1 py-2.5 bg-[#D0E8F8] hover:bg-slate-200 text-[#5A7A9A] rounded-xl text-xs font-bold cursor-pointer transition-colors"
+              className="flex-1 py-2.5 bg-pandora-border hover:bg-pandora-subtle text-pandora-body rounded-xl text-xs font-bold cursor-pointer transition-colors"
             >
               Cancelar
             </button>
             <button
               onClick={handleSubmit}
-              className="flex-1 py-2.5 bg-[#5BA882] hover:bg-[#4A9872] text-white rounded-xl text-xs font-bold cursor-pointer transition-all hover:scale-[1.02]"
+              className="flex-1 py-2.5 bg-pandora-success hover:bg-pandora-success-hover text-white rounded-xl text-xs font-bold cursor-pointer transition-all hover:scale-[1.02]"
             >
               Confirmar Reserva
             </button>

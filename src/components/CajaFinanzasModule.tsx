@@ -214,10 +214,10 @@ export default function CajaFinanzasModule({
       </div>
 
       {billingOrders.length === 0 ? (
-        <div className="py-12 bg-white rounded-xl border-2 border-dashed border-slate-350 p-6 text-center select-none">
-          <CheckCircle className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-          <h4 className="font-serif font-bold text-slate-700 text-xs uppercase tracking-wider">¡Sin novedades en Caja!</h4>
-          <p className="text-[10px] text-slate-500 mt-1">No hay comandas preparadas esperando por facturación de pago en este momento.</p>
+        <div className="py-12 bg-surface-card rounded-xl border-2 border-dashed border-border-default p-6 text-center select-none">
+          <CheckCircle className="w-8 h-8 text-text-muted mx-auto mb-2" />
+          <h4 className="font-serif font-bold text-text-primary text-xs uppercase tracking-wider">¡Sin novedades en Caja!</h4>
+          <p className="text-[10px] text-text-muted mt-1">No hay comandas preparadas esperando por facturación de pago en este momento.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -295,11 +295,11 @@ export default function CajaFinanzasModule({
 
                       {/* Entidad Bancaria Select */}
                       <div className="space-y-1">
-                        <label className="block text-[10px] uppercase font-mono font-bold text-slate-600">Entidad Bancaria</label>
+                        <label className="block text-[10px] uppercase font-mono font-bold text-pandora-body">Entidad Bancaria</label>
                         <select
                           value={bankEntity}
                           onChange={(e) => setBankEntity(e.target.value)}
-                          className="w-full bg-white border border-slate-300 rounded p-1.5 text-xs text-slate-800"
+                          className="w-full bg-surface-input border border-border-default rounded p-1.5 text-xs text-text-primary"
                         >
                           {BANK_ENTITIES.map(b => (
                             <option key={b} value={b}>{b}</option>
@@ -309,7 +309,7 @@ export default function CajaFinanzasModule({
 
                       {/* Método de Pago Segmented buttons */}
                       <div className="space-y-1">
-                        <label className="block text-[10px] uppercase font-mono font-bold text-slate-600">Método de Pago</label>
+                        <label className="block text-[10px] uppercase font-mono font-bold text-pandora-body">Método de Pago</label>
                         <div className="grid grid-cols-3 gap-1">
                           {(['Efectivo', 'Transferencia', 'Tarjeta'] as const).map(method => (
                             <button
@@ -319,7 +319,7 @@ export default function CajaFinanzasModule({
                               className={`py-1 rounded border text-[10px] font-bold uppercase transition-all ${
                                 paymentMethod === method
                                   ? 'bg-pandora-dark text-white border-pandora-dark'
-                                  : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'
+                                  : 'bg-transparent text-text-secondary border-border-default hover:bg-surface-card-hover'
                               }`}
                             >
                               {method === 'Transferencia' ? 'Trf.' : method}
@@ -343,7 +343,7 @@ export default function CajaFinanzasModule({
                       </div>
 
                       {/* Cash totals computation display */}
-                      <div className="border-t border-dashed border-slate-300 pt-2 space-y-1 bg-white p-2 rounded">
+                      <div className="border-t border-dashed border-border-default pt-2 space-y-1 bg-surface-card p-2 rounded">
                         <div className="flex justify-between text-[11px] text-slate-500 font-mono">
                           <span>Subtotal:</span>
                           <span>${order.total.toLocaleString('es-CO')} COP</span>
@@ -369,7 +369,7 @@ export default function CajaFinanzasModule({
                     <>
                       <button
                         onClick={() => handleOpenBillingForm(order.id)}
-                        className="py-1.5 px-2 rounded-lg bg-[#2E7D32] hover:bg-[#25632a] text-white transition-all text-[10px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wider text-center"
+                        className="py-1.5 px-2 rounded-lg bg-pandora-success hover:bg-pandora-success/80 text-white transition-all text-[10px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wider text-center"
                         title="Generar Factura de Pago"
                       >
                         Generar Factura de Pago
