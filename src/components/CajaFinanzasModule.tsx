@@ -231,23 +231,23 @@ export default function CajaFinanzasModule({
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
-                className="bg-pandora-dark text-pandora-cream rounded-xl border border-pandora-wood overflow-hidden flex flex-col justify-between shadow-md"
+                className="bg-white text-[#2A2A2A] rounded-xl border border-[#E5E0D8] overflow-hidden flex flex-col justify-between shadow-md"
               >
                 {/* Header with Turn and Time swapped: Top-left Table, Bottom-left Time, Top-right Turn, Bottom-right ID */}
-                <div className="bg-[#1C1510] p-3.5 border-b border-pandora-wood/30 flex justify-between items-stretch shrink-0">
+                <div className="p-3.5 border-b border-[#E5E0D8] flex justify-between items-stretch shrink-0">
                   <div className="text-left flex flex-col justify-between">
-                    <span className="font-serif font-extrabold text-sm text-pandora-gold block tracking-wider uppercase whitespace-nowrap">
+                    <span className="font-serif font-extrabold text-sm text-[#1A1A1A] block tracking-wider uppercase whitespace-nowrap">
                       MESA {order.tableId}
                     </span>
-                    <span className="text-[10.5px] font-mono font-light text-pandora-cream flex items-center gap-1 mt-1 leading-none">
-                      <Clock className="w-2.5 h-2.5 text-pandora-gold shrink-0" /> {order.timestamp}
+                    <span className="text-[10.5px] font-mono font-light text-[#6B6B6B] flex items-center gap-1 mt-1 leading-none">
+                      <Clock className="w-2.5 h-2.5 text-[#6B6B6B] shrink-0" /> {order.timestamp}
                     </span>
                   </div>
                   <div className="text-right flex flex-col justify-between items-end">
-                    <span className="text-[10.5px] font-mono font-bold text-pandora-cream/80 block leading-none">
+                    <span className="text-[10.5px] font-mono font-bold text-[#6B6B6B] block leading-none">
                       Turno #{(idx ?? 0) + 1}
                     </span>
-                    <span className="text-[8.5px] text-pandora-cream/40 font-mono block mt-1 uppercase leading-none">
+                    <span className="text-[8.5px] text-[#6B6B6B] font-mono block mt-1 uppercase leading-none">
                       ID: #{order.id.slice(-4)}
                     </span>
                   </div>
@@ -259,22 +259,22 @@ export default function CajaFinanzasModule({
                     // 1. STANDARD ITEM LIST VIEW
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <span className="text-[9px] uppercase font-bold tracking-widest text-pandora-gold/60 block font-mono">
+                        <span className="text-[9px] uppercase font-bold tracking-widest text-[#5A5A5A] block font-mono">
                           🛒 Consumo a Facturar
                         </span>
                         <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
                           {order.items.map((item) => (
-                            <div key={item.menuItemId} className="flex justify-between text-xs border-b border-white/5 pb-1">
-                              <span className="truncate pr-2 uppercase">{item.name}</span>
-                              <span className="font-mono text-pandora-gold shrink-0">x{item.quantity}</span>
+                            <div key={item.menuItemId} className="flex justify-between text-xs border-b border-[#E5E0D8] pb-1">
+                              <span className="truncate pr-2 uppercase text-[#2A2A2A]">{item.name}</span>
+                              <span className="font-mono text-[#2A2A2A] shrink-0">x{item.quantity}</span>
                             </div>
                           ))}
                         </div>
                       </div>
 
-                      <div className="pt-2 border-t border-pandora-wood/30 flex justify-between items-center bg-[#150E09]/40 p-2 rounded">
-                        <span className="text-[9.5px] uppercase font-mono text-pandora-cream/50">Total Subtotal</span>
-                        <span className="font-mono text-sm font-black text-pandora-gold">${order.total.toLocaleString('es-CO')}</span>
+                      <div className="pt-2 border-t border-[#E5E0D8] flex justify-between items-center p-2 rounded">
+                        <span className="text-[9.5px] uppercase font-mono text-[#6B6B6B]">Total Subtotal</span>
+                        <span className="font-mono text-sm font-black text-[#1A1A1A]">${order.total.toLocaleString('es-CO')}</span>
                       </div>
                     </div>
                   ) : (
@@ -364,7 +364,7 @@ export default function CajaFinanzasModule({
                 </div>
 
                 {/* Footer Buttons */}
-                <div className="bg-[#1C1510] border-t border-pandora-wood/30 p-2.5 grid grid-cols-2 gap-2 shrink-0">
+                <div className="border-t border-[#E5E0D8] p-2.5 grid grid-cols-2 gap-2 shrink-0">
                   {!isBillFormOpen ? (
                     <>
                       <button

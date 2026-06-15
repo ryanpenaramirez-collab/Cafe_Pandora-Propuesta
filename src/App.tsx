@@ -539,7 +539,7 @@ export default function App() {
         <div className="flex-grow flex flex-col md:flex-row min-h-0 overflow-hidden h-full">
           
           {/* COLUMNA 1: IZQUIERDA ANGOSTA (Estática, nunca hace scroll) */}
-          <div id="col_left" className="w-full md:w-60 bg-pandora-dark text-slate-100 border-b-2 md:border-b-0 md:border-r-2 border-pandora-wood shrink-0 flex flex-col justify-between p-5 overflow-hidden md:h-full h-auto">
+          <div id="col_left" className="w-full md:w-60 bg-[#EDDCBC] text-[#4E433F] border-b-2 md:border-b-0 md:border-r-2 border-pandora-wood shrink-0 flex flex-col justify-between p-5 overflow-hidden md:h-full h-auto">
             
             {/* Logo de la app dentro de un marco circular arriba */}
             <div className="text-center">
@@ -551,15 +551,15 @@ export default function App() {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <h2 className="font-serif text-sm font-extrabold tracking-widest text-pandora-gold uppercase">
+              <h2 className="font-serif text-sm font-extrabold tracking-widest text-[#4E433F] uppercase">
                 Café Pandora
               </h2>
               <p className="text-[8px] text-slate-400 font-mono tracking-wider mt-1 uppercase">POS Sistema Administrativo</p>
             </div>
 
             {/* Decoración central de atmósfera */}
-            <div className="hidden md:block my-4 text-center px-2 py-3 rounded bg-white/5 border border-white/5">
-              <span className="block text-[10px] font-serif italic text-pandora-cream">
+            <div className="hidden md:block my-4 text-center px-2 py-3 rounded bg-[#F0EBE0] border border-[#E3DAC9]">
+              <span className="block text-[10px] font-serif italic text-[#4E433F]">
                 "Más que un lugar, una experiencia para tus sentidos."
               </span>
             </div>
@@ -567,18 +567,18 @@ export default function App() {
             {/* Rol de usuario en la esquina inferior izquierda */}
             <div className="mt-6 md:mt-auto flex flex-col gap-2 shrink-0">
               <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block font-mono">ROL DE ACCESOS</span>
-              <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center gap-2">
+              <div className="bg-white border border-[#E3DAC9] rounded-xl p-2.5 flex items-center gap-2">
                 <div id="user_avatar" className="w-8 h-8 rounded-full bg-pandora-accent flex items-center justify-center text-xs font-bold text-white uppercase shadow-sm shrink-0">
                   {user.name.charAt(0)}
                 </div>
                 <div className="text-left overflow-hidden flex-1">
-                  <span className="text-xs font-semibold text-pandora-cream block truncate leading-tight">{user.name}</span>
+                  <span className="text-xs font-semibold text-[#4E433F] block truncate leading-tight">{user.name}</span>
                   <span className="text-[9px] text-pandora-gold uppercase tracking-wider block font-bold mt-0.5 capitalize">{user.role}</span>
                 </div>
               </div>
               <button 
                 onClick={handleLogout}
-                className="w-full text-center py-2 bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/30 rounded-lg text-[10px] font-bold text-rose-300 transition-colors flex items-center justify-center gap-1.5 cursor-pointer uppercase font-mono tracking-wider shadow-sm"
+                className="w-full text-center py-2 bg-transparent hover:bg-[#B85A48]/10 border border-[#B85A48]/30 rounded-lg text-[10px] font-bold text-[#B85A48] transition-colors flex items-center justify-center gap-1.5 cursor-pointer uppercase font-mono tracking-wider shadow-sm"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Cerrar Sesión
@@ -589,20 +589,20 @@ export default function App() {
 
           {/* CONTENEDOR DE HEADER SUPERIOR + COLUMNA CENTRAL Y DERECHA */}
           <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
-            <header id="main_header" className="bg-pandora-dark text-white border-b-2 border-pandora-wood py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
+            <header id="main_header" className="bg-[#EDDCBC] border-b border-[#E3DAC9] py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
                 <button
                   onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-                  className="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-lg bg-[#1e1208] text-pandora-gold hover:bg-[#2c1a0a] border border-white/10 transition-all cursor-pointer text-xs font-bold"
+                  className="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-lg bg-[#EDE9E2] text-[#4E433F] hover:bg-[#E3DDD4] border border-[#E3DAC9] transition-all cursor-pointer text-xs font-bold"
                   title={isSidebarCollapsed ? "Mostrar categorías" : "Ocultar categorías"}
                 >
                   ☰
                 </button>
                 <div className="text-left">
-                  <h1 className="font-serif text-lg font-bold tracking-widest text-pandora-gold uppercase leading-none">
+                  <h1 className="font-serif text-lg font-bold tracking-widest text-[#4E433F] uppercase leading-none">
                     Cafe Pandora
                   </h1>
-                  <span className="text-[8px] text-pandora-gold font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
+                  <span className="text-[8px] text-[#4E433F] font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
                 </div>
               </div>
 
@@ -615,11 +615,11 @@ export default function App() {
               
               {/* COLUMNA CENTRAL: BOTONES DEL MENÚ DE NAVEGACIÓN (Columna central con botones) */}
               {!isSidebarCollapsed && (
-              <div id="col_center" className="w-full md:w-64 border-b md:border-b-0 md:border-r border-pandora-wood/15 p-4 flex flex-col shrink-0 overflow-y-auto md:h-full" style={{ backgroundColor: '#C4A882' }}>
+              <div id="col_center" className="w-full md:w-64 border-b md:border-b-0 md:border-r border-pandora-wood/15 p-4 flex flex-col shrink-0 overflow-y-auto md:h-full" style={{ backgroundColor: '#F4EFE6' }}>
                 
-                <div className="mb-3.5 text-[9px] uppercase font-bold tracking-widest text-[#1e1208] font-mono flex justify-between items-center shrink-0">
+                <div className="mb-3.5 text-[9px] uppercase font-bold tracking-widest text-[#4E433F] font-mono flex justify-between items-center shrink-0">
                   <span>CATEGORÍAS</span>
-                  <span className="px-1.5 py-0.5 rounded bg-white/20 text-[#1e1208] border border-black/10 font-mono text-[9px] font-bold">
+                  <span className="px-1.5 py-0.5 rounded bg-[#D0C9BC] text-[#4E433F] border border-black/10 font-mono text-[9px] font-bold">
                     {visibleCategories.length}
                   </span>
                 </div>
@@ -649,7 +649,7 @@ export default function App() {
                           className={`flex items-center justify-between p-3 rounded-lg border text-left transition-all overflow-hidden group focus:outline-none cursor-pointer w-full shrink-0 ${
                             isActive 
                               ? 'bg-pandora-dark border-pandora-dark text-white' 
-                              : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 shadow-sm'
+                              : 'bg-white hover:bg-slate-50 border-[#E3DAC9] text-slate-700 shadow-sm'
                           }`}
                         >
                           <div className="flex items-center gap-3.5 overflow-hidden">
@@ -682,7 +682,7 @@ export default function App() {
               )}
 
               {/* COLUMNA DERECHA: AREA DE CONTENIDO PRINCIPAL INTEGRADO (Columna derecha grande) */}
-              <div id="col_right_content" className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start" style={{ backgroundColor: '#D4BFA0' }}>
+              <div id="col_right_content" className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start" style={{ backgroundColor: '#FCFAF5' }}>
                 
                 {activeCategory ? (
                   <div className="flex flex-col gap-4">
@@ -699,7 +699,7 @@ export default function App() {
                     </div>
 
                     {/* Hero/Visual category description */}
-                    <div className="p-4 bg-[#FDF8F0] border border-slate-300 rounded-xl flex items-center gap-3 shadow-xs">
+                    <div className="p-4 bg-[#F7F2E8] border border-slate-300 border-b-[#E8E1D5] rounded-xl flex items-center gap-3 shadow-xs">
                       <div className="p-2.5 bg-pandora-accent/10 rounded-lg border border-pandora-accent/20 flex items-center justify-center">
                         {(() => {
                           const IconComp = selectedCategory?.icon || Sparkles;
@@ -707,8 +707,8 @@ export default function App() {
                         })()}
                       </div>
                       <div>
-                        <h2 className="font-serif text-sm font-bold text-slate-800 uppercase tracking-wider">{selectedCategory?.name}</h2>
-                        <p className="text-[11px] text-slate-600 font-light mt-0.5 font-sans">Acceda a los servicios de {selectedCategory?.name.toLowerCase()} de Cafe Pandora</p>
+                        <h2 className="font-serif text-sm font-bold text-[#4E433F] uppercase tracking-wider">{selectedCategory?.name}</h2>
+                        <p className="text-[11px] text-[#8A7E77] font-light mt-0.5 font-sans">Acceda a los servicios de {selectedCategory?.name.toLowerCase()} de Cafe Pandora</p>
                       </div>
                     </div>
 

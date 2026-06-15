@@ -172,10 +172,10 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
         <div className="p-5 flex flex-col gap-6">
           <div className="border-b border-slate-100 pb-3 flex justify-between items-center">
             <div>
-              <h3 className="font-serif text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+              <h3 className="font-serif text-sm font-bold text-[#4E433F] uppercase tracking-wider flex items-center gap-2">
                 <ClipboardList className="w-4 h-4 text-pandora-accent" /> Seleccione la Mesa
               </h3>
-              <p className="text-[11px] text-slate-500 mt-0.5">Elija una mesa del salón o registre una mesa alterna abajo.</p>
+              <p className="text-[11px] text-[#8A7E77] mt-0.5">Elija una mesa del salón o registre una mesa alterna abajo.</p>
             </div>
           </div>
 
@@ -183,17 +183,17 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {tables.map(t => {
               let statusText = "Vacía";
-              let statusStyles = "bg-white border-slate-200 hover:border-slate-300 text-slate-700 shadow-xs";
+              let statusStyles = "bg-white border-[#E5DEC9] hover:border-slate-300 text-[#5A524C] shadow-xs";
 
               if (t.status === 'ocupada') {
                 statusText = `Ocupada ($${t.totalAmount.toFixed(0)})`;
-                statusStyles = "bg-rose-50/50 border-rose-200 text-rose-800 hover:bg-rose-50";
+                statusStyles = "bg-white border-[#B85A48] text-[#B85A48] border-t-4 border-t-[#B85A48]";
               } else if (t.status === 'reservada') {
                 statusText = "Reservada";
-                statusStyles = "bg-emerald-50/50 border-emerald-200 text-emerald-800 hover:bg-emerald-50";
+                statusStyles = "bg-white border-[#556B2F] text-[#556B2F] border-t-4 border-t-[#556B2F]";
               } else if (t.status === 'por_pagar') {
                 statusText = `Por Pagar ($${t.totalAmount.toFixed(0)})`;
-                statusStyles = "bg-amber-50/50 border-amber-200 text-amber-800 hover:bg-amber-50";
+                statusStyles = "bg-white border-[#C59B27] text-[#C59B27] border-t-4 border-t-[#C59B27]";
               }
 
               return (
