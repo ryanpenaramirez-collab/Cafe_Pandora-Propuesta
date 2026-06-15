@@ -186,13 +186,13 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
               let statusStyles = "bg-white border-[#E5DEC9] hover:border-slate-300 text-[#5A524C] shadow-xs";
 
               if (t.status === 'ocupada') {
-                statusText = `Ocupada ($${t.totalAmount.toFixed(0)})`;
+                statusText = "Ocupada";
                 statusStyles = "bg-white border-[#B85A48] text-[#B85A48] border-t-4 border-t-[#B85A48]";
               } else if (t.status === 'reservada') {
                 statusText = "Reservada";
                 statusStyles = "bg-white border-[#556B2F] text-[#556B2F] border-t-4 border-t-[#556B2F]";
               } else if (t.status === 'por_pagar') {
-                statusText = `Por Pagar ($${t.totalAmount.toFixed(0)})`;
+                statusText = "Por Pagar";
                 statusStyles = "bg-white border-[#C59B27] text-[#C59B27] border-t-4 border-t-[#C59B27]";
               }
 
@@ -214,7 +214,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
             <p className="text-[11px] text-slate-400 mb-3 text-center">¿No encuentra la mesa? Cree una personalizada al instante.</p>
             <button
               onClick={() => setIsNewTableModalOpen(true)}
-              className="bg-pandora-accent hover:bg-pandora-accent/90 text-white font-mono uppercase text-[10px] font-bold tracking-wider px-6 py-3 rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-2"
+              className="bg-[#2E7D32] hover:bg-[#25632a] text-white font-mono uppercase text-[10px] font-bold tracking-wider px-6 py-3 rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-2"
             >
               <Plus className="w-4 h-4 animate-pulse" />
               Agregar nueva mesa

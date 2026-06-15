@@ -87,7 +87,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#1e1208] flex items-center justify-center p-4 sm:p-6 md:p-8 selection:bg-pandora-accent selection:text-white font-sans overflow-y-auto">
+    <div className="min-h-screen bg-wood-oak flex items-center justify-center p-4 sm:p-6 md:p-8 selection:bg-pandora-accent selection:text-white font-sans overflow-y-auto">
       
       {/* Container split layout */}
       <motion.div 
@@ -95,7 +95,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-5xl bg-[#1e1208]/45 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-2xl flex flex-col md:flex-row min-h-[580px]"
+        className="w-full max-w-5xl bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xl flex flex-col md:flex-row min-h-[580px]"
       >
         
         {/* Left Side: Editorial Café Visual */}
@@ -138,11 +138,11 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
         </div>
 
         {/* Right Side: Elegant Form Panel */}
-        <div id="login_form_panel" className="w-full md:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-12 bg-[#1e1208]">
+        <div id="login_form_panel" className="w-full md:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-12 bg-wood-oak">
           
           <div id="form_header" className="mb-6 text-center md:text-left">
-            <h2 className="font-sans text-2xl font-bold text-pandora-cream">Acceso Administrativo</h2>
-            <p className="text-xs text-[#a8896a] mt-1 font-light">
+            <h2 className="font-sans text-2xl font-bold text-[#2A1F18]">Acceso Administrativo</h2>
+            <p className="text-xs text-slate-600 mt-1 font-light">
               Seleccione su rol e ingrese su PIN
             </p>
           </div>
@@ -151,7 +151,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             <motion.div 
               initial={{ opacity: 0, y: -5 }} 
               animate={{ opacity: 1, y: 0 }}
-              className="mb-4 p-3 bg-rose-500/10 border border-rose-500/25 rounded-lg text-rose-300 text-xs text-center"
+              className="mb-4 p-3 bg-rose-500/10 border border-rose-500/25 rounded-lg text-rose-700 text-xs text-center"
             >
               ⚠️ {errorMsg}
             </motion.div>
@@ -159,27 +159,27 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#b89070] mb-1">Rol de Empleado</label>
+              <label className="block text-xs font-medium text-slate-700 mb-1">Rol de Empleado</label>
               <div className="relative">
                 <select 
                   id="role_select"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full text-slate-200 bg-[#2c1a0a] border border-white/15 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-pandora-accent focus:ring-1 focus:ring-pandora-accent transition-all cursor-pointer"
+                  className="w-full text-slate-800 bg-[#F0EBE0] border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-pandora-accent focus:ring-1 focus:ring-pandora-accent transition-all cursor-pointer"
                   disabled={isSubmitting}
                 >
-                  <option value="administrador" className="bg-[#1e1208] text-slate-200">Administrador / Gerente</option>
-                  <option value="mesero" className="bg-[#1e1208] text-slate-200">Mesero / Servicio de Mesa</option>
+                  <option value="administrador" className="bg-[#F0EBE0] text-slate-800">Administrador / Gerente</option>
+                  <option value="mesero" className="bg-[#F0EBE0] text-slate-800">Mesero / Servicio de Mesa</option>
                 </select>
               </div>
             </div>
 
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label className="block text-xs font-medium text-[#b89070]">Contraseña (PIN)</label>
+                <label className="block text-xs font-medium text-slate-700">Contraseña (PIN)</label>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#a8896a]">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input 
@@ -187,7 +187,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full text-slate-200 bg-[#2c1a0a] border border-white/10 rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-pandora-accent focus:ring-1 focus:ring-pandora-accent transition-all placeholder:text-[#a8896a]/55 font-mono tracking-widest"
+                  className="w-full text-slate-800 bg-[#F0EBE0] border border-slate-200 rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-pandora-accent focus:ring-1 focus:ring-pandora-accent transition-all placeholder:text-slate-400 font-mono tracking-widest"
                   placeholder="PIN Numérico"
                   disabled={isSubmitting}
                 />
@@ -198,7 +198,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
               id="login_submit_btn"
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-pandora-accent hover:bg-pandora-accent-hover text-white rounded-lg py-3 text-sm font-semibold shadow-lg shadow-pandora-accent/20 transition-all hover:-translate-y-[1px] active:translate-y-0 flex items-center justify-center gap-2"
+              className="w-full bg-[#2E7D32] hover:bg-[#25632a] text-white rounded-lg py-3 text-sm font-semibold shadow-lg shadow-black/10 transition-all hover:-translate-y-[1px] active:translate-y-0 flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
@@ -214,8 +214,8 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
           </form>
 
           {/* Tester Helper Area: Quick Logins */}
-          <div id="quick_login_area" className="mt-8 pt-6 border-t border-white/5">
-            <span className="block text-[11px] font-semibold text-pandora-gold uppercase tracking-wider mb-3">
+          <div id="quick_login_area" className="mt-8 pt-6 border-t border-slate-200">
+            <span className="block text-[11px] font-semibold text-[#2A1F18] uppercase tracking-wider mb-3">
               ⚡ Acceso Rápido de Prueba (1-Click)
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-2 max-w-xl gap-2">
@@ -232,8 +232,8 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
                   >
                     <Icon className="w-4 h-4 shrink-0" />
                     <div className="truncate">
-                      <p className="font-semibold truncate text-white leading-tight">{u.name}</p>
-                      <p className="text-[10px] text-[#b89070] capitalize truncate">{u.role}</p>
+                      <p className="font-semibold truncate text-slate-800 leading-tight">{u.name}</p>
+                      <p className="text-[10px] text-slate-500 capitalize truncate">{u.role}</p>
                     </div>
                   </button>
                 );

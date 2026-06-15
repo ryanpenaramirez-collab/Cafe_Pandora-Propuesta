@@ -42,6 +42,34 @@
   background-size: 16px 16px;
 }
 
+.bg-wood-oak {
+  background-color: #E8D2AC;
+  background-image:
+    /* Patrones de llama/V (radiales elípticos - rayos medulares del roble) */
+    radial-gradient(ellipse 80% 12% at 15% 30%, rgba(170, 145, 115, 0.13) 0%, transparent 100%),
+    radial-gradient(ellipse 60% 10% at 42% 55%, rgba(175, 150, 120, 0.10) 0%, transparent 100%),
+    radial-gradient(ellipse 70% 8% at 65% 25%, rgba(165, 140, 110, 0.11) 0%, transparent 100%),
+    radial-gradient(ellipse 50% 12% at 80% 65%, rgba(180, 155, 125, 0.09) 0%, transparent 100%),
+    radial-gradient(ellipse 55% 9% at 28% 78%, rgba(170, 145, 115, 0.10) 0%, transparent 100%),
+    radial-gradient(ellipse 60% 14% at 55% 45%, rgba(160, 135, 105, 0.06) 0%, transparent 100%),
+
+    /* Vetas anchas (anillos de crecimiento) */
+    repeating-linear-gradient(89deg, transparent 0px, transparent 60px, rgba(185, 160, 130, 0.06) 60px, rgba(185, 160, 130, 0.06) 61px),
+    repeating-linear-gradient(91deg, transparent 0px, transparent 40px, rgba(180, 155, 125, 0.05) 40px, rgba(180, 155, 125, 0.05) 41px),
+
+    /* Vetas medianas */
+    repeating-linear-gradient(87deg, transparent 0px, transparent 22px, rgba(195, 170, 140, 0.10) 22px, rgba(195, 170, 140, 0.10) 23px),
+    repeating-linear-gradient(93deg, transparent 0px, transparent 16px, rgba(190, 165, 135, 0.08) 16px, rgba(190, 165, 135, 0.08) 17px),
+
+    /* Vetas finas (grano apretado) */
+    repeating-linear-gradient(88deg, transparent 0px, transparent 5px, rgba(200, 175, 145, 0.16) 5px, rgba(200, 175, 145, 0.16) 6px),
+    repeating-linear-gradient(92deg, transparent 0px, transparent 9px, rgba(195, 170, 140, 0.12) 9px, rgba(195, 170, 140, 0.12) 10px),
+    repeating-linear-gradient(86deg, transparent 0px, transparent 13px, rgba(205, 180, 150, 0.09) 13px, rgba(205, 180, 150, 0.09) 14px),
+
+    /* Gradiente base de color (variación cálida) */
+    linear-gradient(175deg, #E8D2AC 0%, #E2CCA4 25%, #EAD4AE 45%, #E0CAA0 65%, #E8D2AC 85%, #E4CEA6 100%);
+}
+
 /* Soft thermal paper effect for receipt view */
 .thermal-paper {
   background: radial-gradient(circle, #fffffb 0%, #fdfbf7 100%);

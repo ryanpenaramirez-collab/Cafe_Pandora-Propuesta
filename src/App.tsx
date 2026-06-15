@@ -539,7 +539,7 @@ export default function App() {
         <div className="flex-grow flex flex-col md:flex-row min-h-0 overflow-hidden h-full">
           
           {/* COLUMNA 1: IZQUIERDA ANGOSTA (Estática, nunca hace scroll) */}
-          <div id="col_left" className="w-full md:w-60 bg-[#EDDCBC] text-[#4E433F] border-b-2 md:border-b-0 md:border-r-2 border-pandora-wood shrink-0 flex flex-col justify-between p-5 overflow-hidden md:h-full h-auto">
+          <div id="col_left" className="w-full md:w-60 bg-wood-oak text-[#4E433F] border-b-2 md:border-b-0 md:border-r-2 border-pandora-wood shrink-0 flex flex-col justify-between p-5 overflow-hidden md:h-full h-auto">
             
             {/* Logo de la app dentro de un marco circular arriba */}
             <div className="text-center">
@@ -554,7 +554,7 @@ export default function App() {
               <h2 className="font-serif text-sm font-extrabold tracking-widest text-[#4E433F] uppercase">
                 Café Pandora
               </h2>
-              <p className="text-[8px] text-slate-400 font-mono tracking-wider mt-1 uppercase">POS Sistema Administrativo</p>
+              <p className="text-[8px] text-[#2A1F18] font-mono tracking-wider mt-1 uppercase">POS Sistema Administrativo</p>
             </div>
 
             {/* Decoración central de atmósfera */}
@@ -566,8 +566,8 @@ export default function App() {
 
             {/* Rol de usuario en la esquina inferior izquierda */}
             <div className="mt-6 md:mt-auto flex flex-col gap-2 shrink-0">
-              <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block font-mono">ROL DE ACCESOS</span>
-              <div className="bg-white border border-[#E3DAC9] rounded-xl p-2.5 flex items-center gap-2">
+              <span className="text-[9px] uppercase font-bold tracking-widest text-[#2A1F18] block font-mono">ROL DE ACCESOS</span>
+              <div className="bg-[#F0EBE0] border border-[#E3DAC9] rounded-xl p-2.5 flex items-center gap-2">
                 <div id="user_avatar" className="w-8 h-8 rounded-full bg-pandora-accent flex items-center justify-center text-xs font-bold text-white uppercase shadow-sm shrink-0">
                   {user.name.charAt(0)}
                 </div>
@@ -589,7 +589,7 @@ export default function App() {
 
           {/* CONTENEDOR DE HEADER SUPERIOR + COLUMNA CENTRAL Y DERECHA */}
           <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
-            <header id="main_header" className="bg-[#EDDCBC] border-b border-[#E3DAC9] py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
+            <header id="main_header" className="bg-wood-oak border-b border-[#E3DAC9] py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
                 <button
                   onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -599,10 +599,10 @@ export default function App() {
                   ☰
                 </button>
                 <div className="text-left">
-                  <h1 className="font-serif text-lg font-bold tracking-widest text-[#4E433F] uppercase leading-none">
+                  <h1 className="font-serif text-lg font-bold tracking-widest text-[#2A1F18] uppercase leading-none">
                     Cafe Pandora
                   </h1>
-                  <span className="text-[8px] text-[#4E433F] font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
+                  <span className="text-[8px] text-[#2A1F18] font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
                 </div>
               </div>
 
@@ -648,20 +648,20 @@ export default function App() {
                           }}
                           className={`flex items-center justify-between p-3 rounded-lg border text-left transition-all overflow-hidden group focus:outline-none cursor-pointer w-full shrink-0 ${
                             isActive 
-                              ? 'bg-pandora-dark border-pandora-dark text-white' 
+                              ? 'bg-[#F0EBE0] border-pandora-dark text-[#2A1F18]' 
                               : 'bg-white hover:bg-slate-50 border-[#E3DAC9] text-slate-700 shadow-sm'
                           }`}
                         >
                           <div className="flex items-center gap-3.5 overflow-hidden">
                             <IconComponent className={`w-5 h-5 shrink-0 transition-colors duration-200 ${
-                              isActive ? 'text-pandora-gold' : 'text-slate-600'
+                              isActive ? 'text-pandora-accent' : 'text-slate-600'
                             }`} />
                             <div className="truncate">
                               <span className="font-serif font-bold text-xs block tracking-wider uppercase truncate leading-tight">
                                 {cat.name}
                               </span>
                               <span className={`text-[10px] font-light block truncate mt-0.5 ${
-                                isActive ? 'text-slate-200' : 'text-slate-500'
+                                isActive ? 'text-slate-500' : 'text-slate-500'
                               }`}>
                                 {cat.label}
                               </span>
@@ -857,7 +857,7 @@ export default function App() {
                             setActiveCategory('pedidos');
                             setActivePedidosTab('nuevo');
                           }}
-                          className="bg-amber-600 hover:bg-amber-500 text-white text-[10px] font-mono font-bold tracking-wider uppercase py-1.5 px-3 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                          className="bg-[#2E7D32] hover:bg-[#25632a] text-white text-[10px] font-mono font-bold tracking-wider uppercase py-1.5 px-3 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
                         >
                           <Plus className="w-3.5 h-3.5" /> Nuevo Pedido
                         </button>

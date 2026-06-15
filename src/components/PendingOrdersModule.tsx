@@ -317,24 +317,24 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
   if (userRole === 'mesero') return;
   setSelectedOrder(order);
 }}
-                  className="bg-pandora-dark border border-pandora-wood shadow-lg rounded-xl flex flex-col justify-between overflow-hidden group text-pandora-cream cursor-pointer hover:border-pandora-accent transition-all duration-300 transform hover:scale-[1.01]"
+                  className="bg-white border border-slate-200 shadow-sm rounded-xl flex flex-col justify-between overflow-hidden group text-slate-800 cursor-pointer hover:border-pandora-accent transition-all duration-300 transform hover:scale-[1.01]"
                 >
                   {/* Card Header with Turn and Time swapped: Top-left Table, Bottom-left Time, Top-right Turn, Bottom-right ID */}
-                  <div className="bg-[#1C1510] p-3.5 border-b border-pandora-wood/30 flex justify-between items-stretch shrink-0">
+                  <div className="bg-white p-3.5 border-b border-slate-200 flex justify-between items-stretch shrink-0">
                     <div className="text-left flex flex-col justify-between">
-                      <span className="font-serif font-extrabold text-xs text-pandora-gold block tracking-wider uppercase">
+                      <span className="font-serif font-extrabold text-xs text-slate-800 block tracking-wider uppercase">
                         MESA {order.tableId}
                       </span>
-                      <span className="text-[10.5px] font-mono font-light text-pandora-cream flex items-center gap-1 mt-1 leading-none">
-                        <Clock className="w-2.5 h-2.5 text-pandora-gold shrink-0" /> {placedTime}
+                      <span className="text-[10.5px] font-mono font-light text-slate-500 flex items-center gap-1 mt-1 leading-none">
+                        <Clock className="w-2.5 h-2.5 text-slate-400 shrink-0" /> {placedTime}
                       </span>
                     </div>
 
                     <div className="text-right flex flex-col justify-between items-end">
-                      <span className="text-[10.5px] font-mono font-bold text-pandora-cream/80 block leading-none">
+                      <span className="text-[10.5px] font-mono font-bold text-slate-600 block leading-none">
                         Turno #{turnNumber}
                       </span>
-                      <span className="text-[8px] text-pandora-cream/40 font-mono block mt-1 uppercase leading-none">
+                      <span className="text-[8px] text-slate-400 font-mono block mt-1 uppercase leading-none">
                         ID: #{order.id.slice(-4)}
                       </span>
                     </div>
@@ -343,19 +343,19 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                   {/* Card Body (ItemList) displaying products with their quantity only, no totals */}
                   <div className="p-3.5 flex-1 flex flex-col justify-between">
                     <div className="space-y-2">
-                      <span className="text-[9px] uppercase font-bold tracking-widest text-pandora-gold/60 block font-mono">
-                        📝 ÍTEMS EN COMANDA
+                      <span className="text-[9px] uppercase font-bold tracking-widest text-slate-500 block font-mono">
+                        ÍTEMS EN COMANDA
                       </span>
                       <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
                         {order.items.map((item) => (
                           <div 
                             key={item.menuItemId}
-                            className="flex justify-between items-center text-xs border-b border-white/5 pb-1 select-none last:border-0"
+                            className="flex justify-between items-center text-xs border-b border-slate-100 pb-1 select-none last:border-0"
                           >
-                            <span className="text-pandora-cream leading-tight uppercase font-medium">
+                            <span className="text-slate-700 leading-tight uppercase font-medium">
                               {item.name}
                             </span>
-                            <span className="font-mono text-pandora-gold font-bold bg-[#1C1510] px-2 py-0.5 rounded text-[11px]">
+                            <span className="font-mono text-slate-700 font-bold bg-slate-100 px-2 py-0.5 rounded text-[11px]">
                               Cant: {item.quantity}
                             </span>
                           </div>
@@ -366,7 +366,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
 
                   {/* Action buttons matching exact layout: Generar Recibo Cocina left, Cancelar right */}
                   {userRole !== 'mesero' && (
-                  <div className="bg-[#1C1510] border-t border-pandora-wood/30 p-2.5 grid grid-cols-2 gap-2 shrink-0">
+                  <div className="bg-slate-50 border-t border-slate-200 p-2.5 grid grid-cols-2 gap-2 shrink-0">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -375,7 +375,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                         // 2. Perform transition to 'caja' state to disappear from Pedidos Pendientes
                         onCompleteOrder(order.id);
                       }}
-                      className="py-1.5 px-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-[#1C1510] font-mono font-bold text-[10px] flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wider transition-all text-center leading-none"
+                      className="py-1.5 px-2 rounded-lg bg-[#2E7D32] hover:bg-[#25632a] text-white font-mono font-bold text-[10px] flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wider transition-all text-center leading-none"
                       title="Generar Recibo Cocina"
                     >
                       Generar Recibo Cocina
@@ -387,7 +387,7 @@ export default function PendingOrdersModule({ orders, onCompleteOrder, onCancelO
                           onCancelOrder(order.id);
                         }
                       }}
-                      className="py-1.5 px-2 rounded-lg border border-rose-800 bg-[#3a1a1a]/60 hover:bg-rose-950 text-rose-200 hover:text-white transition-all text-[10px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer shadow-xs uppercase tracking-wider text-center"
+                      className="py-1.5 px-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-800 transition-all text-[10px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer shadow-xs uppercase tracking-wider text-center"
                       title="Cancelar"
                     >
                       Cancelar
