@@ -136,7 +136,7 @@ export default function InventoryMenuModal({
         className="bg-pandora-accent w-full max-w-5xl h-[80vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-pandora-border"
       >
         {/* Header Title */}
-        <div className="bg-emerald-650 bg-pandora-success p-4 shrink-0 flex flex-col md:flex-row justify-between md:items-center gap-3 text-white">
+        <div className="bg-emerald-750 bg-emerald-650 bg-pandora-success p-4 shrink-0 flex flex-col md:flex-row justify-between md:items-center gap-3 text-white">
           <div className="flex items-center gap-2">
             <Utensils className="w-5 h-5 text-white" />
             <div>
@@ -195,7 +195,7 @@ export default function InventoryMenuModal({
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-pandora-hover border border-pandora-border p-4 rounded-xl gap-3 text-xs font-bold text-pandora-body shadow-sm">
                 <div className="flex flex-col gap-0.5">
                   <span className="uppercase text-pandora-title tracking-wider font-serif">GESTIÓN DE CARTA ({activeTab === 'platos' ? 'PLATILLOS & ALIMENTOS' : 'BEBIDAS & BARRA'})</span>
-                  <span className="text-[10px] text-pandora-disabled font-light font-sans normal-case">Administración de productos (crear, editar, eliminar) para el MVP</span>
+                  <span className="text-[10px] text-pandora-muted font-light font-sans normal-case">Administración de productos (crear, editar, eliminar) para el MVP</span>
                 </div>
                 {!isAdding && (
                   <button
@@ -209,7 +209,7 @@ export default function InventoryMenuModal({
                       setIsEditingItem(null);
                       setIsAdding(true);
                     }}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-mono leading-none py-2 px-3 rounded-lg transition-colors flex items-center gap-1 cursor-pointer focus:outline-none"
+                    className="bg-pandora-success hover:bg-pandora-success text-white text-[11px] font-mono leading-none py-2 px-3 rounded-lg transition-colors flex items-center gap-1 cursor-pointer focus:outline-none"
                   >
                     <Plus className="w-3.5 h-3.5" /> Agregar Producto
                   </button>
@@ -319,7 +319,7 @@ export default function InventoryMenuModal({
                     </button>
                     <button
                       type="submit"
-                      className="px-4 py-1.5 bg-emerald-600 hover:bg-pandora-success/80 text-white rounded text-xs font-bold cursor-pointer focus:outline-none"
+                      className="px-4 py-1.5 bg-pandora-success hover:bg-pandora-success/80 text-white rounded text-xs font-bold cursor-pointer focus:outline-none"
                     >
                       Crear Producto
                     </button>
@@ -335,14 +335,14 @@ export default function InventoryMenuModal({
                           <div key={item.id} className="bg-pandora-accent p-4 rounded-xl border border-pandora-border shadow-sm flex flex-col justify-between hover:border-pandora-success/50 transition-colors">
                             <div>
                               <div className="flex justify-between items-start">
-                                <h4 className="font-serif font-bold text-sm text-pandora-title">{item.name}</h4>
+                                <h4 className="font-serif font-bold text-sm text-slate-900">{item.name}</h4>
                                 <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${
-                                  item.available ? 'bg-pandora-success-bg text-pandora-success' : 'bg-slate-100 text-pandora-disabled'
+                                  item.available ? 'bg-pandora-success-bg text-pandora-success' : 'bg-pandora-border text-pandora-muted'
                                 }`}>
                                   {item.available ? 'Activo' : 'Pausado'}
                                 </span>
                               </div>
-                              <p className="text-xs text-pandora-disabled mt-1 pb-3 border-b leading-relaxed">{item.description}</p>
+                              <p className="text-xs text-pandora-muted mt-1 pb-3 border-b leading-relaxed">{item.description}</p>
                             </div>
 
                             <div className="flex justify-between items-center mt-3 pt-1">
@@ -358,14 +358,14 @@ export default function InventoryMenuModal({
                                   />
                                   <button
                                     onClick={() => handleFinishEdit(item, item.available)}
-                                    className="p-1 px-2.5 bg-emerald-600 hover:bg-pandora-success/80 text-white rounded text-xs font-bold cursor-pointer"
+                                    className="p-1 px-2.5 bg-pandora-success hover:bg-pandora-success/80 text-white rounded text-xs font-bold cursor-pointer"
                                   >
                                     ✓
                                   </button>
                                 </div>
                               ) : (
                                 <div className="flex items-center gap-1 font-mono">
-                                  <span className="text-[10px] text-pandora-disabled">Precio:</span>
+                                  <span className="text-[10px] text-pandora-muted">Precio:</span>
                                   <span className="font-bold text-pandora-title text-xs">${item.price.toLocaleString('es-CO')} COP</span>
                                   <button
                                     onClick={() => handleStartEdit(item)}
@@ -389,7 +389,7 @@ export default function InventoryMenuModal({
                                     setIsEditingItem(item);
                                     setIsAdding(false);
                                   }}
-                                  className="text-pandora-gold hover:text-pandora-gold p-1 px-2 border border-pandora-border hover:bg-pandora-gold/10 rounded text-[10px] font-bold transition-all flex items-center gap-0.5 cursor-pointer"
+                                  className="text-pandora-gold hover:text-pandora-gold p-1 px-2 border border-slate-205 border-pandora-border hover:bg-pandora-gold/10 rounded text-[10px] font-bold transition-all flex items-center gap-0.5 cursor-pointer"
                                   title="Editar detalles completos (Nombre, Descripción, Categoría)"
                                 >
                                   <Edit className="w-3 h-3" />
@@ -398,7 +398,7 @@ export default function InventoryMenuModal({
 
                                 <button
                                   onClick={() => handleDeleteProduct(item)}
-                                  className="text-pandora-danger hover:text-pandora-danger p-1 px-2 border border-pandora-border hover:bg-pandora-danger/10 rounded text-[10px] font-bold transition-all flex items-center gap-0.5 cursor-pointer mr-1"
+                                  className="text-pandora-danger hover:text-pandora-danger p-1 px-2 border border-slate-205 border-pandora-border hover:bg-pandora-danger/10 rounded text-[10px] font-bold transition-all flex items-center gap-0.5 cursor-pointer mr-1"
                                   title="Eliminar producto"
                                 >
                                   <Trash2 className="w-3 h-3" />
@@ -534,7 +534,7 @@ export default function InventoryMenuModal({
                             </button>
                             <button
                               type="submit"
-                              className="flex-1 py-1.5 bg-emerald-600 hover:bg-pandora-success/80 text-white rounded text-xs font-bold cursor-pointer focus:outline-none"
+                              className="flex-1 py-1.5 bg-pandora-success hover:bg-pandora-success/80 text-white rounded text-xs font-bold cursor-pointer focus:outline-none"
                             >
                               Guardar Cambios
                             </button>
