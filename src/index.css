@@ -7,54 +7,54 @@
   --font-serif: "Playfair Display", serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  /* === PALETA BASE === */
-  --color-pandora-dark: #0D1B2A;
-  --color-pandora-hover: #1B2D45;
-  --color-pandora-accent: #243752;
-  --color-pandora-gold: #C9A84C;
-  --color-pandora-gold-hover: #B89430;
+  /* === PALETA BASE (CÁLIDA - Cafe/Copper) === */
+  --color-pandora-dark: #1a0f0a;
+  --color-pandora-hover: #2a1a12;
+  --color-pandora-accent: #d66c50;
+  --color-pandora-gold: #e5b974;
+  --color-pandora-gold-hover: #d4a85a;
   --color-pandora-cream: #E8D5A3;
-  --color-pandora-border: #2A3D52;
-  --color-pandora-bg: #0D1B2A;
+  --color-pandora-border: #3d2a1c;
+  --color-pandora-bg: #1a0f0a;
   --color-pandora-title: #FFFFFF;
-  --color-pandora-body: #A8BDCE;
-  --color-pandora-muted: #7A96A8;
-  --color-pandora-disabled: #5A7A94;
+  --color-pandora-body: #c9b5a0;
+  --color-pandora-muted: #8a7a6a;
+  --color-pandora-disabled: #5a4a3a;
   --color-pandora-sidebar-text: #FFFFFF;
-  --color-pandora-sidebar-text-secondary: #A8BDCE;
-  --color-pandora-primary: #C9A84C;
-  --color-pandora-primary-hover: #B89430;
-  --color-pandora-danger: #E05A2B;
-  --color-pandora-danger-hover: #C44D20;
+  --color-pandora-sidebar-text-secondary: #c9b5a0;
+  --color-pandora-primary: #e5b974;
+  --color-pandora-primary-hover: #d4a85a;
+  --color-pandora-danger: #c94d2a;
+  --color-pandora-danger-hover: #b04020;
   --color-pandora-success: #2E7D6B;
   --color-pandora-success-hover: #1F5C4F;
   --color-pandora-success-bg: rgba(46, 125, 107, 0.12);
-  --color-pandora-warning-bg: rgba(201, 168, 76, 0.12);
-  --color-pandora-error-bg: rgba(224, 90, 43, 0.12);
-  --color-pandora-gold-badge: #C9A84C;
-  --color-pandora-gold-bg: rgba(201, 168, 76, 0.08);
-  --color-pandora-wood: #2A3D52;
+  --color-pandora-warning-bg: rgba(229, 185, 116, 0.12);
+  --color-pandora-error-bg: rgba(201, 77, 42, 0.12);
+  --color-pandora-gold-badge: #e5b974;
+  --color-pandora-gold-bg: rgba(229, 185, 116, 0.08);
+  --color-pandora-wood: #7c4d3a;
   /* === SUPERFICIES SEMÁNTICAS === */
-  --color-surface-content: #16283D;
-  --color-surface-card: #1E3350;
-  --color-surface-card-hover: #243D5E;
-  --color-surface-modal: #1E3350;
-  --color-surface-input: #0D1B2A;
-  --color-surface-elevated: #243D5E;
+  --color-surface-content: #1f140e;
+  --color-surface-card: #2a1f18;
+  --color-surface-card-hover: #3a2a20;
+  --color-surface-modal: #2a1f18;
+  --color-surface-input: #1a0f0a;
+  --color-surface-elevated: #3a2a20;
 
   /* === BORDES === */
-  --color-border-default: #2E4565;
+  --color-border-default: #4a3525;
 
   /* === TEXTO SEMÁNTICO === */
   --color-text-primary: #FFFFFF;
-  --color-text-secondary: #A8BDCE;
-  --color-text-muted: #7A96A8;
-  --color-text-accent: #C9A84C;
+  --color-text-secondary: #c9b5a0;
+  --color-text-muted: #8a7a6a;
+  --color-text-accent: #e5b974;
   /* === BOTONES DE MÓDULO === */
-  --color-module-yellow-bg: rgba(201, 168, 76, 0.12);
-  --color-module-yellow-border: rgba(201, 168, 76, 0.3);
-  --color-module-yellow-text: #C9A84C;
-  --color-module-yellow-accent: #C9A84C;
+  --color-module-yellow-bg: rgba(229, 185, 116, 0.12);
+  --color-module-yellow-border: rgba(229, 185, 116, 0.3);
+  --color-module-yellow-text: #e5b974;
+  --color-module-yellow-accent: #e5b974;
   --color-module-green-bg: rgba(46, 125, 107, 0.12);
   --color-module-green-border: rgba(46, 125, 107, 0.3);
   --color-module-green-text: #2E7D6B;
@@ -63,10 +63,10 @@
   --color-module-magenta-border: rgba(192, 132, 252, 0.3);
   --color-module-magenta-text: #C084FC;
   --color-module-magenta-accent: #C084FC;
-  --color-module-red-bg: rgba(224, 90, 43, 0.12);
-  --color-module-red-border: rgba(224, 90, 43, 0.3);
-  --color-module-red-text: #E05A2B;
-  --color-module-red-accent: #E05A2B;
+  --color-module-red-bg: rgba(201, 77, 42, 0.12);
+  --color-module-red-border: rgba(201, 77, 42, 0.3);
+  --color-module-red-text: #c94d2a;
+  --color-module-red-accent: #c94d2a;
   --color-module-cyan-bg: rgba(6, 182, 212, 0.12);
   --color-module-cyan-border: rgba(6, 182, 212, 0.3);
   --color-module-cyan-text: #06B6D4;
@@ -133,6 +133,6 @@ body {
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0); }
-  50% { box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.25); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 185, 116, 0); }
+  50% { box-shadow: 0 0 0 3px rgba(229, 185, 116, 0.25); }
 }

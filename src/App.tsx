@@ -5,7 +5,7 @@ import {
   Utensils, Calendar, FileText, DollarSign, AlertTriangle,
   Printer, Archive, TrendingDown, LogOut, Map,
   Key, Clock, Sparkles, Bell, Play, FileSpreadsheet, Lock,
-  ChevronLeft, ClipboardList, Menu, Plus
+  ChevronLeft, ClipboardList, Menu, Plus, Home
 } from 'lucide-react';
 
 import { POSProvider } from './store/POSContext';
@@ -172,12 +172,20 @@ function AppContent() {
           <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
             <header className="bg-pandora-accent text-pandora-title border-b-2 border-pandora-border py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
-                <div className="text-left">
+                <button onClick={() => setActiveCategory(null)} className="text-left cursor-pointer bg-transparent border-none outline-none">
                   <h1 className="font-serif text-xl font-bold tracking-widest text-pandora-gold uppercase leading-none">Cafe Pandora</h1>
                   <span className="text-xs text-pandora-cream font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
-                </div>
+                </button>
               </div>
-              <div className="flex flex-wrap items-center gap-2.5"></div>
+              <div className="flex flex-wrap items-center gap-2.5">
+                <button
+                  onClick={() => setActiveCategory(null)}
+                  className="p-2 hover:bg-white/10 rounded-lg text-pandora-body hover:text-pandora-gold transition-all cursor-pointer"
+                  title="Inicio"
+                >
+                  <Home className="w-4 h-4" />
+                </button>
+              </div>
             </header>
 
             <div className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start bg-pandora-bg">
@@ -186,18 +194,12 @@ function AppContent() {
                 activeCategory={activeCategory}
                 categoryCounts={categoryCounts}
                 onSelect={setActiveCategory}
+                showHome
               />
 
               {activeCategory ? (
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-2 text-xs font-mono">
-                    <button
-                      onClick={() => setActiveCategory(null)}
-                      className="flex items-center gap-1.5 text-pandora-body hover:text-pandora-gold font-extrabold transition-all cursor-pointer bg-transparent border-none outline-none"
-                    >
-                      <ChevronLeft className="w-4 h-4 text-pandora-gold" /> Volver al Inicio
-                    </button>
-                    <span className="text-pandora-muted">/</span>
                     <span className="text-pandora-title font-extrabold uppercase">{selectedCategory?.name}</span>
                   </div>
 
