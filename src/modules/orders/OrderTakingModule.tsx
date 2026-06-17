@@ -152,30 +152,30 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
   };
 
   return (
-    <div id="order_taking_module" className="bg-surface-card border border-border-default rounded-2xl shadow-sm overflow-hidden flex flex-col min-h-[500px]">
+    <div id="order_taking_module" className="bg-tarjeta-fondo border border-borde rounded-2xl shadow-sm overflow-hidden flex flex-col min-h-[500px]">
       
       {showsSuccess ? (
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="flex-1 flex flex-col items-center justify-center p-8 bg-pandora-success-bg"
+          className="flex-1 flex flex-col items-center justify-center p-8 bg-exito-superficie"
         >
-          <div className="w-16 h-16 bg-pandora-success-bg rounded-full flex items-center justify-center text-pandora-success mb-4 shadow-sm border border-pandora-success/40 animate-bounce">
+          <div className="w-16 h-16 bg-exito-superficie rounded-full flex items-center justify-center text-exito mb-4 shadow-sm border border-exito/40 animate-bounce">
             <Check className="w-8 h-8" />
           </div>
-          <h3 className="font-serif text-lg font-bold text-pandora-title uppercase tracking-wider">¡Pedido Confirmado!</h3>
-          <p className="text-xs text-pandora-disabled mt-1.5 font-light text-center">La comanda ha sido enviada con éxito a la Cola de Preparaciones de la Cocina / Barra.</p>
+          <h3 className="font-serif text-lg font-bold text-titulo uppercase tracking-wider">¡Pedido Confirmado!</h3>
+          <p className="text-xs text-inactivo mt-1.5 font-light text-center">La comanda ha sido enviada con éxito a la Cola de Preparaciones de la Cocina / Barra.</p>
         </motion.div>
       ) : selectedTableId === null && !customTableNumber ? (
         /* STEP 1: SELECT TABLE NUMBER Only ask for the table number, nothing else */
         <div className="p-5 flex flex-col gap-6">
-          <div className="border-b border-pandora-border pb-3 flex justify-between items-center">
+          <div className="border-b border-borde pb-3 flex justify-between items-center">
             <div>
-              <h3 className="font-serif text-sm font-bold text-pandora-title uppercase tracking-wider flex items-center gap-2">
-                <ClipboardList className="w-4 h-4 text-pandora-gold" /> Seleccione la Mesa
+              <h3 className="font-serif text-sm font-bold text-titulo uppercase tracking-wider flex items-center gap-2">
+                <ClipboardList className="w-4 h-4 text-oro" /> Seleccione la Mesa
               </h3>
-              <p className="text-[11px] text-pandora-muted mt-0.5">Elija una mesa del salón o registre una mesa alterna abajo.</p>
+              <p className="text-[11px] text-atenuado mt-0.5">Elija una mesa del salón o registre una mesa alterna abajo.</p>
             </div>
           </div>
 
@@ -183,17 +183,17 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {tables.map(t => {
               let statusText = "Vacía";
-              let statusStyles = "bg-surface-card border-[#E5DEC9] hover:border-border-default text-[#5A524C] shadow-xs";
+              let statusStyles = "bg-tarjeta-fondo border-[#E5DEC9] hover:border-borde text-[#5A524C] shadow-xs";
 
               if (t.status === 'ocupada') {
                 statusText = "Ocupada";
-                statusStyles = "bg-surface-card border-pandora-danger/30 text-pandora-danger border-t-4 border-t-[#B85A48]";
+                statusStyles = "bg-tarjeta-fondo border-peligro/30 text-peligro border-t-4 border-t-[#B85A48]";
               } else if (t.status === 'reservada') {
                 statusText = "Reservada";
-                statusStyles = "bg-surface-card border-pandora-success/40 text-pandora-success border-t-4 border-t-[#556B2F]";
+                statusStyles = "bg-tarjeta-fondo border-exito/40 text-exito border-t-4 border-t-[#556B2F]";
               } else if (t.status === 'por_pagar') {
                 statusText = "Por Pagar";
-                statusStyles = "bg-surface-card border-pandora-gold/30 text-pandora-gold border-t-4 border-t-[#C59B27]";
+                statusStyles = "bg-tarjeta-fondo border-oro/30 text-oro border-t-4 border-t-[#C59B27]";
               }
 
               return (
@@ -210,11 +210,11 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
           </div>
 
           {/* Agregar nueva mesa button and modal */}
-          <div className="border-t border-pandora-border pt-5 mt-2 flex flex-col items-center">
-            <p className="text-[11px] text-pandora-disabled mb-3 text-center">¿No encuentra la mesa? Cree una personalizada al instante.</p>
+          <div className="border-t border-borde pt-5 mt-2 flex flex-col items-center">
+            <p className="text-[11px] text-inactivo mb-3 text-center">¿No encuentra la mesa? Cree una personalizada al instante.</p>
             <button
               onClick={() => setIsNewTableModalOpen(true)}
-              className="bg-pandora-success hover:bg-pandora-success-hover text-white font-mono uppercase text-[10px] font-bold tracking-wider px-6 py-3 rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-2"
+              className="bg-exito hover:bg-exito-hover text-white font-mono uppercase text-[10px] font-bold tracking-wider px-6 py-3 rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-2"
             >
               <Plus className="w-4 h-4 animate-pulse" />
               Agregar nueva mesa
@@ -242,25 +242,25 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                   initial={{ opacity: 0, scale: 0.95, y: 15 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: 15 }}
-                  className="bg-surface-card border border-pandora-border rounded-2xl w-full max-w-sm overflow-hidden p-6 shadow-2xl relative z-10 flex flex-col gap-4 text-pandora-title"
+                  className="bg-tarjeta-fondo border border-borde rounded-2xl w-full max-w-sm overflow-hidden p-6 shadow-2xl relative z-10 flex flex-col gap-4 text-titulo"
                 >
                   <div>
-                    <h3 className="font-serif text-base font-bold text-pandora-title uppercase tracking-wide flex items-center gap-2">
-                      <Plus className="w-5 h-5 text-pandora-gold animate-pulse" />
+                    <h3 className="font-serif text-base font-bold text-titulo uppercase tracking-wide flex items-center gap-2">
+                      <Plus className="w-5 h-5 text-oro animate-pulse" />
                       Agregar Nueva Mesa
                     </h3>
-                    <p className="text-[11px] text-pandora-disabled mt-1">Escriba el nombre o identificador único para la nueva mesa.</p>
+                    <p className="text-[11px] text-inactivo mt-1">Escriba el nombre o identificador único para la nueva mesa.</p>
                   </div>
 
                   <div className="space-y-3">
                     <div>
-                      <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-pandora-disabled block mb-1">Nombre o Número de la Mesa</label>
+                      <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-inactivo block mb-1">Nombre o Número de la Mesa</label>
                       <input
                         type="text"
                         placeholder="Ej. 14 o VIP"
                         value={newTableName}
                         onChange={(e) => setNewTableName(e.target.value)}
-                        className="w-full bg-pandora-hover border border-pandora-border rounded-lg px-3.5 py-2.5 text-xs text-pandora-title focus:outline-none focus:ring-2 focus:ring-pandora-gold/40 focus:border-pandora-gold"
+                        className="w-full bg-hover-fondo border border-borde rounded-lg px-3.5 py-2.5 text-xs text-titulo focus:outline-none focus:ring-2 focus:ring-oro/40 focus:border-oro"
                         autoFocus
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' && newTableName.trim()) {
@@ -271,15 +271,15 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                     </div>
 
                     <div>
-                      <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-pandora-disabled block mb-1.5">Tipo de Mesa</label>
+                      <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-inactivo block mb-1.5">Tipo de Mesa</label>
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           type="button"
                           onClick={() => setNewTableType('Exterior')}
                           className={`py-2 px-3 rounded-lg border text-xs font-mono font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                             newTableType === 'Exterior'
-                              ? 'bg-pandora-dark border-pandora-dark text-white shadow-xs'
-                              : 'bg-surface-card border-pandora-border hover:border-border-default text-pandora-body'
+                              ? 'bg-sidebar-fondo border-sidebar-fondo text-white shadow-xs'
+                              : 'bg-tarjeta-fondo border-borde hover:border-borde text-cuerpo'
                           }`}
                         >
                           Exterior
@@ -289,8 +289,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                           onClick={() => setNewTableType('Terraza')}
                           className={`py-2 px-3 rounded-lg border text-xs font-mono font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                             newTableType === 'Terraza'
-                              ? 'bg-pandora-dark border-pandora-dark text-white shadow-xs'
-                              : 'bg-surface-card border-pandora-border hover:border-border-default text-pandora-body'
+                              ? 'bg-sidebar-fondo border-sidebar-fondo text-white shadow-xs'
+                              : 'bg-tarjeta-fondo border-borde hover:border-borde text-cuerpo'
                           }`}
                         >
                           Terraza
@@ -298,9 +298,9 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                       </div>
                     </div>
 
-                    <div className="bg-pandora-warning-bg/50 border border-pandora-gold/30 rounded-xl p-3 mt-1.5">
-                      <span className="text-[9px] uppercase font-mono tracking-wide text-pandora-gold font-bold block mb-1 select-none">Vista Previa Automática</span>
-                      <p className="text-xs font-serif font-bold text-pandora-title">
+                    <div className="bg-advertencia-superficie/50 border border-oro/30 rounded-xl p-3 mt-1.5">
+                      <span className="text-[9px] uppercase font-mono tracking-wide text-oro font-bold block mb-1 select-none">Vista Previa Automática</span>
+                      <p className="text-xs font-serif font-bold text-titulo">
                         {(() => {
                           let inputVal = newTableName.trim();
                           if (inputVal.toLowerCase().startsWith('mesa')) {
@@ -318,7 +318,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                         setIsNewTableModalOpen(false);
                         setNewTableName('');
                       }}
-                      className="px-4 py-2 border border-pandora-border hover:bg-pandora-hover text-pandora-disabled rounded-xl text-xs font-bold font-mono tracking-wider transition-all cursor-pointer"
+                      className="px-4 py-2 border border-borde hover:bg-hover-fondo text-inactivo rounded-xl text-xs font-bold font-mono tracking-wider transition-all cursor-pointer"
                     >
                       Cancelar
                     </button>
@@ -327,8 +327,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                       onClick={handleAddNewTable}
                       className={`px-4 py-2 rounded-xl text-xs font-bold font-mono tracking-wider transition-all shadow-sm cursor-pointer ${
                         newTableName.trim()
-                          ? 'bg-pandora-accent hover:bg-pandora-accent/90 text-white'
-                          : 'bg-pandora-border text-pandora-disabled cursor-not-allowed'
+                          ? 'bg-acento hover:bg-acento/90 text-white'
+                          : 'bg-borde text-inactivo cursor-not-allowed'
                       }`}
                     >
                       Confirmar
@@ -344,13 +344,13 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
         <div className="flex flex-col lg:flex-row min-h-[500px]">
           
           {/* CATALOG PANEL (LEFT/MID) */}
-          <div className="flex-1 p-4 border-b lg:border-b-0 lg:border-r border-pandora-border flex flex-col min-w-0">
+          <div className="flex-1 p-4 border-b lg:border-b-0 lg:border-r border-borde flex flex-col min-w-0">
             
             {/* Catalog Toolbar */}
-            <div className="flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center pb-3 border-b border-pandora-border mb-4">
+            <div className="flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center pb-3 border-b border-borde mb-4">
               <div>
-                <span className="text-[9px] uppercase font-bold tracking-widest text-pandora-disabled block font-mono">Categoría Pedidos</span>
-                <h4 className="font-serif text-sm font-bold text-pandora-title uppercase tracking-normal">
+                <span className="text-[9px] uppercase font-bold tracking-widest text-inactivo block font-mono">Categoría Pedidos</span>
+                <h4 className="font-serif text-sm font-bold text-titulo uppercase tracking-normal">
                   {tableDisplayName} &bull; Catálogo de Productos
                 </h4>
               </div>
@@ -360,7 +360,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                   setCustomTableNumber('');
                   setCart([]);
                 }}
-                className="text-[10px] text-pandora-gold hover:underline font-bold tracking-wider font-mono cursor-pointer"
+                className="text-[10px] text-oro hover:underline font-bold tracking-wider font-mono cursor-pointer"
               >
                 &larr; Cambiar Mesa
               </button>
@@ -370,15 +370,15 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
             <div className="flex flex-col gap-2.5 mb-4 shrink-0">
               {/* Fila 1: 65% category tabs + 35% search (no icon) */}
               <div className="flex gap-2.5">
-                <div className="w-[65%] bg-pandora-border p-0.5 rounded-lg border border-pandora-border flex items-center gap-1">
+                <div className="w-[65%] bg-borde p-0.5 rounded-lg border border-borde flex items-center gap-1">
                   {(['todos', 'platillo', 'bebida'] as const).map((tab) => (
                     <button
                       key={tab}
                       onClick={() => { setActiveCatalogTab(tab); setActiveSubcategory(null); }}
                       className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase transition-all tracking-wider cursor-pointer flex-1 ${
                         activeCatalogTab === tab
-                          ? 'bg-surface-card text-pandora-title shadow-xs border border-pandora-border/50'
-                          : 'text-pandora-disabled hover:text-pandora-title'
+                          ? 'bg-tarjeta-fondo text-titulo shadow-xs border border-borde/50'
+                          : 'text-inactivo hover:text-titulo'
                       }`}
                     >
                       {tab === 'todos' ? 'Todos' : tab === 'platillo' ? 'Platillos' : 'Bebidas'}
@@ -391,7 +391,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                     placeholder="Buscar producto..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-pandora-hover border border-pandora-border rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-pandora-gold text-pandora-title placeholder-slate-400"
+                    className="w-full bg-hover-fondo border border-borde rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-oro text-titulo placeholder-slate-400"
                   />
                 </div>
               </div>
@@ -407,8 +407,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                       onClick={() => setActiveSubcategory(activeSubcategory === sub ? null : sub)}
                       className={`px-2.5 py-1 rounded-md text-[9px] font-bold uppercase transition-all tracking-wider cursor-pointer ${
                         activeSubcategory === sub
-                          ? 'bg-pandora-accent text-white shadow-xs'
-                          : 'bg-surface-card text-pandora-disabled border border-pandora-border hover:border-pandora-gold/30'
+                          ? 'bg-acento text-white shadow-xs'
+                          : 'bg-tarjeta-fondo text-inactivo border border-borde hover:border-oro/30'
                       }`}
                     >
                       {sub}
@@ -426,8 +426,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
               {/* FOOD GROUP */}
               {(activeCatalogTab === 'todos' || activeCatalogTab === 'platillo') && groupedCatalog.platillos.length > 0 && (
                 <div>
-                  <h5 className="text-[10px] uppercase font-bold tracking-widest text-pandora-muted border-b border-dashed border-pandora-border pb-1 mb-2 font-mono flex items-center gap-1.5">
-                    <Utensils className="w-3.5 h-3.5 inline text-pandora-gold" /> {activeCatalogTab === 'todos' ? 'PLATILLOS & BEBIDAS' : 'PLATILLOS & ALIMENTOS'}
+                  <h5 className="text-[10px] uppercase font-bold tracking-widest text-atenuado border-b border-dashed border-borde pb-1 mb-2 font-mono flex items-center gap-1.5">
+                    <Utensils className="w-3.5 h-3.5 inline text-oro" /> {activeCatalogTab === 'todos' ? 'PLATILLOS & BEBIDAS' : 'PLATILLOS & ALIMENTOS'}
                   </h5>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {groupedCatalog.platillos.map(item => {
@@ -436,27 +436,27 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                         <div
                           key={item.id}
                           onClick={() => addToCart(item)}
-                          className={`p-2.5 rounded-xl border transition-all hover:bg-pandora-hover cursor-pointer text-left flex items-center gap-3 min-h-[90px] shrink-0 ${
+                          className={`p-2.5 rounded-xl border transition-all hover:bg-hover-fondo cursor-pointer text-left flex items-center gap-3 min-h-[90px] shrink-0 ${
                             cartItem 
-                              ? 'border-pandora-gold/30 bg-pandora-warning-bg shadow-xs' 
-                              : 'border-pandora-border bg-surface-card hover:border-border-default'
+                              ? 'border-oro/30 bg-advertencia-superficie shadow-xs' 
+                              : 'border-borde bg-tarjeta-fondo hover:border-borde'
                           }`}
                         >
                           {item.image && (
-                            <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-pandora-border/60 shadow-xs">
+                            <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-borde/60 shadow-xs">
                               <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                             </div>
                           )}
                           <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
                             <div>
-                              <span className="font-serif font-bold text-xs text-pandora-title line-clamp-1 block uppercase leading-tight">{item.name}</span>
-                              <p className="text-[9.5px] text-pandora-muted font-light line-clamp-2 mt-0.5 leading-normal">{item.description}</p>
+                              <span className="font-serif font-bold text-xs text-titulo line-clamp-1 block uppercase leading-tight">{item.name}</span>
+                              <p className="text-[9.5px] text-atenuado font-light line-clamp-2 mt-0.5 leading-normal">{item.description}</p>
                             </div>
-                            <span className="text-[11px] font-mono font-bold text-pandora-gold block mt-1">${item.price.toLocaleString('es-CO')}</span>
+                            <span className="text-[11px] font-mono font-bold text-oro block mt-1">${item.price.toLocaleString('es-CO')}</span>
                           </div>
                           
                           {cartItem && (
-                            <span className="bg-pandora-accent text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-xs shrink-0 self-center">
+                            <span className="bg-acento text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-xs shrink-0 self-center">
                               {cartItem.quantity}
                             </span>
                           )}
@@ -470,8 +470,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
               {/* BEVERAGES GROUP */}
               {(activeCatalogTab === 'todos' || activeCatalogTab === 'bebida') && groupedCatalog.bebidas.length > 0 && (
                 <div>
-                  <h5 className="text-[10px] uppercase font-bold tracking-widest text-pandora-muted border-b border-dashed border-pandora-border pb-1 mb-2 font-mono flex items-center gap-1.5">
-                    <Coffee className="w-3.5 h-3.5 inline text-pandora-gold" /> Bebidas & Barra
+                  <h5 className="text-[10px] uppercase font-bold tracking-widest text-atenuado border-b border-dashed border-borde pb-1 mb-2 font-mono flex items-center gap-1.5">
+                    <Coffee className="w-3.5 h-3.5 inline text-oro" /> Bebidas & Barra
                   </h5>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {groupedCatalog.bebidas.map(item => {
@@ -480,27 +480,27 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                         <div
                           key={item.id}
                           onClick={() => addToCart(item)}
-                          className={`p-2.5 rounded-xl border transition-all hover:bg-pandora-hover cursor-pointer text-left flex items-center gap-3 min-h-[90px] shrink-0 ${
+                          className={`p-2.5 rounded-xl border transition-all hover:bg-hover-fondo cursor-pointer text-left flex items-center gap-3 min-h-[90px] shrink-0 ${
                             cartItem 
-                              ? 'border-pandora-gold/30 bg-pandora-warning-bg' 
-                              : 'border-pandora-border bg-surface-card hover:border-border-default'
+                              ? 'border-oro/30 bg-advertencia-superficie' 
+                              : 'border-borde bg-tarjeta-fondo hover:border-borde'
                           }`}
                         >
                           {item.image && (
-                            <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-pandora-border/60 shadow-xs">
+                            <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-borde/60 shadow-xs">
                               <img src={item.image} alt={item.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                             </div>
                           )}
                           <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
                             <div>
-                              <span className="font-serif font-bold text-xs text-pandora-title line-clamp-1 block uppercase leading-tight">{item.name}</span>
-                              <p className="text-[9.5px] text-pandora-muted font-light line-clamp-2 mt-0.5 leading-normal">{item.description}</p>
+                              <span className="font-serif font-bold text-xs text-titulo line-clamp-1 block uppercase leading-tight">{item.name}</span>
+                              <p className="text-[9.5px] text-atenuado font-light line-clamp-2 mt-0.5 leading-normal">{item.description}</p>
                             </div>
-                            <span className="text-[11px] font-mono font-bold text-pandora-gold block mt-1">${item.price.toLocaleString('es-CO')}</span>
+                            <span className="text-[11px] font-mono font-bold text-oro block mt-1">${item.price.toLocaleString('es-CO')}</span>
                           </div>
                           
                           {cartItem && (
-                            <span className="bg-pandora-accent text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-xs shrink-0 self-center">
+                            <span className="bg-acento text-white px-2 py-0.5 rounded-full text-[10px] font-mono font-extrabold shadow-xs shrink-0 self-center">
                               {cartItem.quantity}
                             </span>
                           )}
@@ -512,7 +512,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
               )}
 
               {filteredCatalog.length === 0 && (
-                <div className="p-10 text-center text-pandora-disabled text-xs font-light bg-pandora-hover rounded-xl border border-dashed border-pandora-border">
+                <div className="p-10 text-center text-inactivo text-xs font-light bg-hover-fondo rounded-xl border border-dashed border-borde">
                   Ningún producto disponible coincide con la búsqueda.
                 </div>
               )}
@@ -521,44 +521,44 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
           </div>
 
           {/* ORDER SUMMARY PANEL (RIGHT) */}
-          <div className="w-full lg:w-80 p-4 bg-pandora-bg/60 flex flex-col shrink-0 min-h-[400px]">
-            <div className="border-b border-pandora-border pb-2.5 mb-3">
-              <h4 className="font-serif text-xs font-bold text-pandora-body uppercase tracking-wider flex items-center gap-1.5">
-                <ShoppingCart className="w-4 h-4 text-pandora-gold" /> Resumen de {tableDisplayName}
+          <div className="w-full lg:w-80 p-4 bg-pagina-fondo/60 flex flex-col shrink-0 min-h-[400px]">
+            <div className="border-b border-borde pb-2.5 mb-3">
+              <h4 className="font-serif text-xs font-bold text-cuerpo uppercase tracking-wider flex items-center gap-1.5">
+                <ShoppingCart className="w-4 h-4 text-oro" /> Resumen de {tableDisplayName}
               </h4>
             </div>
 
             {/* Cart Elements Scroll list */}
             <div className="flex-1 overflow-y-auto space-y-2 pr-1 max-h-[280px]">
               {cart.length === 0 ? (
-                <div className="h-full min-h-[180px] flex flex-col items-center justify-center text-pandora-disabled">
-                  <ShoppingCart className="w-7 h-7 text-pandora-muted stroke-[1.5] mb-2" />
-                  <p className="text-[11px] font-serif font-medium text-pandora-disabled">Comanda vacía</p>
-                  <p className="text-[10px] text-pandora-disabled font-light mt-1.5 text-center">Toque los productos de la izquierda para agregarlos a la comanda.</p>
+                <div className="h-full min-h-[180px] flex flex-col items-center justify-center text-inactivo">
+                  <ShoppingCart className="w-7 h-7 text-atenuado stroke-[1.5] mb-2" />
+                  <p className="text-[11px] font-serif font-medium text-inactivo">Comanda vacía</p>
+                  <p className="text-[10px] text-inactivo font-light mt-1.5 text-center">Toque los productos de la izquierda para agregarlos a la comanda.</p>
                 </div>
               ) : (
                 cart.map((item) => (
                   <div 
                     key={item.menuItemId}
-                    className="p-2.5 bg-surface-card border border-pandora-border rounded-lg flex justify-between items-center text-xs shadow-xs"
+                    className="p-2.5 bg-tarjeta-fondo border border-borde rounded-lg flex justify-between items-center text-xs shadow-xs"
                   >
                     <div className="min-w-0 flex-1 pr-1.5">
-                      <span className="font-serif font-bold text-pandora-title block leading-tight truncate uppercase text-[11px]">{item.name}</span>
-                      <span className="text-[10px] text-pandora-gold font-mono block mt-0.5">${item.price.toLocaleString('es-CO')} c/u</span>
+                      <span className="font-serif font-bold text-titulo block leading-tight truncate uppercase text-[11px]">{item.name}</span>
+                      <span className="text-[10px] text-oro font-mono block mt-0.5">${item.price.toLocaleString('es-CO')} c/u</span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <div className="flex items-center bg-pandora-border border border-pandora-border rounded-md">
+                      <div className="flex items-center bg-borde border border-borde rounded-md">
                         <button
                           onClick={() => updateQuantity(item.menuItemId, -1)}
-                          className="p-1 hover:bg-pandora-hover text-pandora-disabled hover:text-pandora-title transition-colors cursor-pointer"
+                          className="p-1 hover:bg-hover-fondo text-inactivo hover:text-titulo transition-colors cursor-pointer"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
-                        <span className="w-6 text-center font-mono font-bold text-[11px] text-pandora-body">{item.quantity}</span>
+                        <span className="w-6 text-center font-mono font-bold text-[11px] text-cuerpo">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.menuItemId, 1)}
-                          className="p-1 hover:bg-pandora-hover text-pandora-disabled hover:text-pandora-title transition-colors cursor-pointer"
+                          className="p-1 hover:bg-hover-fondo text-inactivo hover:text-titulo transition-colors cursor-pointer"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
@@ -566,7 +566,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
 
                       <button
                         onClick={() => removeFromCart(item.menuItemId)}
-                        className="p-1.5 text-pandora-disabled hover:text-pandora-danger hover:bg-pandora-error-bg rounded transition-all cursor-pointer"
+                        className="p-1.5 text-inactivo hover:text-peligro hover:bg-peligro-superficie rounded transition-all cursor-pointer"
                         title="Quitar"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -578,14 +578,14 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
             </div>
 
             {/* Total summary calculations & confirm */}
-            <div className="border-t border-pandora-border pt-3 mt-3">
-              <div className="flex justify-between items-center text-xs text-pandora-disabled font-medium mb-1.5">
+            <div className="border-t border-borde pt-3 mt-3">
+              <div className="flex justify-between items-center text-xs text-inactivo font-medium mb-1.5">
                 <span>Subtotal:</span>
-                <span className="font-mono text-pandora-body">${cartTotal.toLocaleString('es-CO')}</span>
+                <span className="font-mono text-cuerpo">${cartTotal.toLocaleString('es-CO')}</span>
               </div>
-              <div className="flex justify-between items-center text-xs text-pandora-muted font-bold border-b border-dashed border-pandora-border pb-2 mb-2">
-                <span className="text-pandora-title">TOTAL PEDIDO:</span>
-                <span className="font-mono text-pandora-gold text-sm">${cartTotal.toLocaleString('es-CO')}</span>
+              <div className="flex justify-between items-center text-xs text-atenuado font-bold border-b border-dashed border-borde pb-2 mb-2">
+                <span className="text-titulo">TOTAL PEDIDO:</span>
+                <span className="font-mono text-oro text-sm">${cartTotal.toLocaleString('es-CO')}</span>
               </div>
 
               <div className="flex gap-2">
@@ -598,8 +598,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                   }}
                   className={`p-2 rounded-lg border text-xs transition-all flex items-center justify-center cursor-pointer ${
                     cart.length > 0
-                      ? 'border-pandora-border hover:bg-pandora-error-bg text-pandora-disabled hover:text-pandora-danger'
-                      : 'border-pandora-border text-pandora-disabled cursor-not-allowed bg-pandora-border/50'
+                      ? 'border-borde hover:bg-peligro-superficie text-inactivo hover:text-peligro'
+                      : 'border-borde text-inactivo cursor-not-allowed bg-borde/50'
                   }`}
                   title="Vaciar"
                 >
@@ -610,8 +610,8 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                   onClick={handleConfirmOrder}
                   className={`flex-1 py-2 rounded-lg text-xs font-bold font-mono tracking-wider transition-all shadow-xs shrink-0 cursor-pointer flex items-center justify-center gap-1.5 uppercase ${
                     cart.length > 0
-                      ? 'bg-pandora-warning-bg0 hover:bg-pandora-accent text-white'
-                      : 'bg-slate-200 text-pandora-disabled cursor-not-allowed'
+                      ? 'bg-advertencia-superficie0 hover:bg-acento text-white'
+                      : 'bg-slate-200 text-inactivo cursor-not-allowed'
                   }`}
                 >
                   <Check className="w-4 h-4" /> Confirmar Pedido

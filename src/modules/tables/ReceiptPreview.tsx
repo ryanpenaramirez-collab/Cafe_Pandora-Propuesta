@@ -45,11 +45,11 @@ export default function ReceiptPreview({
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="w-full max-w-sm bg-pandora-hover rounded-2xl shadow-2xl relative border-t-8 border-pandora-gold max-h-[90vh] flex flex-col"
+          className="w-full max-w-sm bg-hover-fondo rounded-2xl shadow-2xl relative border-t-8 border-oro max-h-[90vh] flex flex-col"
         >
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 p-1.5 hover:bg-pandora-gold/20 rounded-full text-pandora-muted cursor-pointer transition-colors z-10"
+            className="absolute top-3 right-3 p-1.5 hover:bg-oro/20 rounded-full text-atenuado cursor-pointer transition-colors z-10"
           >
             <X className="w-4 h-4" />
           </button>
@@ -57,16 +57,16 @@ export default function ReceiptPreview({
           <div className="overflow-y-auto p-5 pt-8">
             {printType === 'cooking' ? (
               <>
-                <div className="text-center pb-3 border-b border-dashed border-pandora-border">
+                <div className="text-center pb-3 border-b border-dashed border-borde">
                   <span className="text-[10px] bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider mb-2 inline-block">
                     TICKET DE COCINA
                   </span>
-                  <h5 className="font-serif font-black text-sm tracking-widest text-pandora-title uppercase leading-none">
+                  <h5 className="font-serif font-black text-sm tracking-widest text-titulo uppercase leading-none">
                     PANDORA COMANDA
                   </h5>
                 </div>
 
-                <div className="py-3 space-y-1.5 text-xs text-pandora-body font-mono border-b border-dashed border-pandora-border">
+                <div className="py-3 space-y-1.5 text-xs text-cuerpo font-mono border-b border-dashed border-borde">
                   <div className="flex justify-between">
                     <span>Mesa:</span>
                     <span className="font-bold">No. {table.id} - {table.name}</span>
@@ -78,37 +78,37 @@ export default function ReceiptPreview({
                 </div>
 
                 <div className="py-3">
-                  <div className="grid grid-cols-12 text-[10px] font-bold uppercase text-pandora-muted pb-2 border-b select-none">
+                  <div className="grid grid-cols-12 text-[10px] font-bold uppercase text-atenuado pb-2 border-b select-none">
                     <span className="col-span-9">Producto</span>
                     <span className="col-span-3 text-right">Cantidad</span>
                   </div>
                   <div className="divide-y divide-dotted pt-2">
                     {combinedItems.map((item, idx) => (
                       <div key={idx} className="grid grid-cols-12 text-sm py-2">
-                        <span className="col-span-9 font-serif font-bold text-pandora-title">{item.name}</span>
+                        <span className="col-span-9 font-serif font-bold text-titulo">{item.name}</span>
                         <span className="col-span-3 text-right font-mono font-black text-lg">x{item.quantity}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="text-center pt-3 border-t border-dashed border-pandora-border text-[10px] text-pandora-muted italic">
+                <div className="text-center pt-3 border-t border-dashed border-borde text-[10px] text-atenuado italic">
                   <p>Control de Servicio Interno — Café Pandora</p>
                 </div>
               </>
             ) : (
               <>
-                <div className="text-center pb-3 border-b border-dashed border-pandora-border">
-                  <span className="text-[10px] bg-pandora-success-bg text-emerald-800 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider mb-2 inline-block">
+                <div className="text-center pb-3 border-b border-dashed border-borde">
+                  <span className="text-[10px] bg-exito-superficie text-emerald-800 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider mb-2 inline-block">
                     FACTURA POS
                   </span>
-                  <h5 className="font-serif font-black text-sm tracking-widest text-pandora-title uppercase leading-none">
+                  <h5 className="font-serif font-black text-sm tracking-widest text-titulo uppercase leading-none">
                     CAFÉ PANDORA
                   </h5>
-                  <p className="text-[9px] text-pandora-muted mt-1">Dirección local · NIT 901.381.189-4</p>
+                  <p className="text-[9px] text-atenuado mt-1">Dirección local · NIT 901.381.189-4</p>
                 </div>
 
-                <div className="py-3 space-y-1.5 text-xs text-pandora-body font-mono border-b border-dashed border-pandora-border">
+                <div className="py-3 space-y-1.5 text-xs text-cuerpo font-mono border-b border-dashed border-borde">
                   <div className="flex justify-between">
                     <span>Factura No:</span>
                     <span className="font-bold">{invoiceNumber}</span>
@@ -123,12 +123,12 @@ export default function ReceiptPreview({
                   </div>
                   <div className="flex justify-between">
                     <span>Método de Pago:</span>
-                    <span className="font-bold uppercase text-[10px] bg-pandora-border px-1.5 py-0.5 rounded">{paymentMethod}</span>
+                    <span className="font-bold uppercase text-[10px] bg-borde px-1.5 py-0.5 rounded">{paymentMethod}</span>
                   </div>
                 </div>
 
                 <div className="py-3">
-                  <div className="grid grid-cols-12 text-[9px] font-bold uppercase text-pandora-muted pb-2 border-b border-dashed select-none">
+                  <div className="grid grid-cols-12 text-[9px] font-bold uppercase text-atenuado pb-2 border-b border-dashed select-none">
                     <span className="col-span-5">Producto</span>
                     <span className="col-span-2 text-center">Cant</span>
                     <span className="col-span-2 text-right">Unit.</span>
@@ -136,7 +136,7 @@ export default function ReceiptPreview({
                   </div>
                   <div className="space-y-1.5 pt-2">
                     {combinedItems.map((item, idx) => (
-                      <div key={idx} className="grid grid-cols-12 text-xs items-center text-pandora-title">
+                      <div key={idx} className="grid grid-cols-12 text-xs items-center text-titulo">
                         <span className="col-span-5 font-serif font-bold truncate">{item.name}</span>
                         <span className="col-span-2 text-center font-mono">x{item.quantity}</span>
                         <span className="col-span-2 text-right font-mono">{formatCOP(item.price)}</span>
@@ -146,24 +146,24 @@ export default function ReceiptPreview({
                   </div>
                 </div>
 
-                <div className="border-t border-dashed border-pandora-border py-3 text-xs font-mono space-y-1">
-                  <div className="flex justify-between text-pandora-body">
+                <div className="border-t border-dashed border-borde py-3 text-xs font-mono space-y-1">
+                  <div className="flex justify-between text-cuerpo">
                     <span>Subtotal Neto:</span>
                     <span>{formatCOP(subtotal)}</span>
                   </div>
                   {applyTax && (
-                    <div className="flex justify-between text-pandora-title font-semibold">
+                    <div className="flex justify-between text-titulo font-semibold">
                       <span>Impuesto Consumo (8%):</span>
                       <span>+{formatCOP(tax)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-lg font-extrabold text-pandora-title border-t border-dotted pt-2 mt-2">
+                  <div className="flex justify-between text-lg font-extrabold text-titulo border-t border-dotted pt-2 mt-2">
                     <span>TOTAL CLIENTE:</span>
-                    <span className="text-pandora-success">{formatCOP(total)}</span>
+                    <span className="text-exito">{formatCOP(total)}</span>
                   </div>
                 </div>
 
-                <div className="text-center pt-2 border-t border-dashed border-pandora-border text-[10px] text-pandora-muted space-y-1">
+                <div className="text-center pt-2 border-t border-dashed border-borde text-[10px] text-atenuado space-y-1">
                   <p>¡Gracias por su visita! ☕</p>
                   <p className="text-[8px] font-sans uppercase font-bold">
                     Impuesto: {applyTax ? 'Habilitado (8%)' : 'Deshabilitado'}
@@ -171,7 +171,7 @@ export default function ReceiptPreview({
 
                   <button
                     onClick={onToggleTax}
-                    className="mt-2 px-3 py-1 bg-pandora-border hover:bg-slate-300 text-pandora-body rounded-lg text-[9px] font-bold cursor-pointer transition-colors"
+                    className="mt-2 px-3 py-1 bg-borde hover:bg-slate-300 text-cuerpo rounded-lg text-[9px] font-bold cursor-pointer transition-colors"
                   >
                     {applyTax ? 'DESACTIVAR' : 'ACTIVAR'} IMPUESTO
                   </button>
@@ -180,7 +180,7 @@ export default function ReceiptPreview({
             )}
           </div>
 
-          <div className="p-4 border-t border-pandora-border">
+          <div className="p-4 border-t border-borde">
             <button
               onClick={handlePrint}
               className={`w-full py-2.5 rounded-xl text-xs font-extrabold text-white flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:scale-[1.01] transition-all ${

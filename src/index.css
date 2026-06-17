@@ -7,74 +7,105 @@
   --font-serif: "Playfair Display", serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  /* === PALETA BASE (CÁLIDA - Cafe/Copper) === */
-  --color-pandora-dark: #1a0f0a;
-  --color-pandora-hover: #2a1a12;
-  --color-pandora-accent: #d66c50;
-  --color-pandora-gold: #e5b974;
-  --color-pandora-gold-hover: #d4a85a;
-  --color-pandora-cream: #E8D5A3;
-  --color-pandora-border: #3d2a1c;
-  --color-pandora-bg: #1a0f0a;
-  --color-pandora-title: #FFFFFF;
-  --color-pandora-body: #c9b5a0;
-  --color-pandora-muted: #8a7a6a;
-  --color-pandora-disabled: #5a4a3a;
-  --color-pandora-sidebar-text: #FFFFFF;
-  --color-pandora-sidebar-text-secondary: #c9b5a0;
-  --color-pandora-primary: #e5b974;
-  --color-pandora-primary-hover: #d4a85a;
-  --color-pandora-danger: #c94d2a;
-  --color-pandora-danger-hover: #b04020;
-  --color-pandora-success: #2E7D6B;
-  --color-pandora-success-hover: #1F5C4F;
-  --color-pandora-success-bg: rgba(46, 125, 107, 0.12);
-  --color-pandora-warning-bg: rgba(229, 185, 116, 0.12);
-  --color-pandora-error-bg: rgba(201, 77, 42, 0.12);
-  --color-pandora-gold-badge: #e5b974;
-  --color-pandora-gold-bg: rgba(229, 185, 116, 0.08);
-  --color-pandora-wood: #7c4d3a;
-  /* === SUPERFICIES SEMÁNTICAS === */
-  --color-surface-content: #1f140e;
-  --color-surface-card: #2a1f18;
-  --color-surface-card-hover: #3a2a20;
-  --color-surface-modal: #2a1f18;
-  --color-surface-input: #1a0f0a;
-  --color-surface-elevated: #3a2a20;
+  /* === LOGIN === */
+  --color-login-fondo: #3A7AB5;
+  --color-login-panel-visual: #0D1B2A;
 
-  /* === BORDES === */
-  --color-border-default: #4a3525;
+  /* === LAYOUT === */
+  --color-pagina-fondo: #EAF2FB;
+  --color-encabezado-fondo: #5B9BD5;
+  --color-sidebar-fondo: #3A7AB5;
+  --color-sidebar-texto: #FFFFFF;
+  --color-sidebar-texto-secundario: #D0E8F8;
 
-  /* === TEXTO SEMÁNTICO === */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #c9b5a0;
-  --color-text-muted: #8a7a6a;
-  --color-text-accent: #e5b974;
-  /* === BOTONES DE MÓDULO === */
-  --color-module-yellow-bg: rgba(229, 185, 116, 0.12);
-  --color-module-yellow-border: rgba(229, 185, 116, 0.3);
-  --color-module-yellow-text: #e5b974;
-  --color-module-yellow-accent: #e5b974;
-  --color-module-green-bg: rgba(46, 125, 107, 0.12);
-  --color-module-green-border: rgba(46, 125, 107, 0.3);
-  --color-module-green-text: #2E7D6B;
-  --color-module-green-accent: #2E7D6B;
-  --color-module-magenta-bg: rgba(192, 132, 252, 0.12);
-  --color-module-magenta-border: rgba(192, 132, 252, 0.3);
-  --color-module-magenta-text: #C084FC;
-  --color-module-magenta-accent: #C084FC;
-  --color-module-red-bg: rgba(201, 77, 42, 0.12);
-  --color-module-red-border: rgba(201, 77, 42, 0.3);
-  --color-module-red-text: #c94d2a;
-  --color-module-red-accent: #c94d2a;
-  --color-module-cyan-bg: rgba(6, 182, 212, 0.12);
-  --color-module-cyan-border: rgba(6, 182, 212, 0.3);
-  --color-module-cyan-text: #06B6D4;
-  --color-module-cyan-accent: #06B6D4;
-  --color-module-orange-bg: rgba(251, 146, 60, 0.12);
-  --color-module-orange-border: rgba(251, 146, 60, 0.3);
-  --color-module-orange-text: #FB923C;
-  --color-module-orange-accent: #FB923C;
+  /* === SUPERFICIES === */
+  --color-hover-fondo: #F0F6FF;
+  --color-contenido-fondo: #FFFFFF;
+  --color-tarjeta-fondo: #FFFFFF;
+  --color-tarjeta-hover: #F5F9FF;
+  --color-modal-fondo: #FFFFFF;
+  --color-input-fondo: #F5F9FF;
+  --color-superficie-elevada: #FFFFFF;
+
+  /* === TEXTO === */
+  --color-titulo: #2C3E55;
+  --color-cuerpo: #5A7A9A;
+  --color-atenuado: #8AAAC8;
+  --color-inactivo: #A0B8D0;
+  --color-texto-acento: #C8A96E;
+
+  /* === ACENTOS === */
+  --color-acento: #5B9BD5;
+  --color-acento-hover: #3A7AB5;
+  --color-oro: #C8A96E;
+  --color-oro-hover: #B8985A;
+  --color-crema: #F5EDD8;
+  --color-madera: #D0E8F8;
+  --color-oro-insignia: #C8A96E;
+  --color-oro-superficie: rgba(200, 169, 110, 0.08);
+
+  /* === BORDE === */
+  --color-borde: #D0E8F8;
+
+  /* === SEMANTICOS === */
+  --color-exito: #4A9872;
+  --color-exito-hover: #3A7A5A;
+  --color-exito-superficie: rgba(74, 152, 114, 0.12);
+  --color-peligro: #C45A5A;
+  --color-peligro-hover: #A04040;
+  --color-peligro-superficie: rgba(196, 90, 90, 0.12);
+  --color-advertencia-superficie: rgba(200, 169, 110, 0.12);
+
+  /* === FUNCION (botones de módulo) === */
+  --color-funcion-personal-superficie: rgba(200, 169, 110, 0.12);
+  --color-funcion-personal-borde: rgba(200, 169, 110, 0.3);
+  --color-funcion-personal-texto: #C8A96E;
+  --color-funcion-personal-acento: #C8A96E;
+  --color-funcion-menu-superficie: rgba(74, 152, 114, 0.12);
+  --color-funcion-menu-borde: rgba(74, 152, 114, 0.3);
+  --color-funcion-menu-texto: #4A9872;
+  --color-funcion-menu-acento: #4A9872;
+  --color-funcion-reportes-superficie: rgba(192, 132, 252, 0.12);
+  --color-funcion-reportes-borde: rgba(192, 132, 252, 0.3);
+  --color-funcion-reportes-texto: #C084FC;
+  --color-funcion-reportes-acento: #C084FC;
+  --color-funcion-financiero-superficie: rgba(196, 90, 90, 0.12);
+  --color-funcion-financiero-borde: rgba(196, 90, 90, 0.3);
+  --color-funcion-financiero-texto: #C45A5A;
+  --color-funcion-financiero-acento: #C45A5A;
+  --color-funcion-mesas-superficie: rgba(91, 155, 213, 0.12);
+  --color-funcion-mesas-borde: rgba(91, 155, 213, 0.3);
+  --color-funcion-mesas-texto: #5B9BD5;
+  --color-funcion-mesas-acento: #5B9BD5;
+  --color-funcion-pedidos-superficie: rgba(251, 146, 60, 0.12);
+  --color-funcion-pedidos-borde: rgba(251, 146, 60, 0.3);
+  --color-funcion-pedidos-texto: #FB923C;
+  --color-funcion-pedidos-acento: #FB923C;
+
+  /* === ESTADO DE MESA === */
+  --color-estado-mesa-disponible: #E5DEC9;
+  --color-estado-mesa-disponible-texto: #5A524C;
+  --color-estado-mesa-ocupado: #B85A48;
+  --color-estado-mesa-reservado: #556B2F;
+  --color-estado-mesa-pendiente: #C59B27;
+
+  /* === GRAFICOS === */
+  --color-grafico-platillo: #D4A574;
+  --color-grafico-bebida: #8BAA7A;
+  --color-grafico-gaseosa: #B8A0C8;
+  --color-grafico-otro: #9AB0C0;
+
+  /* === BARRA ESTADISTICA === */
+  --color-barra-exito: #16A34A;
+  --color-barra-advertencia: #D4A373;
+  --color-barra-inactivo: #cbd5e1;
+  --color-barra-alta: #1D3557;
+
+  /* === FORMULARIO === */
+  --color-formulario-superficie: #FAF5EE;
+
+  /* === SOMBRA === */
+  --color-tarjeta-mesa-sombra: rgba(212, 160, 23, 0.25);
 }
 
 ::-webkit-scrollbar {
@@ -87,23 +118,23 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-default);
+  background: var(--color-borde);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
+  background: var(--color-atenuado);
 }
 
 .wood-grain {
   background-image:
-    radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--color-pandora-hover) 15%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, color-mix(in srgb, var(--color-pandora-gold) 6%, transparent) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 50%, rgba(91, 155, 213, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(200, 169, 110, 0.04) 0%, transparent 50%);
 }
 
 .thermal-paper {
-  background: radial-gradient(circle, var(--color-pandora-hover) 0%, var(--color-pandora-dark) 100%);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 50px rgba(0,0,0,0.2);
+  background: radial-gradient(circle, #fffffb 0%, #fdfbf7 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), inset 0 0 50px rgba(0,0,0,0.01);
 }
 
 body {
@@ -133,6 +164,6 @@ body {
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 185, 116, 0); }
-  50% { box-shadow: 0 0 0 3px rgba(229, 185, 116, 0.25); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200, 169, 110, 0); }
+  50% { box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.25); }
 }

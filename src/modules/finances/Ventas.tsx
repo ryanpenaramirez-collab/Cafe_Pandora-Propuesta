@@ -106,15 +106,15 @@ export default function Ventas({ orders, menu, shift }: VentasProps) {
 
   return (
     <div className="space-y-5">
-      <div className="flex gap-6 border-b border-border-default">
+      <div className="flex gap-6 border-b border-borde">
         {PERIODOS.map((p) => (
           <button
             key={p.id}
             onClick={() => setPeriodo(p.id)}
             className={`text-xs font-semibold pb-2 border-b-2 transition-all cursor-pointer bg-transparent ${
               periodo === p.id
-                ? 'text-text-primary border-pandora-gold'
-                : 'text-text-muted border-transparent hover:text-text-secondary'
+                ? 'text-titulo border-oro'
+                : 'text-atenuado border-transparent hover:text-cuerpo'
             }`}
           >
             {p.label}
@@ -123,38 +123,38 @@ export default function Ventas({ orders, menu, shift }: VentasProps) {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="bg-surface-card rounded-lg border border-border-default p-3">
-          <span className="text-[9px] uppercase font-bold tracking-widest text-pandora-success font-mono block">Ventas</span>
-          <span className="block font-mono font-black text-lg text-pandora-success mt-1">{formatCOP(metrics.totalSales)}</span>
-          <span className="block text-[9px] text-text-muted font-mono">
+        <div className="bg-tarjeta-fondo rounded-lg border border-borde p-3">
+          <span className="text-[9px] uppercase font-bold tracking-widest text-exito font-mono block">Ventas</span>
+          <span className="block font-mono font-black text-lg text-exito mt-1">{formatCOP(metrics.totalSales)}</span>
+          <span className="block text-[9px] text-atenuado font-mono">
             {periodo === 'dia' ? 'Hoy' : periodo === 'semanal' ? 'Esta semana' : 'Este mes'}
           </span>
         </div>
 
-        <div className="bg-surface-card rounded-lg border border-border-default p-3">
-          <span className="text-[9px] uppercase font-bold tracking-widest text-text-accent font-mono block">Pedidos</span>
-          <span className="block font-mono font-black text-lg text-text-accent mt-1">{metrics.orderCount}</span>
-          <span className="block text-[9px] text-text-muted font-mono">Completados</span>
+        <div className="bg-tarjeta-fondo rounded-lg border border-borde p-3">
+          <span className="text-[9px] uppercase font-bold tracking-widest text-texto-acento font-mono block">Pedidos</span>
+          <span className="block font-mono font-black text-lg text-texto-acento mt-1">{metrics.orderCount}</span>
+          <span className="block text-[9px] text-atenuado font-mono">Completados</span>
         </div>
 
-        <div className="bg-surface-card rounded-lg border border-border-default p-3">
-          <span className="text-[9px] uppercase font-bold tracking-widest text-text-accent font-mono block">Ticket Prom.</span>
-          <span className="block font-mono font-black text-lg text-text-accent mt-1">{formatCOP(metrics.avgTicket)}</span>
-          <span className="block text-[9px] text-text-muted font-mono">Por pedido</span>
+        <div className="bg-tarjeta-fondo rounded-lg border border-borde p-3">
+          <span className="text-[9px] uppercase font-bold tracking-widest text-texto-acento font-mono block">Ticket Prom.</span>
+          <span className="block font-mono font-black text-lg text-texto-acento mt-1">{formatCOP(metrics.avgTicket)}</span>
+          <span className="block text-[9px] text-atenuado font-mono">Por pedido</span>
         </div>
 
-        <div className="bg-surface-card rounded-lg border border-border-default p-3">
-          <span className="text-[9px] uppercase font-bold tracking-widest text-pandora-success font-mono block">Items</span>
-          <span className="block font-mono font-black text-lg text-pandora-success mt-1">{metrics.itemCount}</span>
-          <span className="block text-[9px] text-text-muted font-mono">Vendidos</span>
+        <div className="bg-tarjeta-fondo rounded-lg border border-borde p-3">
+          <span className="text-[9px] uppercase font-bold tracking-widest text-exito font-mono block">Items</span>
+          <span className="block font-mono font-black text-lg text-exito mt-1">{metrics.itemCount}</span>
+          <span className="block text-[9px] text-atenuado font-mono">Vendidos</span>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        <div className="lg:col-span-3 bg-surface-card rounded-lg border border-border-default p-4">
-          <h4 className="font-serif font-bold text-text-primary text-sm mb-4">Ventas por Categoría</h4>
+        <div className="lg:col-span-3 bg-tarjeta-fondo rounded-lg border border-borde p-4">
+          <h4 className="font-serif font-bold text-titulo text-sm mb-4">Ventas por Categoría</h4>
           {categoryData.every((c) => c.value === 0) ? (
-            <div className="py-10 text-center text-text-muted text-xs">No hay datos de ventas para este período.</div>
+            <div className="py-10 text-center text-atenuado text-xs">No hay datos de ventas para este período.</div>
           ) : (
             <div className="space-y-3">
               {categoryData.map((cat) => {
@@ -162,10 +162,10 @@ export default function Ventas({ orders, menu, shift }: VentasProps) {
                 return (
                   <div key={cat.key}>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="font-semibold text-text-primary">{cat.label}</span>
-                      <span className="font-mono text-text-secondary">{formatCOP(cat.value)}</span>
+                      <span className="font-semibold text-titulo">{cat.label}</span>
+                      <span className="font-mono text-cuerpo">{formatCOP(cat.value)}</span>
                     </div>
-                    <div className="w-full h-5 bg-surface-card-hover rounded-full overflow-hidden">
+                    <div className="w-full h-5 bg-tarjeta-hover rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${pct}%` }}
@@ -181,27 +181,27 @@ export default function Ventas({ orders, menu, shift }: VentasProps) {
           )}
         </div>
 
-        <div className="lg:col-span-2 bg-surface-card rounded-lg border border-border-default p-4">
-          <h4 className="font-serif font-bold text-text-primary text-sm mb-4">Productos Más Vendidos</h4>
+        <div className="lg:col-span-2 bg-tarjeta-fondo rounded-lg border border-borde p-4">
+          <h4 className="font-serif font-bold text-titulo text-sm mb-4">Productos Más Vendidos</h4>
           {topItems.length === 0 ? (
-            <div className="py-10 text-center text-text-muted text-xs">No hay productos vendidos en este período.</div>
+            <div className="py-10 text-center text-atenuado text-xs">No hay productos vendidos en este período.</div>
           ) : (
             <div className="space-y-2">
               {topItems.map((item, i) => (
                 <div
                   key={item.name}
-                  className="flex items-center gap-3 p-2 rounded-lg bg-surface-card-hover/50 border border-border-default"
+                  className="flex items-center gap-3 p-2 rounded-lg bg-tarjeta-hover/50 border border-borde"
                 >
                   <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0 ${
-                    i === 0 ? 'bg-pandora-gold' : i === 1 ? 'bg-text-muted' : i === 2 ? 'bg-pandora-gold-hover' : 'bg-text-muted/50'
+                    i === 0 ? 'bg-oro' : i === 1 ? 'bg-text-muted' : i === 2 ? 'bg-oro-hover' : 'bg-text-muted/50'
                   }`}>
                     {i + 1}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <span className="block text-[11px] font-semibold text-text-primary truncate">{item.name}</span>
-                    <span className="block text-[9px] font-mono text-text-muted">{item.qty} vendidos</span>
+                    <span className="block text-[11px] font-semibold text-titulo truncate">{item.name}</span>
+                    <span className="block text-[9px] font-mono text-atenuado">{item.qty} vendidos</span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-text-secondary shrink-0">{formatCOP(item.revenue)}</span>
+                  <span className="text-[10px] font-mono font-bold text-cuerpo shrink-0">{formatCOP(item.revenue)}</span>
                 </div>
               ))}
             </div>
@@ -209,24 +209,24 @@ export default function Ventas({ orders, menu, shift }: VentasProps) {
         </div>
       </div>
 
-      <div className="bg-surface-card rounded-lg border border-border-default p-3">
+      <div className="bg-tarjeta-fondo rounded-lg border border-borde p-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-pandora-accent/10 flex items-center justify-center">
-              <svg className="w-4 h-4 text-pandora-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <div className="w-8 h-8 rounded-full bg-acento/10 flex items-center justify-center">
+              <svg className="w-4 h-4 text-acento" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
               </svg>
             </div>
             <div>
-              <span className="block text-[10px] uppercase font-bold font-mono text-text-muted tracking-wider">Resumen</span>
-              <span className="block text-xs text-text-primary">
+              <span className="block text-[10px] uppercase font-bold font-mono text-atenuado tracking-wider">Resumen</span>
+              <span className="block text-xs text-titulo">
                 {metrics.orderCount === 0
                   ? 'No hay actividad registrada.'
                   : `${metrics.orderCount} pedido${metrics.orderCount !== 1 ? 's' : ''} completado${metrics.orderCount !== 1 ? 's' : ''} con ${metrics.itemCount} item${metrics.itemCount !== 1 ? 's' : ''} vendido${metrics.itemCount !== 1 ? 's' : ''}.`}
               </span>
             </div>
           </div>
-          <span className="text-[10px] font-mono text-text-muted">
+          <span className="text-[10px] font-mono text-atenuado">
             {periodo === 'dia' ? 'Hoy' : periodo === 'semanal' ? 'Últimos 7 días' : 'Últimos 30 días'}
           </span>
         </div>

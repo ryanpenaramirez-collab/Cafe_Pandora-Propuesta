@@ -144,9 +144,9 @@ export default function MenuTabContent({
 
   const imageField = (
     <div>
-      <label className="block text-[11px] font-bold text-pandora-body mb-1">Imagen del producto</label>
+      <label className="block text-[11px] font-bold text-cuerpo mb-1">Imagen del producto</label>
       {formImage && (
-        <div className="relative mb-2 h-28 rounded-lg overflow-hidden border border-pandora-border">
+        <div className="relative mb-2 h-28 rounded-lg overflow-hidden border border-borde">
           <img src={formImage} alt="Preview" className="w-full h-full object-cover" />
           <button
             type="button"
@@ -162,9 +162,9 @@ export default function MenuTabContent({
         value={formImage}
         onChange={(e) => setFormImage(e.target.value)}
         placeholder="https://... URL de la imagen"
-        className="w-full bg-pandora-hover border border-pandora-border rounded p-2 text-xs focus:ring-1 focus:ring-pandora-gold font-medium text-pandora-title outline-none mb-1"
+        className="w-full bg-hover-fondo border border-borde rounded p-2 text-xs focus:ring-1 focus:ring-oro font-medium text-titulo outline-none mb-1"
       />
-      <label className="flex items-center gap-2 cursor-pointer bg-pandora-border hover:bg-slate-200 border border-pandora-border rounded p-2 text-[11px] font-bold text-pandora-body transition-colors">
+      <label className="flex items-center gap-2 cursor-pointer bg-borde hover:bg-slate-200 border border-borde rounded p-2 text-[11px] font-bold text-cuerpo transition-colors">
         <span>📁 Subir imagen desde archivo</span>
         <input
           type="file"
@@ -180,7 +180,7 @@ export default function MenuTabContent({
           }}
         />
       </label>
-      <p className="text-[9px] text-pandora-disabled mt-1">Sube una imagen o pega una URL. Formatos: JPG, PNG, WebP.</p>
+      <p className="text-[9px] text-inactivo mt-1">Sube una imagen o pega una URL. Formatos: JPG, PNG, WebP.</p>
     </div>
   );
 
@@ -192,15 +192,15 @@ export default function MenuTabContent({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-emerald-50 text-pandora-success border border-emerald-200 text-xs text-center py-2 font-bold rounded-lg"
+            className="bg-emerald-50 text-exito border border-emerald-200 text-xs text-center py-2 font-bold rounded-lg"
           >
             {notification}
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-pandora-hover border border-pandora-border p-4 rounded-xl gap-3 text-xs font-bold text-pandora-body shadow-sm">
-        <span className="uppercase text-pandora-title tracking-wider font-serif">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-hover-fondo border border-borde p-4 rounded-xl gap-3 text-xs font-bold text-cuerpo shadow-sm">
+        <span className="uppercase text-titulo tracking-wider font-serif">
           GESTIÓN DE CARTA ({TAB_LABELS[tab]})
         </span>
         {!isAdding && (
@@ -215,7 +215,7 @@ export default function MenuTabContent({
               setIsEditingItem(null);
               setIsAdding(true);
             }}
-            className="bg-pandora-success hover:bg-pandora-success-hover text-white text-[11px] font-mono leading-none py-2 px-3 rounded-lg transition-colors flex items-center gap-1 cursor-pointer focus:outline-none"
+            className="bg-exito hover:bg-exito-hover text-white text-[11px] font-mono leading-none py-2 px-3 rounded-lg transition-colors flex items-center gap-1 cursor-pointer focus:outline-none"
           >
             <Plus className="w-3.5 h-3.5" /> Agregar Producto
           </button>
@@ -223,30 +223,30 @@ export default function MenuTabContent({
       </div>
 
       {isAdding ? (
-        <form onSubmit={handleSaveProduct} className="bg-surface-card p-5 rounded-2xl border border-pandora-border shadow-md max-w-lg mx-auto space-y-4">
+        <form onSubmit={handleSaveProduct} className="bg-tarjeta-fondo p-5 rounded-2xl border border-borde shadow-md max-w-lg mx-auto space-y-4">
           <div className="border-b pb-2">
-            <h4 className="font-serif font-bold text-sm text-pandora-title uppercase tracking-wide">
+            <h4 className="font-serif font-bold text-sm text-titulo uppercase tracking-wide">
               Agregar Nuevo Producto ({CATEGORY_LABELS[tab]})
             </h4>
-            <p className="text-[10px] text-pandora-disabled">Complete los campos obligatorios para agregar al menú.</p>
+            <p className="text-[10px] text-inactivo">Complete los campos obligatorios para agregar al menú.</p>
           </div>
 
           <div className="space-y-3">
             <div>
-              <label className="block text-[11px] font-bold text-pandora-body mb-1">Nombre *</label>
+              <label className="block text-[11px] font-bold text-cuerpo mb-1">Nombre *</label>
               <input
                 type="text"
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
                 placeholder="ej. Panini de Pavo Especial o Espresso Macchiato"
-                className="w-full bg-pandora-hover border border-pandora-border rounded p-2 text-xs focus:ring-1 focus:ring-pandora-gold font-medium text-pandora-title outline-none"
+                className="w-full bg-hover-fondo border border-borde rounded p-2 text-xs focus:ring-1 focus:ring-oro font-medium text-titulo outline-none"
                 required
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-bold text-pandora-body mb-1">Precio (COP) *</label>
+                <label className="block text-[11px] font-bold text-cuerpo mb-1">Precio (COP) *</label>
                 <input
                   type="number"
                   step="1"
@@ -254,17 +254,17 @@ export default function MenuTabContent({
                   value={formPrice}
                   onChange={(e) => setFormPrice(e.target.value)}
                   placeholder="ej. 18000"
-                  className="w-full bg-pandora-hover border border-pandora-border rounded p-2 text-xs focus:ring-1 focus:ring-pandora-gold font-mono font-bold text-pandora-title outline-none"
+                  className="w-full bg-hover-fondo border border-borde rounded p-2 text-xs focus:ring-1 focus:ring-oro font-mono font-bold text-titulo outline-none"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-pandora-body mb-1">Categoría *</label>
+                <label className="block text-[11px] font-bold text-cuerpo mb-1">Categoría *</label>
                 <select
                   value={formSubcategory}
                   onChange={(e) => setFormSubcategory(e.target.value)}
-                  className="w-full bg-pandora-hover border border-pandora-border rounded p-2 text-xs focus:ring-1 focus:ring-pandora-gold font-semibold text-pandora-title outline-none"
+                  className="w-full bg-hover-fondo border border-borde rounded p-2 text-xs focus:ring-1 focus:ring-oro font-semibold text-titulo outline-none"
                 >
                   {tab === 'platos' ? (
                     <>
@@ -290,12 +290,12 @@ export default function MenuTabContent({
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-pandora-body mb-1">Descripción</label>
+              <label className="block text-[11px] font-bold text-cuerpo mb-1">Descripción</label>
               <textarea
                 value={formDescription}
                 onChange={(e) => setFormDescription(e.target.value)}
                 placeholder="Descripción del producto"
-                className="w-full bg-pandora-hover border border-pandora-border rounded p-2 text-xs focus:ring-1 focus:ring-pandora-gold font-medium text-pandora-title outline-none h-20 resize-none"
+                className="w-full bg-hover-fondo border border-borde rounded p-2 text-xs focus:ring-1 focus:ring-oro font-medium text-titulo outline-none h-20 resize-none"
               />
             </div>
 
@@ -306,13 +306,13 @@ export default function MenuTabContent({
             <button
               type="button"
               onClick={cancelForm}
-              className="px-3 py-1.5 border border-pandora-border rounded text-xs font-bold text-pandora-body hover:bg-pandora-hover cursor-pointer focus:outline-none"
+              className="px-3 py-1.5 border border-borde rounded text-xs font-bold text-cuerpo hover:bg-hover-fondo cursor-pointer focus:outline-none"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-4 py-1.5 bg-pandora-success hover:bg-pandora-success-hover text-white rounded text-xs font-bold cursor-pointer focus:outline-none"
+              className="px-4 py-1.5 bg-exito hover:bg-exito-hover text-white rounded text-xs font-bold cursor-pointer focus:outline-none"
             >
               Crear Producto
             </button>
@@ -328,9 +328,9 @@ export default function MenuTabContent({
                   <div
                     key={item.id}
                     onClick={() => setExpandedItemId(expandedItemId === item.id ? null : item.id)}
-                    className="bg-surface-card rounded-xl border border-pandora-border shadow-sm overflow-hidden hover:border-pandora-success/50 hover:shadow-md transition-all cursor-pointer"
+                    className="bg-tarjeta-fondo rounded-xl border border-borde shadow-sm overflow-hidden hover:border-exito/50 hover:shadow-md transition-all cursor-pointer"
                   >
-                    <div className="relative h-36 bg-gradient-to-br from-pandora-warning-bg to-pandora-warning-bg overflow-hidden">
+                    <div className="relative h-36 bg-gradient-to-br from-advertencia-superficie to-advertencia-superficie overflow-hidden">
                       {item.image ? (
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                       ) : (
@@ -341,26 +341,26 @@ export default function MenuTabContent({
                     </div>
 
                     <div className="p-3">
-                      <h4 className="font-serif font-bold text-sm text-pandora-title leading-tight">{item.name}</h4>
-                      <p className="text-[11px] text-pandora-disabled mt-0.5 line-clamp-1">{item.description}</p>
+                      <h4 className="font-serif font-bold text-sm text-titulo leading-tight">{item.name}</h4>
+                      <p className="text-[11px] text-inactivo mt-0.5 line-clamp-1">{item.description}</p>
                       <div className="flex justify-between items-center mt-2">
-                        <span className="font-mono font-bold text-sm text-pandora-success">
+                        <span className="font-mono font-bold text-sm text-exito">
                           ${item.price.toLocaleString('es-CO')} COP
                         </span>
                         {isEditing ? (
                           <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-bold text-pandora-body">$</span>
+                            <span className="text-xs font-bold text-cuerpo">$</span>
                             <input
                               type="number"
                               step="1"
                               value={editingPrice}
                               onChange={(e) => setEditingPrice(e.target.value)}
-                              className="w-16 bg-pandora-hover border rounded p-1 text-xs font-mono font-bold text-pandora-title text-center focus:ring-1 focus:ring-pandora-gold outline-none"
+                              className="w-16 bg-hover-fondo border rounded p-1 text-xs font-mono font-bold text-titulo text-center focus:ring-1 focus:ring-oro outline-none"
                               onClick={(e) => e.stopPropagation()}
                             />
                             <button
                               onClick={(e) => { e.stopPropagation(); handleFinishEdit(item, item.available); }}
-                              className="p-1 px-2 bg-pandora-success hover:bg-pandora-success-hover text-white rounded text-xs font-bold cursor-pointer"
+                              className="p-1 px-2 bg-exito hover:bg-exito-hover text-white rounded text-xs font-bold cursor-pointer"
                             >
                               ✓
                             </button>
@@ -368,7 +368,7 @@ export default function MenuTabContent({
                         ) : (
                           <button
                             onClick={(e) => { e.stopPropagation(); setExpandedItemId(expandedItemId === item.id ? null : item.id); }}
-                            className="text-[10px] text-pandora-disabled hover:text-pandora-body underline cursor-pointer"
+                            className="text-[10px] text-inactivo hover:text-cuerpo underline cursor-pointer"
                           >
                             {expandedItemId === item.id ? 'Ocultar' : 'Ver más'}
                           </button>
@@ -383,20 +383,20 @@ export default function MenuTabContent({
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="border-t border-pandora-border bg-pandora-hover overflow-hidden"
+                          className="border-t border-borde bg-hover-fondo overflow-hidden"
                         >
                           <div className="p-3 space-y-2">
-                            <p className="text-xs text-pandora-body leading-relaxed">{item.description}</p>
+                            <p className="text-xs text-cuerpo leading-relaxed">{item.description}</p>
                             <div className="flex gap-2 pt-1">
                               <button
                                 onClick={(e) => { e.stopPropagation(); startEditDetail(item); }}
-                                className="flex-1 py-1.5 bg-pandora-warning-bg border border-pandora-gold/30 hover:bg-pandora-warning-bg text-pandora-gold rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                                className="flex-1 py-1.5 bg-advertencia-superficie border border-oro/30 hover:bg-advertencia-superficie text-oro rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
                               >
                                 <Edit className="w-3 h-3" /> Editar
                               </button>
                               <button
                                 onClick={(e) => { e.stopPropagation(); handleDeleteProduct(item); }}
-                                className="flex-1 py-1.5 bg-pandora-error-bg border border-pandora-danger/30 hover:bg-pandora-error-bg text-pandora-danger rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                                className="flex-1 py-1.5 bg-peligro-superficie border border-peligro/30 hover:bg-peligro-superficie text-peligro rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
                               >
                                 <Trash2 className="w-3 h-3" /> Borrar
                               </button>
@@ -409,7 +409,7 @@ export default function MenuTabContent({
                 );
               })}
               {filteredList.length === 0 && (
-                <div className="col-span-full text-center text-pandora-disabled py-12 text-xs">
+                <div className="col-span-full text-center text-inactivo py-12 text-xs">
                   No hay productos en esta categoría.
                 </div>
               )}
@@ -423,36 +423,36 @@ export default function MenuTabContent({
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: 320, opacity: 0 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="w-80 shrink-0 bg-surface-card border-l border-pandora-border rounded-xl shadow-lg overflow-y-auto"
+                className="w-80 shrink-0 bg-tarjeta-fondo border-l border-borde rounded-xl shadow-lg overflow-y-auto"
               >
                 <form onSubmit={handleSaveProduct} className="p-4 space-y-4">
                   <div className="flex items-center justify-between border-b pb-2">
-                    <h4 className="font-serif font-bold text-sm text-pandora-title truncate">
+                    <h4 className="font-serif font-bold text-sm text-titulo truncate">
                       Editar: {isEditingItem.name}
                     </h4>
                     <button
                       type="button"
                       onClick={() => { setFormImage(''); setIsEditingItem(null); }}
-                      className="p-1 hover:bg-pandora-border rounded-full text-pandora-disabled cursor-pointer shrink-0"
+                      className="p-1 hover:bg-borde rounded-full text-inactivo cursor-pointer shrink-0"
                     >
                       <X className="w-4 h-4" />
                     </button>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-pandora-body mb-1">Nombre *</label>
+                    <label className="block text-[11px] font-bold text-cuerpo mb-1">Nombre *</label>
                     <input
                       type="text"
                       value={formName}
                       onChange={(e) => setFormName(e.target.value)}
                       placeholder="Nombre del producto"
-                      className="w-full bg-pandora-hover border border-pandora-border rounded p-2 text-xs focus:ring-1 focus:ring-pandora-gold font-medium text-pandora-title outline-none"
+                      className="w-full bg-hover-fondo border border-borde rounded p-2 text-xs focus:ring-1 focus:ring-oro font-medium text-titulo outline-none"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-pandora-body mb-1">Precio (COP) *</label>
+                    <label className="block text-[11px] font-bold text-cuerpo mb-1">Precio (COP) *</label>
                     <input
                       type="number"
                       step="1"
@@ -460,17 +460,17 @@ export default function MenuTabContent({
                       value={formPrice}
                       onChange={(e) => setFormPrice(e.target.value)}
                       placeholder="ej. 18000"
-                      className="w-full bg-pandora-hover border border-pandora-border rounded p-2 text-xs focus:ring-1 focus:ring-pandora-gold font-mono font-bold text-pandora-title outline-none"
+                      className="w-full bg-hover-fondo border border-borde rounded p-2 text-xs focus:ring-1 focus:ring-oro font-mono font-bold text-titulo outline-none"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-pandora-body mb-1">Categoría</label>
+                    <label className="block text-[11px] font-bold text-cuerpo mb-1">Categoría</label>
                     <select
                       value={formSubcategory}
                       onChange={(e) => setFormSubcategory(e.target.value)}
-                      className="w-full bg-pandora-hover border border-pandora-border rounded p-2 text-xs focus:ring-1 focus:ring-pandora-gold font-semibold text-pandora-title outline-none"
+                      className="w-full bg-hover-fondo border border-borde rounded p-2 text-xs focus:ring-1 focus:ring-oro font-semibold text-titulo outline-none"
                     >
                       {tab === 'platos' ? (
                         <>
@@ -494,12 +494,12 @@ export default function MenuTabContent({
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-pandora-body mb-1">Descripción</label>
+                    <label className="block text-[11px] font-bold text-cuerpo mb-1">Descripción</label>
                     <textarea
                       value={formDescription}
                       onChange={(e) => setFormDescription(e.target.value)}
                       placeholder="Descripción del producto"
-                      className="w-full bg-pandora-hover border border-pandora-border rounded p-2 text-xs focus:ring-1 focus:ring-pandora-gold font-medium text-pandora-title outline-none h-20 resize-none"
+                      className="w-full bg-hover-fondo border border-borde rounded p-2 text-xs focus:ring-1 focus:ring-oro font-medium text-titulo outline-none h-20 resize-none"
                     />
                   </div>
 
@@ -509,13 +509,13 @@ export default function MenuTabContent({
                     <button
                       type="button"
                       onClick={() => { setFormImage(''); setIsEditingItem(null); }}
-                      className="flex-1 py-1.5 border border-pandora-border rounded text-xs font-bold text-pandora-body hover:bg-pandora-hover cursor-pointer focus:outline-none"
+                      className="flex-1 py-1.5 border border-borde rounded text-xs font-bold text-cuerpo hover:bg-hover-fondo cursor-pointer focus:outline-none"
                     >
                       Cancelar
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 py-1.5 bg-pandora-success hover:bg-pandora-success-hover text-white rounded text-xs font-bold cursor-pointer focus:outline-none"
+                      className="flex-1 py-1.5 bg-exito hover:bg-exito-hover text-white rounded text-xs font-bold cursor-pointer focus:outline-none"
                     >
                       Guardar Cambios
                     </button>

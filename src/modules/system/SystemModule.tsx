@@ -70,55 +70,55 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-pandora-primary/20 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-acento/20 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="bg-pandora-accent w-full max-w-5xl h-[75vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-pandora-border"
+        className="bg-acento w-full max-w-5xl h-[75vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-borde"
       >
         {/* Header Title */}
-        <div className="bg-slate-750 bg-pandora-hover p-4 shrink-0 flex flex-col md:flex-row justify-between md:items-center gap-3 text-white">
+        <div className="bg-slate-750 bg-hover-fondo p-4 shrink-0 flex flex-col md:flex-row justify-between md:items-center gap-3 text-white">
           <div className="flex items-center gap-2">
-            <Shield className="w-5 h-5 text-pandora-gold" />
+            <Shield className="w-5 h-5 text-oro" />
             <div>
               <h3 className="font-serif text-lg font-bold">Consola de Control de Seguridad y Periféricos</h3>
-              <p className="text-[11px] text-pandora-body font-light">Estatus de hardware, control de credenciales, y resolución de alertas del restaurante</p>
+              <p className="text-[11px] text-cuerpo font-light">Estatus de hardware, control de credenciales, y resolución de alertas del restaurante</p>
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-1 hover:bg-pandora-hover rounded-full text-white transition-colors"
+            className="absolute top-4 right-4 p-1 hover:bg-hover-fondo rounded-full text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Selection */}
-        <div className="bg-pandora-border p-2 shrink-0 border-b border-pandora-border flex flex-wrap gap-1">
+        <div className="bg-borde p-2 shrink-0 border-b border-borde flex flex-wrap gap-1">
           <button
             onClick={() => setActiveTab('usuarios')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors ${
-              activeTab === 'usuarios' ? 'bg-pandora-gold-bg text-pandora-gold border border-pandora-gold/30' : 'text-pandora-body hover:text-pandora-title'
+              activeTab === 'usuarios' ? 'bg-oro-superficie text-oro border border-oro/30' : 'text-cuerpo hover:text-titulo'
             }`}
           >
-            <Users className="w-3.5 h-3.5 text-pandora-gold" /> USUARIOS (Personal)
+            <Users className="w-3.5 h-3.5 text-oro" /> USUARIOS (Personal)
           </button>
           <button
             onClick={() => setActiveTab('alerta')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors ${
-              activeTab === 'alerta' ? 'bg-pandora-gold-bg text-pandora-gold border border-pandora-gold/30' : 'text-pandora-body hover:text-pandora-title'
+              activeTab === 'alerta' ? 'bg-oro-superficie text-oro border border-oro/30' : 'text-cuerpo hover:text-titulo'
             }`}
           >
-            <AlertTriangle className="w-3.5 h-3.5 text-pandora-gold" /> ALERTA ({alerts.filter(a=>!a.resolved).length} activas)
+            <AlertTriangle className="w-3.5 h-3.5 text-oro" /> ALERTA ({alerts.filter(a=>!a.resolved).length} activas)
           </button>
           <button
             onClick={() => setActiveTab('activador')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors ${
-              activeTab === 'activador' ? 'bg-pandora-warning-bg text-pandora-gold border border-pandora-gold/30' : 'text-pandora-body hover:text-pandora-title'
+              activeTab === 'activador' ? 'bg-advertencia-superficie text-oro border border-oro/30' : 'text-cuerpo hover:text-titulo'
             }`}
           >
-            <Play className="w-3.5 h-3.5 text-pandora-gold" /> ACTIVADOR (Hardware)
+            <Play className="w-3.5 h-3.5 text-oro" /> ACTIVADOR (Hardware)
           </button>
         </div>
 
@@ -129,7 +129,7 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="bg-pandora-hover text-pandora-gold text-xs text-center py-2 font-bold select-none border-b border-white/5"
+              className="bg-hover-fondo text-oro text-xs text-center py-2 font-bold select-none border-b border-white/5"
             >
               ⚙️ {notification}
             </motion.div>
@@ -137,7 +137,7 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
         </AnimatePresence>
 
         {/* Content Container Panels */}
-        <div className="flex-1 bg-pandora-bg p-6 overflow-y-auto">
+        <div className="flex-1 bg-pagina-fondo p-6 overflow-y-auto">
           
           {/* TAB: USUARIOS (STAF LIST) */}
           {activeTab === 'usuarios' && (
@@ -145,19 +145,19 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
                 {/* Staff list panel */}
-                <div className="bg-pandora-accent p-4 rounded-xl border border-pandora-border shadow-sm md:col-span-2">
-                  <h4 className="font-serif font-bold text-sm text-pandora-title mb-3">👥 NOMINA DE PERSONAL AUTORIZADO (PIN ACCESO Y ROL)</h4>
+                <div className="bg-acento p-4 rounded-xl border border-borde shadow-sm md:col-span-2">
+                  <h4 className="font-serif font-bold text-sm text-titulo mb-3">👥 NOMINA DE PERSONAL AUTORIZADO (PIN ACCESO Y ROL)</h4>
                   
                   <div className="divide-y divide-slate-100 overflow-y-auto max-h-80 pr-1">
                     {STAFF_USERS.map(employee => (
-                      <div key={employee.id} className="py-2.5 flex justify-between items-center text-xs text-pandora-body">
+                      <div key={employee.id} className="py-2.5 flex justify-between items-center text-xs text-cuerpo">
                         <div>
-                          <span className="font-bold text-pandora-title block text-xs">{employee.name}</span>
-                          <span className="text-[10px] text-pandora-muted font-mono">Rol base: <span className="font-bold underline capitalize">{employee.role}</span> • Correo: {employee.email}</span>
+                          <span className="font-bold text-titulo block text-xs">{employee.name}</span>
+                          <span className="text-[10px] text-atenuado font-mono">Rol base: <span className="font-bold underline capitalize">{employee.role}</span> • Correo: {employee.email}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded-full bg-pandora-border text-pandora-body font-mono text-[10px] font-bold">PIN: {employee.pin}</span>
-                          <span className="w-2 h-2 rounded-full bg-pandora-success-bg" title="Activo en Estación"></span>
+                          <span className="px-2 py-0.5 rounded-full bg-borde text-cuerpo font-mono text-[10px] font-bold">PIN: {employee.pin}</span>
+                          <span className="w-2 h-2 rounded-full bg-exito-superficie" title="Activo en Estación"></span>
                         </div>
                       </div>
                     ))}
@@ -165,9 +165,9 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
                 </div>
 
                 {/* Validation Demo simulator */}
-                <div className="bg-pandora-accent p-4 rounded-xl border border-pandora-border shadow-sm md:col-span-1">
-                  <h4 className="font-serif font-semibold text-sm text-pandora-title mb-1.5">🔑 TESTEADOR DE CONTRASEÑA</h4>
-                  <p className="text-[11px] text-pandora-muted mb-4 leading-relaxed">Simule la validación de comanda de caja ingresando la contraseña.</p>
+                <div className="bg-acento p-4 rounded-xl border border-borde shadow-sm md:col-span-1">
+                  <h4 className="font-serif font-semibold text-sm text-titulo mb-1.5">🔑 TESTEADOR DE CONTRASEÑA</h4>
+                  <p className="text-[11px] text-atenuado mb-4 leading-relaxed">Simule la validación de comanda de caja ingresando la contraseña.</p>
 
                   <form onSubmit={handleVerifyPassword} className="space-y-3.5">
                     <div>
@@ -176,20 +176,20 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
                         placeholder="ej. admin123"
                         value={typedPassword}
                         onChange={(e) => setTypedPassword(e.target.value)}
-                        className="w-full bg-pandora-bg border rounded p-2 text-center text-sm font-mono tracking-widest font-bold focus:outline-none focus:ring-1 focus:ring-amber-500"
+                        className="w-full bg-pagina-fondo border rounded p-2 text-center text-sm font-mono tracking-widest font-bold focus:outline-none focus:ring-1 focus:ring-amber-500"
                         required
                       />
                     </div>
                     <button
                       type="submit"
-                      className="w-full bg-pandora-hover hover:bg-pandora-hover text-white rounded py-2 text-xs font-semibold"
+                      className="w-full bg-hover-fondo hover:bg-hover-fondo text-white rounded py-2 text-xs font-semibold"
                     >
                       Autenticar Empleado
                     </button>
                   </form>
 
                   {passwordValidationMsg && (
-                    <div className="mt-3 p-2.5 bg-pandora-bg border rounded text-[10px] text-pandora-body font-medium leading-relaxed">
+                    <div className="mt-3 p-2.5 bg-pagina-fondo border rounded text-[10px] text-cuerpo font-medium leading-relaxed">
                       {passwordValidationMsg}
                     </div>
                   )}
@@ -203,11 +203,11 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
           {activeTab === 'alerta' && (
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h4 className="font-serif font-bold text-sm text-pandora-title">📋 MENSAJES Y ANOMALIAS DETECTADAS EN RESTAURANTE</h4>
+                <h4 className="font-serif font-bold text-sm text-titulo">📋 MENSAJES Y ANOMALIAS DETECTADAS EN RESTAURANTE</h4>
                 <button
                   type="button"
                   onClick={handleTriggerMockAlertDetail}
-                  className="bg-pandora-border hover:bg-pandora-hover text-pandora-body py-1 px-3 rounded text-[10px] font-bold"
+                  className="bg-borde hover:bg-hover-fondo text-cuerpo py-1 px-3 rounded text-[10px] font-bold"
                 >
                   ➕ Simular Anomalía
                 </button>
@@ -216,7 +216,7 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
               <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
                 {alerts.filter(a => !a.resolved).map((item) => (
                   <div key={item.id} className={`p-4 rounded-xl border flex flex-col sm:flex-row justify-between sm:items-center gap-3 ${
-                    item.level === 'critical' ? 'bg-pandora-error-bg border-pandora-danger/30 text-pandora-danger' : 'bg-pandora-accent border-pandora-gold/30 text-pandora-body'
+                    item.level === 'critical' ? 'bg-peligro-superficie border-peligro/30 text-peligro' : 'bg-acento border-oro/30 text-cuerpo'
                   }`}>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
@@ -227,14 +227,14 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
                     </div>
                     <button
                       onClick={() => onResolveAlert(item.id)}
-                      className="py-1 px-3 bg-pandora-accent border rounded shadow-sm text-[10px] font-bold text-pandora-title hover:bg-pandora-hover self-start sm:self-center uppercase tracking-wider whitespace-nowrap shrink-0"
+                      className="py-1 px-3 bg-acento border rounded shadow-sm text-[10px] font-bold text-white hover:bg-hover-fondo self-start sm:self-center uppercase tracking-wider whitespace-nowrap shrink-0"
                     >
                       ✔ Resolver Alerta
                     </button>
                   </div>
                 ))}
                 {alerts.filter(a => !a.resolved).length === 0 && (
-                  <div className="text-center text-pandora-muted py-12 text-xs">
+                  <div className="text-center text-atenuado py-12 text-xs">
                     Ninguna anomalía reportada. Todo el sistema POS de Cafe Pandora funciona estable.
                   </div>
                 )}
@@ -249,33 +249,33 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* Hardware Toggle items */}
-                <div className="bg-pandora-accent p-5 rounded-xl border border-pandora-border space-y-4">
-                  <h4 className="font-serif font-bold text-sm text-pandora-title">🔌 CONECTORES PERIFERICOS LOCALES</h4>
+                <div className="bg-acento p-5 rounded-xl border border-borde space-y-4">
+                  <h4 className="font-serif font-bold text-sm text-titulo">🔌 CONECTORES PERIFERICOS LOCALES</h4>
                   
-                  <div className="flex items-center justify-between p-3 bg-pandora-bg rounded-lg border">
+                  <div className="flex items-center justify-between p-3 bg-pagina-fondo rounded-lg border">
                     <div>
-                      <span className="font-bold text-xs text-pandora-title block">Conector Impresora Térmica #1 (Caja)</span>
-                      <span className="text-[10px] text-pandora-muted font-mono">USB Emulated Print System</span>
+                      <span className="font-bold text-xs text-titulo block">Conector Impresora Térmica #1 (Caja)</span>
+                      <span className="text-[10px] text-atenuado font-mono">USB Emulated Print System</span>
                     </div>
                     <button
                       onClick={() => setPrinterOnline(!printerOnline)}
                       className={`text-[10px] py-1 px-2.5 rounded font-bold uppercase transition-all ${
-                        printerOnline ? 'bg-pandora-success-bg text-pandora-success' : 'bg-pandora-border text-pandora-body'
+                        printerOnline ? 'bg-exito-superficie text-exito' : 'bg-borde text-cuerpo'
                       }`}
                     >
                       {printerOnline ? 'Online' : 'Offline'}
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between p-3 bg-pandora-bg rounded-lg border">
+                  <div className="flex items-center justify-between p-3 bg-pagina-fondo rounded-lg border">
                     <div>
-                      <span className="font-bold text-xs text-pandora-title block">Zumbador Sónico de Comanda (Kitchen Buzzer)</span>
-                      <span className="text-[10px] text-pandora-muted font-mono">Simulate beep acoustic feedback</span>
+                      <span className="font-bold text-xs text-titulo block">Zumbador Sónico de Comanda (Kitchen Buzzer)</span>
+                      <span className="text-[10px] text-atenuado font-mono">Simulate beep acoustic feedback</span>
                     </div>
                     <button
                       onClick={() => setHasSoundBuzzer(!hasSoundBuzzer)}
                       className={`text-[10px] py-1 px-2.5 rounded font-bold uppercase transition-all ${
-                        hasSoundBuzzer ? 'bg-pandora-success-bg text-pandora-success' : 'bg-pandora-border text-pandora-body'
+                        hasSoundBuzzer ? 'bg-exito-superficie text-exito' : 'bg-borde text-cuerpo'
                       }`}
                     >
                       {hasSoundBuzzer ? 'Activado' : 'Silenciado'}
@@ -284,22 +284,22 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
                 </div>
 
                 {/* Tester scripts */}
-                <div className="bg-pandora-accent p-5 rounded-xl border border-pandora-border space-y-4">
-                  <h4 className="font-serif font-bold text-sm text-pandora-title">🩺 PRUEBAS DE RESPUESTA SENSORIAL</h4>
-                  <p className="text-xs text-pandora-muted font-light">Accione triggers directos para diagnosticar papel de ticket o silbatos acusticos en estante.</p>
+                <div className="bg-acento p-5 rounded-xl border border-borde space-y-4">
+                  <h4 className="font-serif font-bold text-sm text-titulo">🩺 PRUEBAS DE RESPUESTA SENSORIAL</h4>
+                  <p className="text-xs text-atenuado font-light">Accione triggers directos para diagnosticar papel de ticket o silbatos acusticos en estante.</p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <button
                       onClick={handleTestPrinter}
-                      className="p-3 border rounded-xl bg-pandora-bg hover:bg-pandora-hover transition-colors flex items-center justify-center gap-2 text-xs font-semibold text-pandora-title"
+                      className="p-3 border rounded-xl bg-pagina-fondo hover:bg-hover-fondo transition-colors flex items-center justify-center gap-2 text-xs font-semibold text-titulo"
                     >
-                      <Printer className="w-4 h-4 text-pandora-gold" /> Testear Impresora T-1
+                      <Printer className="w-4 h-4 text-oro" /> Testear Impresora T-1
                     </button>
                     <button
                       onClick={handleTestBuzzer}
-                      className="p-3 border rounded-xl bg-pandora-bg hover:bg-pandora-hover transition-colors flex items-center justify-center gap-2 text-xs font-semibold text-pandora-title"
+                      className="p-3 border rounded-xl bg-pagina-fondo hover:bg-hover-fondo transition-colors flex items-center justify-center gap-2 text-xs font-semibold text-titulo"
                     >
-                      <Bell className="w-4 h-4 text-pandora-gold animate-swing" /> Zumbador Cocina
+                      <Bell className="w-4 h-4 text-oro animate-swing" /> Zumbador Cocina
                     </button>
                   </div>
                 </div>

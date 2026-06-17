@@ -149,13 +149,13 @@ function AppContent() {
 
   const getButtonColorStyles = (color: string) => {
     switch (color) {
-      case 'yellow': return 'bg-module-yellow-bg hover:bg-module-yellow-bg/80 border-module-yellow-border text-module-yellow-text focus:ring-module-yellow-text border-l-4 border-l-module-yellow-accent';
-      case 'green': return 'bg-module-green-bg hover:bg-module-green-bg/80 border-module-green-border text-module-green-text focus:ring-module-green-text border-l-4 border-l-module-green-accent';
-      case 'magenta': return 'bg-module-magenta-bg hover:bg-module-magenta-bg/80 border-module-magenta-border text-module-magenta-text focus:ring-module-magenta-text border-l-4 border-l-module-magenta-accent';
-      case 'red': return 'bg-module-red-bg hover:bg-module-red-bg/80 border-module-red-border text-module-red-text focus:ring-module-red-text border-l-4 border-l-module-red-accent';
-      case 'cyan': return 'bg-module-cyan-bg hover:bg-module-cyan-bg/80 border-module-cyan-border text-module-cyan-text focus:ring-module-cyan-text border-l-4 border-l-module-cyan-accent';
-      case 'orange': return 'bg-module-orange-bg hover:bg-module-orange-bg/80 border-module-orange-border text-module-orange-text focus:ring-module-orange-text border-l-4 border-l-module-orange-accent';
-      default: return 'bg-pandora-accent hover:bg-pandora-hover border-pandora-border text-pandora-title shadow-sm';
+      case 'yellow': return 'bg-funcion-personal-bg hover:bg-funcion-personal-bg/80 border-funcion-personal-border text-funcion-personal-text focus:ring-funcion-personal-text border-l-4 border-l-funcion-personal-accent';
+      case 'green': return 'bg-funcion-menu-bg hover:bg-funcion-menu-bg/80 border-funcion-menu-border text-funcion-menu-text focus:ring-funcion-menu-text border-l-4 border-l-funcion-menu-accent';
+      case 'magenta': return 'bg-funcion-reportes-bg hover:bg-funcion-reportes-bg/80 border-funcion-reportes-border text-funcion-reportes-text focus:ring-funcion-reportes-text border-l-4 border-l-funcion-reportes-accent';
+      case 'red': return 'bg-funcion-financiero-bg hover:bg-funcion-financiero-bg/80 border-funcion-financiero-border text-funcion-financiero-text focus:ring-funcion-financiero-text border-l-4 border-l-funcion-financiero-accent';
+      case 'cyan': return 'bg-funcion-mesas-bg hover:bg-funcion-mesas-bg/80 border-funcion-mesas-border text-funcion-mesas-text focus:ring-funcion-mesas-text border-l-4 border-l-funcion-mesas-accent';
+      case 'orange': return 'bg-funcion-pedidos-bg hover:bg-funcion-pedidos-bg/80 border-funcion-pedidos-border text-funcion-pedidos-text focus:ring-funcion-pedidos-text border-l-4 border-l-funcion-pedidos-accent';
+      default: return 'bg-acento hover:bg-hover-fondo border-borde text-white shadow-sm';
     }
   };
 
@@ -164,23 +164,23 @@ function AppContent() {
   }
 
   return (
-    <div className="h-screen max-h-screen bg-pandora-dark wood-grain font-sans text-pandora-body flex flex-col selection:bg-pandora-gold selection:text-pandora-title p-0 overflow-hidden">
-      <div className="flex-1 w-full max-w-full bg-pandora-hover flex flex-col overflow-hidden">
+    <div className="h-screen max-h-screen bg-pagina-fondo wood-grain font-sans text-cuerpo flex flex-col selection:bg-oro selection:text-titulo p-0 overflow-hidden">
+      <div className="flex-1 w-full max-w-full bg-hover-fondo flex flex-col overflow-hidden">
         <div className="flex-grow flex flex-col md:flex-row min-h-0 overflow-hidden h-full">
           <Sidebar user={state.user} onLogout={handleLogout} />
 
           <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
-            <header className="bg-pandora-accent text-pandora-title border-b-2 border-pandora-border py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
+            <header className="bg-acento text-white border-b-2 border-borde py-3.5 px-5 flex flex-col sm:flex-row justify-between items-center gap-2.5 shrink-0">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
                 <button onClick={() => setActiveCategory(null)} className="text-left cursor-pointer bg-transparent border-none outline-none">
-                  <h1 className="font-serif text-xl font-bold tracking-widest text-pandora-gold uppercase leading-none">Cafe Pandora</h1>
-                  <span className="text-xs text-pandora-cream font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
+                  <h1 className="font-serif text-xl font-bold tracking-widest text-oro uppercase leading-none">Cafe Pandora</h1>
+                  <span className="text-xs text-crema font-mono block tracking-wider uppercase mt-1">Bistro - Café Bar</span>
                 </button>
               </div>
               <div className="flex flex-wrap items-center gap-2.5">
                 <button
                   onClick={() => setActiveCategory(null)}
-                  className="p-2 hover:bg-white/10 rounded-lg text-pandora-body hover:text-pandora-gold transition-all cursor-pointer"
+                  className="p-2 hover:bg-white/10 rounded-lg text-cuerpo hover:text-oro transition-all cursor-pointer"
                   title="Inicio"
                 >
                   <Home className="w-4 h-4" />
@@ -188,7 +188,7 @@ function AppContent() {
               </div>
             </header>
 
-            <div className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start bg-pandora-bg">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-5 md:h-full justify-start bg-pagina-fondo">
               <CategoryNav
                 categories={visibleCategories}
                 activeCategory={activeCategory}
@@ -198,27 +198,27 @@ function AppContent() {
               />
 
               {activeCategory ? (
-                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-2 text-xs font-mono">
-                    <span className="text-pandora-title font-extrabold uppercase">{selectedCategory?.name}</span>
+                    <span className="text-titulo font-extrabold uppercase">{selectedCategory?.name}</span>
                   </div>
 
-                  <div className="p-4 bg-pandora-accent border border-pandora-border rounded-xl flex items-center gap-3 shadow-sm">
-                    <div className="p-2.5 bg-pandora-gold-bg rounded-lg border border-pandora-gold/20 flex items-center justify-center">
-                      {(() => { const IconComp = selectedCategory?.icon || Sparkles; return <IconComp className="w-5 h-5 text-pandora-gold" />; })()}
+                  <div className="p-4 bg-acento text-white border border-borde rounded-xl flex items-center gap-3 shadow-sm">
+                    <div className="p-2.5 bg-oro-superficie rounded-lg border border-oro/20 flex items-center justify-center">
+                      {(() => { const IconComp = selectedCategory?.icon || Sparkles; return <IconComp className="w-5 h-5 text-oro" />; })()}
                     </div>
                     <div>
-                      <h2 className="font-serif text-sm font-bold text-pandora-title uppercase tracking-wider">{selectedCategory?.name}</h2>
-                      <p className="text-[11px] text-pandora-muted font-light mt-0.5 font-sans">Acceda a los servicios de {selectedCategory?.name.toLowerCase()} de Cafe Pandora</p>
+                      <h2 className="font-serif text-sm font-bold uppercase tracking-wider">{selectedCategory?.name}</h2>
+                      <p className="text-[11px] text-white/70 font-light mt-0.5 font-sans">Acceda a los servicios de {selectedCategory?.name.toLowerCase()} de Cafe Pandora</p>
                     </div>
                   </div>
 
                   {activeCategory === 'menu' ? (
                     <div className="flex flex-col gap-4">
-                      <div className="flex flex-wrap items-center gap-2 p-1 bg-pandora-accent/50 rounded-xl border border-pandora-border self-start shrink-0">
+                      <div className="flex flex-wrap items-center gap-2 p-1 bg-acento/50 rounded-xl border border-borde self-start shrink-0">
                         {(['platos', 'bebidas'] as const).map((tab) => (
                           <button key={tab} onClick={() => setActiveMenuTab(tab)}
-                            className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${activeMenuTab === tab ? 'bg-pandora-accent text-pandora-title shadow-sm border border-pandora-border' : 'text-pandora-disabled hover:text-pandora-title'}`}
+                            className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${activeMenuTab === tab ? 'bg-acento text-white shadow-sm border border-borde' : 'text-inactivo hover:text-titulo'}`}
                           >
                             {tab === 'platos' ? 'PLATILLOS' : 'BEBIDAS'}
                           </button>
@@ -233,18 +233,18 @@ function AppContent() {
                     </div>
                   ) : activeCategory === 'pedidos' ? (
                     <div className="flex flex-col gap-4">
-                      <div className="flex flex-wrap items-center gap-2 p-1 bg-pandora-accent/50 rounded-xl border border-pandora-border self-start shrink-0">
+                      <div className="flex flex-wrap items-center gap-2 p-1 bg-acento/50 rounded-xl border border-borde self-start shrink-0">
                         <button onClick={() => setActivePedidosTab('nuevo')}
-                          className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${activePedidosTab === 'nuevo' ? 'bg-pandora-accent text-pandora-title shadow-sm border border-pandora-border' : 'text-pandora-disabled hover:text-pandora-title'}`}
+                          className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${activePedidosTab === 'nuevo' ? 'bg-acento text-white shadow-sm border border-borde' : 'text-inactivo hover:text-titulo'}`}
                         >
-                          <ClipboardList className="w-4 h-4 text-pandora-gold" /> Nuevo Pedido
+                          <ClipboardList className="w-4 h-4 text-oro" /> Nuevo Pedido
                         </button>
                         <button onClick={() => setActivePedidosTab('pendientes')}
-                          className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${activePedidosTab === 'pendientes' ? 'bg-pandora-accent text-pandora-title shadow-sm border border-pandora-border' : 'text-pandora-disabled hover:text-pandora-title'}`}
+                          className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all tracking-wider flex items-center gap-2 cursor-pointer ${activePedidosTab === 'pendientes' ? 'bg-acento text-white shadow-sm border border-borde' : 'text-inactivo hover:text-titulo'}`}
                         >
-                          <Clock className="w-4 h-4 text-pandora-gold" /> Pedidos Pendientes
-                          {state.orders.filter(o => o.status !== 'listo').length > 0 && (
-                            <span className="bg-pandora-gold-badge text-pandora-title font-mono text-[9px] font-extrabold h-4.5 px-1.5 rounded-full flex items-center justify-center">
+                          <Clock className="w-4 h-4 text-oro" /> Pedidos Pendientes
+                            {state.orders.filter(o => o.status !== 'listo').length > 0 && (
+                            <span className="bg-oro-insignia text-titulo font-mono text-[9px] font-extrabold h-4.5 px-1.5 rounded-full flex items-center justify-center">
                               {state.orders.filter(o => o.status !== 'listo').length}
                             </span>
                           )}
@@ -280,7 +280,7 @@ function AppContent() {
                   <WelcomeBanner user={state.user} pendingOrdersCount={pendingOrdersCount}
                     onNewOrder={() => { setActiveCategory('pedidos'); setActivePedidosTab('nuevo'); }}
                   />
-                  <div className="bg-pandora-accent border border-pandora-border rounded-2xl p-4 sm:p-5 shadow-sm">
+                  <div className="bg-acento border border-borde rounded-2xl p-4 sm:p-5 shadow-sm">
                     <PendingOrdersModule orders={state.orders}
                       onCompleteOrder={(id) => dispatch({ type: 'UPDATE_ORDER_STATUS', payload: { orderId: id, status: 'caja' } })}
                       onCancelOrder={(id) => dispatch({ type: 'CANCEL_ORDER', payload: id })}

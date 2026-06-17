@@ -7,7 +7,7 @@ import { formatMiles, parseMiles } from '../../utils';
 const formatCOP = (amount: number) =>
   new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(amount);
 
-const BANK_ENTITIES = ['Bancolombia', 'Nequi', 'Daviplata', 'Banco de Bogotá', 'Efectivo / Caja General'];
+const BANK_ENTITIES = ['Bancolombia', 'Nequi', 'Daviplata', 'Banco de Bogotá'];
 
 type PaymentMethod = 'Efectivo' | 'Transferencia' | 'Tarjeta';
 
@@ -51,11 +51,6 @@ export default function Facturacion({
   const [receivedAmount, setReceivedAmount] = useState<string>('');
 
   const currentOrder = selectedOrderId ? billingOrders.find((o) => o.id === selectedOrderId) : null;
-
-  const getGuestName = (tableId: number) => {
-    const table = tables.find((t) => t.id === tableId);
-    return table?.guestName || '—';
-  };
 
   const handleOpenBillingForm = (orderId: string) => {
     setSelectedMethod('Efectivo');
@@ -187,11 +182,11 @@ export default function Facturacion({
     const table = tables.find(t => t.id === tableId);
     if (!table) return 'static';
     const zone = (table as any).zone || 'static';
-    if (zone === 'barra') return 'bg-pandora-gold-bg text-text-accent';
-    if (zone === 'terraza') return 'bg-pandora-success-bg text-pandora-success';
-    if (zone === 'salon_principal') return 'bg-pandora-success-bg text-pandora-success';
-    if (zone === 'vip') return 'bg-pandora-gold-bg text-text-accent';
-    return 'bg-surface-card text-text-muted';
+    if (zone === 'barra') return 'bg-oro-superficie text-texto-acento';
+    if (zone === 'terraza') return 'bg-exito-superficie text-exito';
+    if (zone === 'salon_principal') return 'bg-exito-superficie text-exito';
+    if (zone === 'vip') return 'bg-oro-superficie text-texto-acento';
+    return 'bg-tarjeta-fondo text-atenuado';
   };
 
   const getZoneName = (tableId: number) => {
@@ -213,12 +208,12 @@ export default function Facturacion({
     const zoneColor = getZoneColor(currentOrder.tableId);
 
     return (
-      <div className="bg-surface-card rounded-xl border border-border-default shadow-sm overflow-hidden">
+      <div className="bg-tarjeta-fondo rounded-xl border border-borde shadow-sm overflow-hidden">
         {/* Header: Table info card */}
-        <div className="bg-gradient-to-r from-pandora-dark to-pandora-hover p-4">
+        <div className="bg-gradient-to-r from-sidebar-fondo to-hover-fondo p-4">
           <div className="flex items-start justify-between">
             <div>
-              <h3 className="text-lg font-bold text-pandora-gold">
+              <h3 className="text-lg font-bold text-oro">
                 {currentOrder.tableName || `Mesa ${currentOrder.tableId}`}
               </h3>
               {tableZone && (
@@ -228,8 +223,8 @@ export default function Facturacion({
               )}
             </div>
             <div className="text-right">
-              <span className="text-[10px] text-pandora-cream/60 font-mono">{currentOrder.timestamp}</span>
-              <div className="text-xl font-black text-pandora-gold font-mono mt-0.5">{formatCOP(currentOrder.total)}</div>
+              <span className="text-[10px] text-crema/60 font-mono">{currentOrder.timestamp}</span>
+              <div className="text-xl font-black text-oro font-mono mt-0.5">{formatCOP(currentOrder.total)}</div>
             </div>
           </div>
         </div>
@@ -237,7 +232,7 @@ export default function Facturacion({
         <div className="p-4 space-y-4">
           {/* Payment method selection */}
           <div>
-            <p className="text-[10px] uppercase font-bold tracking-wider text-text-muted mb-2 font-mono">Método de pago</p>
+            <p className="text-[10px] uppercase font-bold tracking-wider text-atenuado mb-2 font-mono">Método de pago</p>
             <div className="grid grid-cols-3 gap-2">
               {METHODS.map((m) => (
                 <button
@@ -246,13 +241,13 @@ export default function Facturacion({
                   onClick={() => setSelectedMethod(m.id)}
                   className={`flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all cursor-pointer ${
                     selectedMethod === m.id
-                      ? 'border-pandora-gold bg-surface-card-hover shadow-sm'
-                      : 'border-border-default bg-surface-content hover:border-pandora-gold/50'
+                      ? 'border-oro bg-tarjeta-hover shadow-sm'
+                      : 'border-borde bg-contenido-fondo hover:border-oro/50'
                   }`}
                 >
                   <span className="text-lg">{m.icon}</span>
                   <span className={`text-[10px] font-bold ${
-                    selectedMethod === m.id ? 'text-pandora-success' : 'text-text-secondary'
+                    selectedMethod === m.id ? 'text-exito' : 'text-cuerpo'
                   }`}>
                     {m.label}
                   </span>
@@ -266,20 +261,20 @@ export default function Facturacion({
             <div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-semibold text-text-secondary mb-1">Recibido</label>
+                  <label className="block text-[10px] font-semibold text-cuerpo mb-1">Recibido</label>
                   <input
                     type="text"
                     value={receivedAmount}
                     onChange={(e) => setReceivedAmount(formatMiles(e.target.value))}
                     placeholder="$0"
-                    className="w-full border border-border-default rounded-lg p-2 text-sm font-mono font-bold text-text-primary bg-surface-input focus:ring-2 focus:ring-pandora-gold focus:border-pandora-gold outline-none"
+                    className="w-full border border-borde rounded-lg p-2 text-sm font-mono font-bold text-titulo bg-input-fondo focus:ring-2 focus:ring-oro focus:border-oro outline-none"
                     autoFocus
                     inputMode="numeric"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-semibold text-text-secondary mb-1">Cambio</label>
-                  <div className="w-full border border-border-default bg-surface-content rounded-lg p-2 text-sm font-mono font-bold text-pandora-success">
+                  <label className="block text-[10px] font-semibold text-cuerpo mb-1">Cambio</label>
+                  <div className="w-full border border-borde bg-contenido-fondo rounded-lg p-2 text-sm font-mono font-bold text-exito">
                     {received >= finalTotal ? formatCOP(cambio) : '$0'}
                   </div>
                 </div>
@@ -289,11 +284,11 @@ export default function Facturacion({
 
           {selectedMethod === 'Transferencia' && (
             <div>
-              <label className="block text-[10px] font-semibold text-text-secondary mb-1">Entidad Bancaria</label>
+              <label className="block text-[10px] font-semibold text-cuerpo mb-1">Entidad Bancaria</label>
               <select
                 value={bankEntity}
                 onChange={(e) => setBankEntity(e.target.value)}
-                className="w-full border border-border-default rounded-lg p-2 text-xs text-text-primary bg-surface-input focus:ring-2 focus:ring-pandora-gold focus:border-pandora-gold outline-none"
+                className="w-full border border-borde rounded-lg p-2 text-xs text-titulo bg-input-fondo focus:ring-2 focus:ring-oro focus:border-oro outline-none"
               >
                 {BANK_ENTITIES.map(b => (
                   <option key={b} value={b}>{b}</option>
@@ -303,18 +298,18 @@ export default function Facturacion({
           )}
 
           {selectedMethod === 'Tarjeta' && (
-            <div className="bg-surface-card-hover border border-border-default rounded-xl p-3 text-center">
-              <CreditCard className="w-6 h-6 text-text-accent mx-auto mb-1" />
-              <p className="text-[11px] font-bold text-text-primary">Pago con Tarjeta</p>
-              <p className="text-[10px] text-text-secondary">Procesar con datáfono físico</p>
+            <div className="bg-tarjeta-hover border border-borde rounded-xl p-3 text-center">
+              <CreditCard className="w-6 h-6 text-texto-acento mx-auto mb-1" />
+              <p className="text-[11px] font-bold text-titulo">Pago con Tarjeta</p>
+              <p className="text-[10px] text-cuerpo">Procesar con datáfono físico</p>
             </div>
           )}
 
           {/* Tax toggle */}
-          <div className="flex items-center justify-between py-2 border-t border-border-default">
+          <div className="flex items-center justify-between py-2 border-t border-borde">
             <div>
-              <span className="text-[11px] font-semibold text-text-primary block">Impuesto Consumo (8%)</span>
-              <span className="text-[9px] text-text-muted">Gravamen fiscal aplicable</span>
+              <span className="text-[11px] font-semibold text-titulo block">Impuesto Consumo (8%)</span>
+              <span className="text-[9px] text-atenuado">Gravamen fiscal aplicable</span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -323,30 +318,30 @@ export default function Facturacion({
                 onChange={(e) => setApplyTax(e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-9 h-5 bg-text-muted/30 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-pandora-gold rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:after:transition-all peer-checked:bg-pandora-success" />
+              <div className="w-9 h-5 bg-text-muted/30 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-oro rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:after:transition-all peer-checked:bg-exito" />
             </label>
           </div>
 
           {/* Summary */}
-          <div className="bg-surface-content rounded-lg p-3 space-y-1">
+          <div className="bg-contenido-fondo rounded-lg p-3 space-y-1">
             <div className="flex justify-between text-[11px]">
-              <span className="text-text-secondary">Subtotal</span>
-              <span className="font-mono text-text-primary">{formatCOP(subtotal)}</span>
+              <span className="text-cuerpo">Subtotal</span>
+              <span className="font-mono text-titulo">{formatCOP(subtotal)}</span>
             </div>
             {applyTax && (
               <div className="flex justify-between text-[11px]">
-                <span className="text-text-secondary">Impuesto (8%)</span>
-                <span className="font-mono text-text-primary">+{formatCOP(taxAmount)}</span>
+                <span className="text-cuerpo">Impuesto (8%)</span>
+                <span className="font-mono text-titulo">+{formatCOP(taxAmount)}</span>
               </div>
             )}
-            <div className="flex justify-between text-sm font-bold border-t border-border-default pt-1 mt-1">
-              <span className="text-text-primary">Total</span>
-              <span className="font-mono text-pandora-success">{formatCOP(finalTotal)}</span>
+            <div className="flex justify-between text-sm font-bold border-t border-borde pt-1 mt-1">
+              <span className="text-titulo">Total</span>
+              <span className="font-mono text-exito">{formatCOP(finalTotal)}</span>
             </div>
             {selectedMethod === 'Efectivo' && received >= finalTotal && (
-              <div className="flex justify-between text-[11px] border-t border-border-default pt-1 mt-1">
-                <span className="text-text-secondary">Cambio</span>
-                <span className="font-mono text-pandora-success font-bold">{formatCOP(cambio)}</span>
+              <div className="flex justify-between text-[11px] border-t border-borde pt-1 mt-1">
+                <span className="text-cuerpo">Cambio</span>
+                <span className="font-mono text-exito font-bold">{formatCOP(cambio)}</span>
               </div>
             )}
           </div>
@@ -355,14 +350,14 @@ export default function Facturacion({
           <div className="flex gap-2 pt-1">
             <button
               onClick={handleBack}
-              className="flex-1 py-2 px-3 rounded-lg border border-border-default bg-transparent hover:bg-surface-card-hover text-text-secondary text-[11px] font-semibold transition-all cursor-pointer"
+              className="flex-1 py-2 px-3 rounded-lg border border-borde bg-transparent hover:bg-tarjeta-hover text-cuerpo text-[11px] font-semibold transition-all cursor-pointer"
             >
               Cancelar
             </button>
             <button
               onClick={() => handleGenerateInvoice(currentOrder)}
               disabled={selectedMethod === 'Efectivo' && received < finalTotal}
-              className="flex-1 py-2 px-3 rounded-lg bg-pandora-success hover:bg-pandora-success-hover disabled:bg-text-muted/30 disabled:cursor-not-allowed text-white text-[11px] font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              className="flex-1 py-2 px-3 rounded-lg bg-exito hover:bg-exito-hover disabled:bg-text-muted/30 disabled:cursor-not-allowed text-white text-[11px] font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
             >
               <Banknote className="w-3.5 h-3.5" />
               Confirmar Cobro
@@ -383,54 +378,52 @@ export default function Facturacion({
   return (
     <div>
       {billingOrders.length === 0 ? (
-        <div className="bg-surface-card rounded-lg border border-border-default p-6 text-center">
-          <div className="w-12 h-12 rounded-full bg-pandora-success-bg flex items-center justify-center mx-auto mb-2">
-            <svg className="w-6 h-6 text-pandora-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="bg-tarjeta-fondo rounded-lg border border-borde p-6 text-center">
+          <div className="w-12 h-12 rounded-full bg-exito-superficie flex items-center justify-center mx-auto mb-2">
+            <svg className="w-6 h-6 text-exito" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <p className="text-sm font-semibold text-text-primary">No hay facturas pendientes</p>
-          <p className="text-[11px] text-text-muted mt-0.5">Los pedidos en estado "Caja" aparecerán aquí.</p>
+          <p className="text-sm font-semibold text-titulo">No hay facturas pendientes</p>
+          <p className="text-[11px] text-atenuado mt-0.5">Los pedidos en estado "Caja" aparecerán aquí.</p>
         </div>
       ) : (
-        <div className="bg-surface-card rounded-lg border border-border-default overflow-hidden">
-          <div className="px-4 py-3 border-b border-border-default flex items-center justify-between">
-            <h4 className="text-xs font-bold text-text-primary">Facturaciones Pendientes</h4>
-            <span className="text-[10px] font-mono font-bold text-text-accent bg-pandora-gold-bg px-2 py-0.5 rounded-full">
+        <div className="bg-tarjeta-fondo rounded-lg border border-borde overflow-hidden">
+          <div className="px-4 py-3 border-b border-borde flex items-center justify-between">
+            <h4 className="text-xs font-bold text-titulo">Facturaciones Pendientes</h4>
+            <span className="text-[10px] font-mono font-bold text-texto-acento bg-oro-superficie px-2 py-0.5 rounded-full">
               {billingOrders.length} pendiente{billingOrders.length !== 1 ? 's' : ''}
             </span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-border-default bg-surface-content/50">
-                  <th className="text-left py-2.5 px-4 text-[10px] uppercase font-bold text-text-muted tracking-wider">Mesa</th>
-                  <th className="text-left py-2.5 px-4 text-[10px] uppercase font-bold text-text-muted tracking-wider">Cliente</th>
-                  <th className="text-left py-2.5 px-4 text-[10px] uppercase font-bold text-text-muted tracking-wider">Hora</th>
-                  <th className="text-right py-2.5 px-4 text-[10px] uppercase font-bold text-text-muted tracking-wider">Total</th>
-                  <th className="text-center py-2.5 px-4 text-[10px] uppercase font-bold text-text-muted tracking-wider">Estado</th>
-                  <th className="text-right py-2.5 px-4 text-[10px] uppercase font-bold text-text-muted tracking-wider">Acción</th>
+                <tr className="border-b border-borde bg-contenido-fondo/50">
+                  <th className="text-left py-2.5 px-4 text-[10px] uppercase font-bold text-atenuado tracking-wider">Mesa</th>
+                  <th className="text-left py-2.5 px-4 text-[10px] uppercase font-bold text-atenuado tracking-wider">Hora</th>
+                  <th className="text-right py-2.5 px-4 text-[10px] uppercase font-bold text-atenuado tracking-wider">Total</th>
+                  <th className="text-center py-2.5 px-4 text-[10px] uppercase font-bold text-atenuado tracking-wider">Estado</th>
+                  <th className="text-right py-2.5 px-4 text-[10px] uppercase font-bold text-atenuado tracking-wider">Acción</th>
                 </tr>
               </thead>
               <tbody>
                 {billingOrders.map((order) => (
                   <tr
                     key={order.id}
-                    className={`border-b border-border-default/50 hover:bg-surface-card-hover transition-colors cursor-pointer ${
-                      selectedOrderId === order.id ? 'bg-surface-card-hover border-l-2 border-l-pandora-gold' : ''
+                    className={`border-b border-borde/50 hover:bg-tarjeta-hover transition-colors cursor-pointer ${
+                      selectedOrderId === order.id ? 'bg-tarjeta-hover border-l-2 border-l-oro' : ''
                     }`}
                     onClick={() => handleOpenBillingForm(order.id)}
                   >
-                    <td className="py-3 px-4 font-semibold text-text-primary">
+                    <td className="py-3 px-4 font-semibold text-titulo">
                       {order.tableName || `Mesa ${order.tableId}`}
                     </td>
-                    <td className="py-3 px-4 text-text-secondary">{getGuestName(order.tableId)}</td>
-                    <td className="py-3 px-4 text-text-muted font-mono">{order.timestamp}</td>
-                    <td className="py-3 px-4 text-right font-mono font-semibold text-text-primary">
+                    <td className="py-3 px-4 text-atenuado font-mono">{order.timestamp}</td>
+                    <td className="py-3 px-4 text-right font-mono font-semibold text-titulo">
                       {formatCOP(order.total)}
                     </td>
                     <td className="py-3 px-4 text-center">
-                      <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-pandora-gold-bg text-text-accent border border-pandora-gold/50">
+                      <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-oro-superficie text-texto-acento border border-oro/50">
                         Pendiente
                       </span>
                     </td>
@@ -438,13 +431,13 @@ export default function Facturacion({
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={(e) => { e.stopPropagation(); handleOpenBillingForm(order.id); }}
-                          className="px-2.5 py-1 rounded-md bg-pandora-success hover:bg-pandora-success-hover text-white text-[10px] font-bold transition-all cursor-pointer"
+                          className="px-2.5 py-1 rounded-md bg-exito hover:bg-exito-hover text-white text-[10px] font-bold transition-all cursor-pointer"
                         >
                           Cobrar
                         </button>
                         <button
                           onClick={(e) => { e.stopPropagation(); handleCancelOrder(order.id); }}
-                          className="px-2 py-1 rounded-md text-text-muted hover:text-pandora-danger hover:bg-pandora-error-bg text-[10px] transition-all cursor-pointer bg-transparent border-none"
+                          className="px-2 py-1 rounded-md text-atenuado hover:text-peligro hover:bg-peligro-superficie text-[10px] transition-all cursor-pointer bg-transparent border-none"
                           title="Cancelar pedido"
                         >
                           ✕

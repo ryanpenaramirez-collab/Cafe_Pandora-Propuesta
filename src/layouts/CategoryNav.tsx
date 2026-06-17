@@ -21,7 +21,7 @@ export default function CategoryNav({ categories, activeCategory, categoryCounts
   if (categories.length === 0 && !showHome) {
     return (
       <div className="overflow-x-auto scrollbar-hide flex gap-2 pb-1 snap-x snap-mandatory scroll-smooth shrink-0">
-        <div className="p-4 text-center text-pandora-muted text-xs font-light w-full">
+        <div className="p-4 text-center text-atenuado text-xs font-light w-full">
           Ninguna categoría activa.
         </div>
       </div>
@@ -36,8 +36,8 @@ export default function CategoryNav({ categories, activeCategory, categoryCounts
           onClick={() => onSelect(null)}
           className={`snap-start shrink-0 flex items-center justify-center w-10 h-10 rounded-xl border transition-all cursor-pointer ${
             activeCategory === null
-              ? 'bg-pandora-gold-bg border-pandora-gold text-pandora-gold shadow-md'
-              : 'bg-transparent border-pandora-border text-pandora-body hover:bg-pandora-accent/30 shadow-sm'
+              ? 'bg-oro-superficie border-oro text-oro shadow-md'
+              : 'bg-transparent border-borde text-cuerpo hover:bg-acento/30 shadow-sm'
           }`}
           title="Inicio"
         >
@@ -56,14 +56,14 @@ export default function CategoryNav({ categories, activeCategory, categoryCounts
             onClick={() => onSelect(isActive ? null : cat.id)}
             className={`snap-start shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all cursor-pointer ${
               isActive
-                ? 'bg-pandora-gold-bg border-pandora-gold text-pandora-gold shadow-md'
-                : 'bg-transparent border-pandora-border text-pandora-body hover:bg-pandora-accent/30 shadow-sm'
+                ? 'bg-oro-superficie border-oro text-oro shadow-md'
+                : 'bg-transparent border-borde text-cuerpo hover:bg-acento/30 shadow-sm'
             }`}
           >
-            <IconComponent className={`w-4 h-4 ${isActive ? 'text-pandora-gold' : 'text-pandora-body'}`} />
+            <IconComponent className={`w-4 h-4 ${isActive ? 'text-oro' : 'text-cuerpo'}`} />
             <span className="text-xs font-bold uppercase tracking-wider whitespace-nowrap">{cat.name}</span>
             {count > 0 && (
-              <span className="h-4 min-w-[16px] px-1 rounded-full bg-pandora-gold-badge text-pandora-title text-[8px] font-extrabold flex items-center justify-center">
+              <span className="h-4 min-w-[16px] px-1 rounded-full bg-oro-insignia text-titulo text-[8px] font-extrabold flex items-center justify-center">
                 {count}
               </span>
             )}

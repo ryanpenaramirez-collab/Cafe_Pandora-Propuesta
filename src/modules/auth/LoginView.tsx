@@ -81,28 +81,28 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
   const quickUsers = [STAFF_USERS[0], STAFF_USERS[2]];
 
   return (
-    <div className="min-h-screen bg-pandora-dark flex items-center justify-center p-4 sm:p-6 md:p-8 selection:bg-pandora-gold selection:text-pandora-title font-sans overflow-y-auto">
+    <div className="min-h-screen bg-login-fondo flex items-center justify-center p-4 sm:p-6 md:p-8 selection:bg-oro selection:text-titulo font-sans overflow-y-auto">
 
       <motion.div
         id="login_container"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-5xl bg-surface-card/95 backdrop-blur-md rounded-2xl border border-border-default overflow-hidden shadow-2xl flex flex-col md:flex-row min-h-[580px]"
+        className="w-full max-w-5xl bg-tarjeta-fondo/95 backdrop-blur-md rounded-2xl border border-borde overflow-hidden shadow-2xl flex flex-col md:flex-row min-h-[580px]"
       >
 
         <div
           id="login_visual_panel"
-          className="w-full md:w-1/2 relative flex flex-col justify-between p-8 text-white min-h-[250px] md:min-h-auto border-b md:border-b-0 md:border-r border-pandora-border overflow-hidden"
+          className="w-full md:w-1/2 relative flex flex-col justify-between p-8 text-white min-h-[250px] md:min-h-auto border-b md:border-b-0 md:border-r border-borde overflow-hidden"
           style={{
             backgroundColor: '#0D1B2A'
           }}
         >
-          <div className="absolute inset-0 z-0 overflow-hidden bg-pandora-dark flex items-center justify-center p-2">
+          <div className="absolute inset-0 z-0 overflow-hidden bg-login-fondo flex items-center justify-center p-2">
             <img
               src="https://i.imgur.com/ARe5rPr.jpeg"
               alt="Logo Café Pandora"
-              className="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 object-cover rounded-full shadow-2xl border-2 border-pandora-gold/30 animate-pulse-slow"
+              className="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 object-cover rounded-full shadow-2xl border-2 border-oro/30 animate-pulse-slow"
               referrerPolicy="no-referrer"
             />
             <div
@@ -120,17 +120,17 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
               Café Pandora
             </h1>
-            <p className="mt-1 text-sm text-pandora-gold font-serif font-medium uppercase tracking-wider">
+            <p className="mt-1 text-sm text-oro font-serif font-medium uppercase tracking-wider">
               Bistro Cafe Bar
             </p>
           </div>
         </div>
 
-        <div id="login_form_panel" className="w-full md:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-12 bg-pandora-dark">
+        <div id="login_form_panel" className="w-full md:w-1/2 flex flex-col justify-center p-6 sm:p-8 lg:p-12 bg-login-fondo">
 
           <div id="form_header" className="mb-6 text-center md:text-left">
-            <h2 className="font-sans text-2xl font-bold text-text-primary">Acceso Administrativo</h2>
-            <p className="text-xs text-text-muted mt-1 font-light">
+            <h2 className="font-sans text-2xl font-bold text-white">Acceso Administrativo</h2>
+            <p className="text-xs text-white/70 mt-1 font-light">
               Seleccione su rol e ingrese su PIN
             </p>
           </div>
@@ -139,7 +139,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             <motion.div
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-4 p-3 bg-pandora-error-bg border border-pandora-danger/30 rounded-lg text-pandora-danger text-xs text-center"
+              className="mb-4 p-3 bg-peligro-superficie border border-peligro/30 rounded-lg text-peligro text-xs text-center"
             >
               {errorMsg}
             </motion.div>
@@ -147,27 +147,27 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-text-muted mb-1">Rol de Empleado</label>
+              <label className="block text-xs font-medium text-white/70 mb-1">Rol de Empleado</label>
               <div className="relative">
                 <select
                   id="role_select"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full text-text-primary bg-surface-input border border-border-default rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-pandora-gold focus:ring-1 focus:ring-pandora-gold/30 transition-all cursor-pointer"
+                  className="w-full text-titulo bg-input-fondo border border-borde rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-oro focus:ring-1 focus:ring-oro/30 transition-all cursor-pointer"
                   disabled={isSubmitting}
                 >
-                  <option value="administrador" className="bg-surface-card text-text-primary">Administrador / Gerente</option>
-                  <option value="mesero" className="bg-surface-card text-text-primary">Mesero / Servicio de Mesa</option>
+                  <option value="administrador" className="bg-tarjeta-fondo text-titulo">Administrador / Gerente</option>
+                  <option value="mesero" className="bg-tarjeta-fondo text-titulo">Mesero / Servicio de Mesa</option>
                 </select>
               </div>
             </div>
 
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label className="block text-xs font-medium text-text-muted">Contraseña (PIN)</label>
+                <label className="block text-xs font-medium text-white/70">Contraseña (PIN)</label>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-muted">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-white/70">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -175,7 +175,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full text-text-primary bg-surface-input border border-border-default rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-pandora-gold focus:ring-1 focus:ring-pandora-gold/30 transition-all placeholder:text-text-muted/50 font-mono tracking-widest"
+                  className="w-full text-titulo bg-input-fondo border border-borde rounded-lg pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-oro focus:ring-1 focus:ring-oro/30 transition-all placeholder:text-atenuado/50 font-mono tracking-widest"
                   placeholder="PIN Numérico"
                   disabled={isSubmitting}
                 />
@@ -186,7 +186,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
               id="login_submit_btn"
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-pandora-success hover:bg-pandora-success-hover text-white rounded-lg py-3 text-sm font-semibold shadow-lg shadow-black/10 transition-all hover:-translate-y-[1px] active:translate-y-0 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full bg-exito hover:bg-exito-hover text-white rounded-lg py-3 text-sm font-semibold shadow-lg shadow-black/10 transition-all hover:-translate-y-[1px] active:translate-y-0 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <>
@@ -202,8 +202,8 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
           </form>
 
           {quickUsers[0] && quickUsers[1] && (
-            <div id="quick_login_area" className="mt-8 pt-6 border-t border-border-default">
-              <span className="block text-[11px] font-semibold text-pandora-gold uppercase tracking-wider mb-3">
+            <div id="quick_login_area" className="mt-8 pt-6 border-t border-borde">
+              <span className="block text-[11px] font-semibold text-oro uppercase tracking-wider mb-3">
                 Acceso Rápido de Prueba (1-Click)
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 max-w-xl gap-2">
@@ -216,12 +216,12 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
                       key={u.id}
                       type="button"
                       onClick={() => handleQuickLogin(u)}
-                      className={`flex items-center gap-2.5 p-2 rounded-lg border text-left text-xs hover:bg-pandora-hover transition-all outline-none cursor-pointer ${colors}`}
+                      className={`flex items-center gap-2.5 p-2 rounded-lg border text-left text-xs hover:bg-hover-fondo transition-all outline-none cursor-pointer ${colors}`}
                     >
                       <Icon className="w-4 h-4 shrink-0" />
                       <div className="truncate">
-                        <p className="font-semibold truncate text-text-primary leading-tight">{u.name}</p>
-                        <p className="text-[10px] text-text-muted capitalize truncate">{u.role}</p>
+                        <p className="font-semibold truncate text-titulo leading-tight">{u.name}</p>
+                        <p className="text-[10px] text-atenuado capitalize truncate">{u.role}</p>
                       </div>
                     </button>
                   );
