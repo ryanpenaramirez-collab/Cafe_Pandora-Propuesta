@@ -115,7 +115,7 @@ export default function TablesModule({
                 }}
                 className={`px-3 py-1.5 rounded-md text-[11px] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
                   activeView === key && !isBillingActive
-                    ? 'bg-pandora-gold text-pandora-dark shadow-sm'
+                    ? 'bg-pandora-gold text-pandora-title shadow-sm'
                     : 'text-pandora-body hover:text-white hover:bg-pandora-accent/5'
                 }`}
               >

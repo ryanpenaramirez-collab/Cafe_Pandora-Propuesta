@@ -47,7 +47,7 @@ export default function CategoryNav({ categories, activeCategory, categoryCounts
             <IconComponent className={`w-4 h-4 ${isActive ? 'text-pandora-gold' : 'text-pandora-body'}`} />
             <span className="text-xs font-bold uppercase tracking-wider whitespace-nowrap">{cat.name}</span>
             {count > 0 && (
-              <span className="h-4 min-w-[16px] px-1 rounded-full bg-pandora-gold-badge text-pandora-dark text-[8px] font-extrabold flex items-center justify-center">
+              <span className="h-4 min-w-[16px] px-1 rounded-full bg-pandora-gold-badge text-pandora-title text-[8px] font-extrabold flex items-center justify-center">
                 {count}
               </span>
             )}

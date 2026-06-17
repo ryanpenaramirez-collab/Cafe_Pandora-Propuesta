@@ -37,12 +37,12 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
 
   const handleVerifyPassword = (e: React.FormEvent) => {
     e.preventDefault();
-    const userMatch = STAFF_USERS.find(u => u.password === typedPassword);
+    const userMatch = STAFF_USERS.find(u => u.pin === typedPassword);
     if (userMatch) {
       const roleCapitalized = userMatch.role.charAt(0).toUpperCase() + userMatch.role.slice(1);
-      setPasswordValidationMsg(`✅ AUTORIZADO: Contraseña pertenece a ${userMatch.name} (${roleCapitalized})`);
+      setPasswordValidationMsg(`✅ AUTORIZADO: PIN pertenece a ${userMatch.name} (${roleCapitalized})`);
     } else {
-      setPasswordValidationMsg('❌ DENEGADO: Contraseña ingresada no coincide con ningún empleado registrado.');
+      setPasswordValidationMsg('❌ DENEGADO: PIN ingresado no coincide con ningún empleado registrado.');
     }
     setTypedPassword('');
   };
@@ -156,7 +156,7 @@ export default function SystemModal({ isOpen, onClose, tabFocus, alerts, onResol
                           <span className="text-[10px] text-pandora-muted font-mono">Rol base: <span className="font-bold underline capitalize">{employee.role}</span> • Correo: {employee.email}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded-full bg-pandora-border text-pandora-body font-mono text-[10px] font-bold">Pass: {employee.password}</span>
+                          <span className="px-2 py-0.5 rounded-full bg-pandora-border text-pandora-body font-mono text-[10px] font-bold">PIN: {employee.pin}</span>
                           <span className="w-2 h-2 rounded-full bg-pandora-success-bg" title="Activo en Estación"></span>
                         </div>
                       </div>

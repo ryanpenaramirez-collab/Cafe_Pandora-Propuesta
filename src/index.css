@@ -11,11 +11,9 @@
   --color-pandora-dark: #0D1B2A;
   --color-pandora-hover: #1B2D45;
   --color-pandora-accent: #243752;
-  --color-pandora-accent-hover: #1B2D45;
   --color-pandora-gold: #C9A84C;
   --color-pandora-gold-hover: #B89430;
   --color-pandora-cream: #E8D5A3;
-  --color-pandora-card-bg: #243752;
   --color-pandora-border: #2A3D52;
   --color-pandora-bg: #0D1B2A;
   --color-pandora-title: #FFFFFF;
@@ -31,16 +29,12 @@
   --color-pandora-success: #2E7D6B;
   --color-pandora-success-hover: #1F5C4F;
   --color-pandora-success-bg: rgba(46, 125, 107, 0.12);
-  --color-pandora-warning: #C9A84C;
   --color-pandora-warning-bg: rgba(201, 168, 76, 0.12);
   --color-pandora-error-bg: rgba(224, 90, 43, 0.12);
   --color-pandora-gold-badge: #C9A84C;
   --color-pandora-gold-bg: rgba(201, 168, 76, 0.08);
   --color-pandora-wood: #2A3D52;
-  --color-pandora-grey: #7A96A8;
-
   /* === SUPERFICIES SEMÁNTICAS === */
-  --color-surface-page: #0D1B2A;
   --color-surface-content: #16283D;
   --color-surface-card: #1E3350;
   --color-surface-card-hover: #243D5E;
@@ -56,15 +50,6 @@
   --color-text-secondary: #A8BDCE;
   --color-text-muted: #7A96A8;
   --color-text-accent: #C9A84C;
-  --color-text-danger: #E05A2B;
-  --color-text-table: #D0DDE8;
-
-  /* === ESTADOS DE MESAS === */
-  --color-table-occupied: #E05A2B;
-  --color-table-reserved: #C9A84C;
-  --color-table-empty-text: #A8BDCE;
-  --color-table-empty-status: #7A96A8;
-
   /* === BOTONES DE MÓDULO === */
   --color-module-yellow-bg: rgba(201, 168, 76, 0.12);
   --color-module-yellow-border: rgba(201, 168, 76, 0.3);
@@ -112,24 +97,12 @@
 
 .wood-grain {
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(27,45,69,0.15) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.06) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--color-pandora-hover) 15%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, color-mix(in srgb, var(--color-pandora-gold) 6%, transparent) 0%, transparent 50%);
 }
 
-.bg-surface-card-alt { background-color: #16283D; }
-
-.text-pandora-cream      { color: #E8D5A3; }
-.text-pandora-cream-soft { color: #A8BDCE; }
-.text-pandora-muted      { color: #7A96A8; }
-.text-pandora-dark       { color: #FFFFFF; }
-.text-pandora-gold       { color: #C9A84C; }
-.text-pandora-gold-light { color: #E8D5A3; }
-
-.border-pandora-gold   { border-color: #C9A84C; }
-.border-pandora-subtle { border-color: #2A3D52; }
-
 .thermal-paper {
-  background: radial-gradient(circle, #1B2D45 0%, #0D1B2A 100%);
+  background: radial-gradient(circle, var(--color-pandora-hover) 0%, var(--color-pandora-dark) 100%);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 50px rgba(0,0,0,0.2);
 }
 

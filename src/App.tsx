@@ -164,7 +164,7 @@ function AppContent() {
   }
 
   return (
-    <div className="h-screen max-h-screen bg-pandora-dark wood-grain font-sans text-pandora-body flex flex-col selection:bg-pandora-gold selection:text-pandora-dark p-0 overflow-hidden">
+    <div className="h-screen max-h-screen bg-pandora-dark wood-grain font-sans text-pandora-body flex flex-col selection:bg-pandora-gold selection:text-pandora-title p-0 overflow-hidden">
       <div className="flex-1 w-full max-w-full bg-pandora-hover flex flex-col overflow-hidden">
         <div className="flex-grow flex flex-col md:flex-row min-h-0 overflow-hidden h-full">
           <Sidebar user={state.user} onLogout={handleLogout} />
@@ -242,7 +242,7 @@ function AppContent() {
                         >
                           <Clock className="w-4 h-4 text-pandora-gold" /> Pedidos Pendientes
                           {state.orders.filter(o => o.status !== 'listo').length > 0 && (
-                            <span className="bg-pandora-gold-badge text-pandora-dark font-mono text-[9px] font-extrabold h-4.5 px-1.5 rounded-full flex items-center justify-center">
+                            <span className="bg-pandora-gold-badge text-pandora-title font-mono text-[9px] font-extrabold h-4.5 px-1.5 rounded-full flex items-center justify-center">
                               {state.orders.filter(o => o.status !== 'listo').length}
                             </span>
                           )}

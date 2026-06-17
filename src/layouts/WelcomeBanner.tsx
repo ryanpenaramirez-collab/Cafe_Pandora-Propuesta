@@ -48,7 +48,7 @@ export default function WelcomeBanner({ user, pendingOrdersCount, onNewOrder }: 
           </h3>
           <button
             onClick={onNewOrder}
-            className="bg-pandora-primary hover:bg-pandora-primary-hover text-pandora-dark text-xs font-mono font-bold tracking-wider uppercase py-1.5 px-3 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+            className="bg-pandora-primary hover:bg-pandora-primary-hover text-pandora-title text-xs font-mono font-bold tracking-wider uppercase py-1.5 px-3 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
           >
             <Plus className="w-3.5 h-3.5" /> Nuevo Pedido
           </button>
