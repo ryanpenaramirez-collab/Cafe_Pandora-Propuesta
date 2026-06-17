@@ -7,18 +7,107 @@
   --font-serif: "Playfair Display", serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --color-pandora-dark: #1e1208; /* Deep warm coffee-brown background and borders */
-  --color-pandora-teal: #2a1b10; /* Standard coffee-slate block color for highlights/categories */
-  --color-pandora-accent: #d66c50; /* Perfect terracotta shade */
-  --color-pandora-accent-hover: #be593e; /* Slightly darker terracotta hover */
-  --color-pandora-cream: #faf5ee; /* Warm elegant cafe creme background */
-  --color-pandora-card-bg: #ffffff; /* Ultra clean card background */
-  --color-pandora-wood: #7c4d3a; /* Warm mahogany wood color */
-  --color-pandora-gold: #e5b974; /* Soft warm lighting gold accent */
-  --color-pandora-grey: #64748b; /* Slate-grey for text */
+  /* === LOGIN === */
+  --color-login-fondo: #3A7AB5;
+  --color-login-panel-visual: #0D1B2A;
+
+  /* === LAYOUT === */
+  --color-pagina-fondo: #EAF2FB;
+  --color-encabezado-fondo: #5B9BD5;
+  --color-sidebar-fondo: #3A7AB5;
+  --color-sidebar-texto: #FFFFFF;
+  --color-sidebar-texto-secundario: #D0E8F8;
+
+  /* === SUPERFICIES === */
+  --color-hover-fondo: #F0F6FF;
+  --color-contenido-fondo: #FFFFFF;
+  --color-tarjeta-fondo: #FFFFFF;
+  --color-tarjeta-hover: #F5F9FF;
+  --color-modal-fondo: #FFFFFF;
+  --color-input-fondo: #F5F9FF;
+  --color-superficie-elevada: #FFFFFF;
+
+  /* === TEXTO === */
+  --color-titulo: #2C3E55;
+  --color-cuerpo: #5A7A9A;
+  --color-atenuado: #8AAAC8;
+  --color-inactivo: #A0B8D0;
+  --color-texto-acento: #C8A96E;
+
+  /* === ACENTOS === */
+  --color-acento: #5B9BD5;
+  --color-acento-hover: #3A7AB5;
+  --color-oro: #C8A96E;
+  --color-oro-hover: #B8985A;
+  --color-crema: #F5EDD8;
+  --color-madera: #D0E8F8;
+  --color-oro-insignia: #C8A96E;
+  --color-oro-superficie: rgba(200, 169, 110, 0.08);
+
+  /* === BORDE === */
+  --color-borde: #D0E8F8;
+
+  /* === SEMANTICOS === */
+  --color-exito: #4A9872;
+  --color-exito-hover: #3A7A5A;
+  --color-exito-superficie: rgba(74, 152, 114, 0.12);
+  --color-peligro: #C45A5A;
+  --color-peligro-hover: #A04040;
+  --color-peligro-superficie: rgba(196, 90, 90, 0.12);
+  --color-advertencia-superficie: rgba(200, 169, 110, 0.12);
+
+  /* === FUNCION (botones de módulo) === */
+  --color-funcion-personal-superficie: rgba(200, 169, 110, 0.12);
+  --color-funcion-personal-borde: rgba(200, 169, 110, 0.3);
+  --color-funcion-personal-texto: #C8A96E;
+  --color-funcion-personal-acento: #C8A96E;
+  --color-funcion-menu-superficie: rgba(74, 152, 114, 0.12);
+  --color-funcion-menu-borde: rgba(74, 152, 114, 0.3);
+  --color-funcion-menu-texto: #4A9872;
+  --color-funcion-menu-acento: #4A9872;
+  --color-funcion-reportes-superficie: rgba(192, 132, 252, 0.12);
+  --color-funcion-reportes-borde: rgba(192, 132, 252, 0.3);
+  --color-funcion-reportes-texto: #C084FC;
+  --color-funcion-reportes-acento: #C084FC;
+  --color-funcion-financiero-superficie: rgba(196, 90, 90, 0.12);
+  --color-funcion-financiero-borde: rgba(196, 90, 90, 0.3);
+  --color-funcion-financiero-texto: #C45A5A;
+  --color-funcion-financiero-acento: #C45A5A;
+  --color-funcion-mesas-superficie: rgba(91, 155, 213, 0.12);
+  --color-funcion-mesas-borde: rgba(91, 155, 213, 0.3);
+  --color-funcion-mesas-texto: #5B9BD5;
+  --color-funcion-mesas-acento: #5B9BD5;
+  --color-funcion-pedidos-superficie: rgba(251, 146, 60, 0.12);
+  --color-funcion-pedidos-borde: rgba(251, 146, 60, 0.3);
+  --color-funcion-pedidos-texto: #FB923C;
+  --color-funcion-pedidos-acento: #FB923C;
+
+  /* === ESTADO DE MESA === */
+  --color-estado-mesa-disponible: #E5DEC9;
+  --color-estado-mesa-disponible-texto: #5A524C;
+  --color-estado-mesa-ocupado: #B85A48;
+  --color-estado-mesa-reservado: #556B2F;
+  --color-estado-mesa-pendiente: #C59B27;
+
+  /* === GRAFICOS === */
+  --color-grafico-platillo: #D4A574;
+  --color-grafico-bebida: #8BAA7A;
+  --color-grafico-gaseosa: #B8A0C8;
+  --color-grafico-otro: #9AB0C0;
+
+  /* === BARRA ESTADISTICA === */
+  --color-barra-exito: #16A34A;
+  --color-barra-advertencia: #D4A373;
+  --color-barra-inactivo: #cbd5e1;
+  --color-barra-alta: #1D3557;
+
+  /* === FORMULARIO === */
+  --color-formulario-superficie: #FAF5EE;
+
+  /* === SOMBRA === */
+  --color-tarjeta-mesa-sombra: rgba(212, 160, 23, 0.25);
 }
 
-/* Animations and custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -29,21 +118,52 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-pandora-wood);
+  background: var(--color-borde);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-pandora-accent);
+  background: var(--color-atenuado);
 }
 
 .wood-grain {
-  background-image: radial-gradient(rgba(214, 108, 80, 0.05) 1px, transparent 0);
-  background-size: 16px 16px;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(91, 155, 213, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(200, 169, 110, 0.04) 0%, transparent 50%);
 }
 
-/* Soft thermal paper effect for receipt view */
 .thermal-paper {
   background: radial-gradient(circle, #fffffb 0%, #fdfbf7 100%);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), inset 0 0 50px rgba(0,0,0,0.01);
+}
+
+body {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.text-\[8px\]    { font-size: 10px !important; }
+.text-\[9px\]    { font-size: 11px !important; }
+.text-\[10px\]   { font-size: 12px !important; }
+.text-\[11px\]   { font-size: 13px !important; }
+.text-\[10\.5px\] { font-size: 12px !important; }
+.text-xs  { font-size: 0.8rem !important; }
+.text-sm  { font-size: 0.9rem !important; }
+.text-base { font-size: 1rem !important; }
+.text-lg  { font-size: 1.15rem !important; }
+.text-xl  { font-size: 1.3rem !important; }
+.text-2xl { font-size: 1.5rem !important; }
+
+[class*="uppercase"] {
+  letter-spacing: 0.08em;
+}
+
+@keyframes blink-content {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200, 169, 110, 0); }
+  50% { box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.25); }
 }
