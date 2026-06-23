@@ -13,7 +13,7 @@ import {
   ChevronLeft, ChevronRight, Shield, ClipboardList, Menu, Plus
 } from 'lucide-react';
 
-import { MenuItem, Table, Order, Expense, SystemAlert, StockItem, UserSession, ShiftState, TableStatus } from './types';
+import { MenuItem, Table, Order, OrderItem, Expense, SystemAlert, StockItem, UserSession, ShiftState, TableStatus, BillSplit } from './types';
 import { INITIAL_MENU, INITIAL_BEVERAGES, INITIAL_GASEOSAS, INITIAL_TABLES, INITIAL_ALERTS, INITIAL_STOCK } from './data';
 
 import LoginView from './components/LoginView';
@@ -261,6 +261,160 @@ export default function App() {
     }));
 
     setOrders(prev => prev.filter(o => o.id !== orderId));
+  };
+
+  const handleUpdateReceiptStatus = (orderId: string, receiptStatus: 'recibido' | 'pendiente' | 'hecho') => {
+    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, receiptStatus } : o));
+  };
+
+  // 2c. Add items to an existing order
+  const handleAddItemsToOrder = (orderId: string, newItems: OrderItem[]) => {
+    setOrders(prev => prev.map(o => {
+      if (o.id !== orderId) return o;
+      const updatedItems = [...o.items];
+      newItems.forEach(ni => {
+        const existing = updatedItems.find(i => i.menuItemId === ni.menuItemId);
+        if (existing) {
+          existing.quantity += ni.quantity;
+        } else {
+          updatedItems.push({ ...ni });
+        }
+      });
+      const newTotal = updatedItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      const hasComida = updatedItems.some(i => menu.find(m => m.id === i.menuItemId)?.category === 'platillo');
+      const hasBebida = updatedItems.some(i => {
+        const cat = menu.find(m => m.id === i.menuItemId)?.category;
+        return cat === 'bebida' || cat === 'gaseosa';
+      });
+      let type: 'comida' | 'bebida' | 'mixto' = 'mixto';
+      if (hasComida && !hasBebida) type = 'comida';
+      if (!hasComida && hasBebida) type = 'bebida';
+      return { ...o, items: updatedItems, total: newTotal, type };
+    }));
+    const targetOrder = orders.find(o => o.id === orderId);
+    if (targetOrder) {
+      const addedTotal = newItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      setTables(prev => prev.map(t =>
+        t.id === targetOrder.tableId ? { ...t, totalAmount: t.totalAmount + addedTotal } : t
+      ));
+    }
+  };
+
+  // 2d. Split bill into separate orders
+  const handleSplitBill = (orderId: string, splits: BillSplit[]) => {
+    setOrders(prev => {
+      const targetOrder = prev.find(o => o.id === orderId);
+      if (!targetOrder) return prev;
+      const newOrders = splits.map(split => ({
+        ...targetOrder,
+        id: `ord-${Math.floor(1000 + Math.random() * 9000)}`,
+        items: split.items,
+        total: split.items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+        createdAt: Date.now(),
+      }));
+      return [...prev.filter(o => o.id !== orderId), ...newOrders];
+    });
+    const targetOrder = orders.find(o => o.id === orderId);
+    if (targetOrder) {
+      setTables(prev => prev.map(t => {
+        if (t.id === targetOrder.tableId) {
+          return {
+            ...t,
+            ordersCount: t.ordersCount - 1 + splits.length,
+            totalAmount: splits.reduce((sum, s) => sum + s.items.reduce((a, i) => a + i.price * i.quantity, 0), 0),
+          };
+        }
+        return t;
+      }));
+    }
+  };
+
+  // 2e. Merge another table's order into the current one
+  const handleMergeTables = (sourceOrderId: string, targetTableId: number) => {
+    const sourceOrder = orders.find(o => o.id === sourceOrderId);
+    if (!sourceOrder) return;
+    const targetOrders = orders.filter(o => o.tableId === targetTableId && o.status !== 'facturado');
+    const targetOrder = targetOrders.reduce((latest, o) =>
+      !latest || (o.createdAt || 0) > (latest.createdAt || 0) ? o : latest
+    , null as Order | null);
+    if (!targetOrder) return;
+    const mergedItems = [...targetOrder.items];
+    sourceOrder.items.forEach(si => {
+      const existing = mergedItems.find(i => i.menuItemId === si.menuItemId);
+      if (existing) {
+        existing.quantity += si.quantity;
+      } else {
+        mergedItems.push({ ...si });
+      }
+    });
+    const newTotal = mergedItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const hasComida = mergedItems.some(i => menu.find(m => m.id === i.menuItemId)?.category === 'platillo');
+    const hasBebida = mergedItems.some(i => {
+      const cat = menu.find(m => m.id === i.menuItemId)?.category;
+      return cat === 'bebida' || cat === 'gaseosa';
+    });
+    let type: 'comida' | 'bebida' | 'mixto' = 'mixto';
+    if (hasComida && !hasBebida) type = 'comida';
+    if (!hasComida && hasBebida) type = 'bebida';
+    setOrders(prev => prev.map(o => {
+      if (o.id === targetOrder.id) return { ...o, items: mergedItems, total: newTotal, type };
+      if (o.id === sourceOrderId) return { ...o, status: 'facturado' as const };
+      return o;
+    }));
+    setTables(prev => prev.map(t => {
+      if (t.id === sourceOrder.tableId) {
+        const sourceOrdersLeft = orders.filter(o => o.tableId === t.id && o.id !== sourceOrderId && o.status !== 'facturado').length;
+        return {
+          ...t,
+          totalAmount: Math.max(0, t.totalAmount - sourceOrder.total),
+          ordersCount: Math.max(0, t.ordersCount - 1),
+          status: (sourceOrdersLeft === 0 ? 'vacía' : t.status) as TableStatus,
+          occupiedSince: sourceOrdersLeft === 0 ? undefined : t.occupiedSince,
+          currentWaiter: sourceOrdersLeft === 0 ? undefined : t.currentWaiter,
+        };
+      }
+      if (t.id === targetTableId) {
+        return { ...t, totalAmount: t.totalAmount + sourceOrder.total };
+      }
+      return t;
+    }));
+  };
+
+  // 2f. Change order to a different table
+  const handleChangeTable = (orderId: string, newTableId: number) => {
+    const targetOrder = orders.find(o => o.id === orderId);
+    if (!targetOrder) return;
+    const newTable = tables.find(t => t.id === newTableId);
+    if (!newTable) return;
+    setOrders(prev => prev.map(o =>
+      o.id === orderId
+        ? { ...o, tableId: newTableId, tableName: newTable.name }
+        : o
+    ));
+    setTables(prev => prev.map(t => {
+      if (t.id === targetOrder.tableId) {
+        const remainingOrders = orders.filter(o => o.tableId === t.id && o.id !== orderId && o.status !== 'facturado').length;
+        return {
+          ...t,
+          totalAmount: Math.max(0, t.totalAmount - targetOrder.total),
+          ordersCount: Math.max(0, t.ordersCount - 1),
+          status: remainingOrders === 0 ? 'vacía' as TableStatus : t.status,
+          occupiedSince: remainingOrders === 0 ? undefined : t.occupiedSince,
+          currentWaiter: remainingOrders === 0 ? undefined : t.currentWaiter,
+        };
+      }
+      if (t.id === newTableId) {
+        return {
+          ...t,
+          status: 'ocupada' as TableStatus,
+          currentWaiter: targetOrder.waiterName,
+          totalAmount: t.totalAmount + targetOrder.total,
+          ordersCount: t.ordersCount + 1,
+          occupiedSince: t.occupiedSince || new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+        };
+      }
+      return t;
+    }));
   };
 
   // 3. Clear/Settle Table to vacant
@@ -788,8 +942,15 @@ export default function App() {
                         ) : (
                           <PendingOrdersModule
                             orders={orders}
-                            onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'caja')}
+                            tables={tables}
+                            menu={menu}
+                            onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'facturado')}
                             onCancelOrder={(id) => handleCancelOrder(id)}
+                            onUpdateReceiptStatus={handleUpdateReceiptStatus}
+                            onAddItemsToOrder={handleAddItemsToOrder}
+                            onSplitBill={handleSplitBill}
+                            onMergeTables={handleMergeTables}
+                            onChangeTable={handleChangeTable}
                             userRole={user?.role}
                           />
                         )}
@@ -865,8 +1026,15 @@ export default function App() {
 
                       <PendingOrdersModule
                         orders={orders}
-                        onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'caja')}
+                        tables={tables}
+                        menu={menu}
+                        onCompleteOrder={(id) => handleUpdateOrderStatus(id, 'facturado')}
                         onCancelOrder={(id) => handleCancelOrder(id)}
+                        onUpdateReceiptStatus={handleUpdateReceiptStatus}
+                        onAddItemsToOrder={handleAddItemsToOrder}
+                        onSplitBill={handleSplitBill}
+                        onMergeTables={handleMergeTables}
+                        onChangeTable={handleChangeTable}
                         userRole={user?.role}
                       />
                     </div>

@@ -15,6 +15,8 @@ export interface MenuItem {
   stock?: number;
 }
 
+export type ReceiptStatus = 'recibido' | 'pendiente' | 'hecho';
+
 export type TableStatus = 'vacía' | 'ocupada' | 'reservada' | 'por_pagar';
 
 export interface Table {
@@ -43,6 +45,7 @@ export interface Order {
   waiterName: string;
   items: OrderItem[];
   status: 'espera' | 'preparacion' | 'listo' | 'caja' | 'facturado';
+  receiptStatus?: ReceiptStatus;
   type: 'comida' | 'bebida' | 'mixto';
   total: number;
   timestamp: string;
@@ -78,6 +81,11 @@ export interface UserSession {
   email: string;
   role: 'administrador' | 'mesero';
   name: string;
+}
+
+export interface BillSplit {
+  id: string;
+  items: OrderItem[];
 }
 
 export interface ShiftState {

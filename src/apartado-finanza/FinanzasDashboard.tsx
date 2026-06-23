@@ -55,13 +55,7 @@ export default function FinanzasDashboard({
       </div>
 
       {activeTab === 'facturacion' && (
-        <Facturacion
-          orders={orders}
-          tables={tables}
-          onClearTable={onClearTable}
-          onUpdateOrderStatus={onUpdateOrderStatus}
-          onCancelOrder={onCancelOrder}
-        />
+        <Facturacion orders={orders} />
       )}
       {activeTab === 'ventas' && <Ventas orders={orders} menu={menu} shift={shift} />}
       {activeTab === 'cajero' && <Cajero shift={shift} onSetShift={onSetShift} />}

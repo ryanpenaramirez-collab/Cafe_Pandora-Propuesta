@@ -115,6 +115,7 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
       waiterName: waiterName || 'Mesero',
       items: cart,
       status: 'espera',
+      receiptStatus: 'recibido',
       type,
       total: cartTotal,
       timestamp: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
