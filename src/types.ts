@@ -13,6 +13,7 @@ export interface MenuItem {
   description: string;
   available: boolean;
   stock?: number;
+  requiresPreparation: boolean;
 }
 
 export type ReceiptStatus = 'recibido' | 'pendiente' | 'hecho';
@@ -26,6 +27,8 @@ export interface Table {
   status: TableStatus;
   currentWaiter?: string;
   guestName?: string;
+  reservationDate?: string;
+  reservationTime?: string;
   totalAmount: number;
   ordersCount: number;
   occupiedSince?: string;

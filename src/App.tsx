@@ -280,16 +280,23 @@ export default function App() {
           updatedItems.push({ ...ni });
         }
       });
-      const newTotal = updatedItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-      const hasComida = updatedItems.some(i => menu.find(m => m.id === i.menuItemId)?.category === 'platillo');
-      const hasBebida = updatedItems.some(i => {
+      const filteredItems = updatedItems.filter(i => i.quantity > 0);
+      const newTotal = filteredItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      const hasComida = filteredItems.some(i => menu.find(m => m.id === i.menuItemId)?.category === 'platillo');
+      const hasBebida = filteredItems.some(i => {
         const cat = menu.find(m => m.id === i.menuItemId)?.category;
         return cat === 'bebida' || cat === 'gaseosa';
       });
       let type: 'comida' | 'bebida' | 'mixto' = 'mixto';
       if (hasComida && !hasBebida) type = 'comida';
       if (!hasComida && hasBebida) type = 'bebida';
-      return { ...o, items: updatedItems, total: newTotal, type };
+      const addedItems = newItems.filter(ni => ni.quantity > 0);
+      const hasRequiresPrep = addedItems.some(ni => {
+        const menuItem = menu.find(m => m.id === ni.menuItemId);
+        return menuItem?.requiresPreparation ?? true;
+      });
+      const newReceiptStatus = o.receiptStatus === 'hecho' && hasRequiresPrep ? 'pendiente' : o.receiptStatus;
+      return { ...o, items: filteredItems, total: newTotal, type, receiptStatus: newReceiptStatus };
     }));
     const targetOrder = orders.find(o => o.id === orderId);
     if (targetOrder) {
@@ -521,13 +528,15 @@ export default function App() {
   };
 
   // 8. Create table reservation from log
-  const handleAddReservation = (tableId: number, guestName: string) => {
+  const handleAddReservation = (tableId: number, guestName: string, reservationDate?: string, reservationTime?: string) => {
     setTables(prev => prev.map(t => {
       if (t.id === tableId) {
         return {
           ...t,
           status: 'reservada' as TableStatus,
-          guestName
+          guestName,
+          reservationDate,
+          reservationTime
         };
       }
       return t;
@@ -938,6 +947,7 @@ export default function App() {
                             }}
                             onAddTable={handleAddTable}
                             onDeleteTable={handleDeleteTable}
+                            onAddReservation={handleAddReservation}
                           />
                         ) : (
                           <PendingOrdersModule

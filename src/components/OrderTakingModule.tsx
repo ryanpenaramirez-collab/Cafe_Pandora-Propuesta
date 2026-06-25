@@ -7,7 +7,7 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Plus, Minus, ShoppingCart, Check, Trash2, 
-  Utensils, Coffee, ClipboardList, RefreshCw, Wine 
+  Utensils, Coffee, ClipboardList, RefreshCw, Wine, Calendar 
 } from 'lucide-react';
 import { MenuItem, Table, Order, OrderItem } from '../types';
 
@@ -17,14 +17,21 @@ interface OrderTakingModuleProps {
   waiterName: string;
   onPlaceOrder: (order: Order) => void;
   onAddTable?: (name: string) => void;
+  onDeleteTable?: (tableId: number) => void;
+  onAddReservation?: (tableId: number, guestName: string, date?: string, time?: string) => void;
 }
 
-export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrder, onAddTable }: OrderTakingModuleProps) {
+export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrder, onAddTable, onAddReservation }: OrderTakingModuleProps) {
   const [selectedTableId, setSelectedTableId] = useState<number | null>(null);
   const [customTableNumber, setCustomTableNumber] = useState<string>('');
   const [isNewTableModalOpen, setIsNewTableModalOpen] = useState(false);
   const [newTableName, setNewTableName] = useState('');
   const [newTableType, setNewTableType] = useState<'Exterior' | 'Terraza'>('Exterior');
+  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
+  const [reserveTableId, setReserveTableId] = useState<number | null>(null);
+  const [reserveDate, setReserveDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const [reserveTime, setReserveTime] = useState('19:00');
+  const [reserveGuestName, setReserveGuestName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCatalogTab, setActiveCatalogTab] = useState<'todos' | 'platillo' | 'bebida'>('todos');
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
@@ -90,6 +97,18 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
     return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   }, [cart]);
 
+  const isTableBlocked = (table: Table): boolean => {
+    if (table.status !== 'reservada' || !table.reservationTime || !table.reservationDate) return false;
+    if (table.reservationDate !== new Date().toISOString().split('T')[0]) return false;
+
+    const [resH, resM] = table.reservationTime.split(':').map(Number);
+    const resMin = resH * 60 + resM;
+    const now = new Date();
+    const curMin = now.getHours() * 60 + now.getMinutes();
+
+    return curMin >= (resMin - 10) && curMin < resMin;
+  };
+
   // Submit order handling
   const handleConfirmOrder = () => {
     const finalTableId = selectedTableId || parseInt(customTableNumber, 10);
@@ -97,6 +116,11 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
     if (cart.length === 0) return;
 
     const targetTable = tables.find(t => t.id === finalTableId);
+
+    if (targetTable && isTableBlocked(targetTable)) {
+      alert('Esta mesa está reservada y próxima a ser ocupada. No se puede tomar el pedido.');
+      return;
+    }
 
     // Determine type: 'comida' | 'bebida' | 'mixto'
     const hasComida = cart.some(ci => menu.find(m => m.id === ci.menuItemId)?.category === 'platillo');
@@ -152,6 +176,17 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
     setNewTableType('Exterior');
   };
 
+  const handleConfirmReservation = () => {
+    if (reserveTableId === null) return;
+    const table = tables.find(t => t.id === reserveTableId);
+    if (onAddReservation) {
+      onAddReservation(reserveTableId, reserveGuestName.trim() || `Cliente - ${reserveTime}`, reserveDate, reserveTime);
+    }
+    setIsReservationModalOpen(false);
+    setReserveTableId(null);
+    setReserveGuestName('');
+  };
+
   return (
     <div id="order_taking_module" className="bg-[#FDF8F0] border border-slate-300 rounded-2xl shadow-sm overflow-hidden flex flex-col min-h-[500px]">
       
@@ -183,14 +218,18 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
           {/* Table Grid Selection */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {tables.map(t => {
+              const blocked = isTableBlocked(t);
               let statusText = "Vacía";
               let statusStyles = "bg-white border-[#E5DEC9] hover:border-slate-300 text-[#5A524C] shadow-xs";
 
-              if (t.status === 'ocupada') {
+              if (blocked) {
+                statusText = "Bloqueada";
+                statusStyles = "bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed opacity-60";
+              } else if (t.status === 'ocupada') {
                 statusText = "Ocupada";
                 statusStyles = "bg-white border-[#B85A48] text-[#B85A48] border-t-4 border-t-[#B85A48]";
               } else if (t.status === 'reservada') {
-                statusText = "Reservada";
+                statusText = t.reservationTime ? `Reservada ${t.reservationTime}` : "Reservada";
                 statusStyles = "bg-white border-[#556B2F] text-[#556B2F] border-t-4 border-t-[#556B2F]";
               } else if (t.status === 'por_pagar') {
                 statusText = "Por Pagar";
@@ -200,7 +239,13 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
               return (
                 <button
                   key={t.id}
-                  onClick={() => setSelectedTableId(t.id)}
+                  onClick={() => {
+                    if (blocked) {
+                      alert('Esta mesa está reservada y próxima a ser ocupada.');
+                      return;
+                    }
+                    setSelectedTableId(t.id);
+                  }}
                   className={`p-4 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${statusStyles}`}
                 >
                   <span className="font-serif text-xs font-bold truncate max-w-full px-1">{t.name}</span>
@@ -210,16 +255,25 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
             })}
           </div>
 
-          {/* Agregar nueva mesa button and modal */}
-          <div className="border-t border-slate-150 pt-5 mt-2 flex flex-col items-center">
-            <p className="text-[11px] text-slate-400 mb-3 text-center">¿No encuentra la mesa? Cree una personalizada al instante.</p>
-            <button
-              onClick={() => setIsNewTableModalOpen(true)}
-              className="bg-[#2E7D32] hover:bg-[#25632a] text-white font-mono uppercase text-[10px] font-bold tracking-wider px-6 py-3 rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4 animate-pulse" />
-              Agregar nueva mesa
-            </button>
+          {/* Agregar nueva mesa and Reservar una Mesa buttons */}
+          <div className="border-t border-slate-150 pt-5 mt-2 flex flex-col items-center gap-3">
+            <p className="text-[11px] text-slate-400 text-center">¿No encuentra la mesa? Cree una personalizada o reserve una mesa.</p>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsNewTableModalOpen(true)}
+                className="bg-[#2E7D32] hover:bg-[#25632a] text-white font-mono uppercase text-[10px] font-bold tracking-wider px-6 py-3 rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4 animate-pulse" />
+                Agregar nueva mesa
+              </button>
+              <button
+                onClick={() => setIsReservationModalOpen(true)}
+                className="bg-[#8B5E3C] hover:bg-[#6B4F3F] text-white font-mono uppercase text-[10px] font-bold tracking-wider px-6 py-3 rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-2"
+              >
+                <Calendar className="w-4 h-4 animate-pulse" />
+                Reservar una Mesa
+              </button>
+            </div>
           </div>
 
           {/* Modal para agregar nueva mesa */}
@@ -333,6 +387,140 @@ export default function OrderTakingModule({ menu, tables, waiterName, onPlaceOrd
                       }`}
                     >
                       Confirmar
+                    </button>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
+
+          {/* Modal para reservar una mesa */}
+          <AnimatePresence>
+            {isReservationModalOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => {
+                    setIsReservationModalOpen(false);
+                    setReserveTableId(null);
+                  }}
+                  className="absolute inset-0 bg-black/60 backdrop-blur-xs"
+                />
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                  className="bg-white border border-slate-200 rounded-2xl w-full max-w-lg overflow-hidden p-6 shadow-2xl relative z-10 flex flex-col gap-4 text-slate-800"
+                >
+                  <div>
+                    <h3 className="font-serif text-base font-bold text-slate-800 uppercase tracking-wide flex items-center gap-2">
+                      <Calendar className="w-5 h-5 text-[#8B5E3C] animate-pulse" />
+                      Reservar una Mesa
+                    </h3>
+                    <p className="text-[11px] text-slate-500 mt-1">Seleccione la mesa, fecha y hora para la reserva.</p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {/* Selector de mesa */}
+                    <div>
+                      <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400 block mb-1.5">Seleccionar Mesa</label>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[200px] overflow-y-auto p-1">
+                        {tables.map(t => {
+                          const blocked = isTableBlocked(t);
+                          let statusDisplay = t.status;
+                          if (blocked) statusDisplay = 'bloqueada';
+                          else if (t.status === 'reservada' && t.reservationTime) statusDisplay = `reservada ${t.reservationTime}`;
+                          return (
+                            <button
+                              key={t.id}
+                              type="button"
+                              onClick={() => {
+                                if (blocked) {
+                                  alert('Esta mesa está reservada y próxima a ser ocupada.');
+                                  return;
+                                }
+                                setReserveTableId(t.id);
+                              }}
+                              className={`p-2.5 rounded-lg border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
+                                blocked
+                                  ? 'border-gray-300 bg-gray-100 text-gray-400 cursor-not-allowed opacity-60'
+                                  : reserveTableId === t.id
+                                    ? 'border-[#8B5E3C] bg-[#FDF8F0] ring-1 ring-[#8B5E3C]'
+                                    : 'border-slate-200 bg-white hover:border-[#8B5E3C] text-slate-700'
+                              }`}
+                            >
+                              <span className="font-serif text-xs font-bold truncate max-w-full px-1">{t.name}</span>
+                              <span className="text-[8px] uppercase font-mono tracking-wider font-light">{statusDisplay}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Fecha y hora */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400 block mb-1">Fecha</label>
+                        <input
+                          type="date"
+                          value={reserveDate}
+                          onChange={(e) => setReserveDate(e.target.value)}
+                          min={new Date().toISOString().split('T')[0]}
+                          className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8B5E3C]/40 focus:border-[#8B5E3C]"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400 block mb-1">Hora</label>
+                        <input
+                          type="time"
+                          value={reserveTime}
+                          onChange={(e) => setReserveTime(e.target.value)}
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Nombre del cliente */}
+                    <div>
+                      <label className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400 block mb-1">Nombre del Cliente <span className="text-slate-300 normal-case tracking-normal">(opcional)</span></label>
+                      <input
+                        type="text"
+                        placeholder="Ej. Juan Pérez"
+                        value={reserveGuestName}
+                        onChange={(e) => setReserveGuestName(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#8B5E3C]/40 focus:border-[#8B5E3C]"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && reserveTableId !== null) {
+                            handleConfirmReservation();
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2.5 mt-2 justify-end">
+                    <button
+                      onClick={() => {
+                        setIsReservationModalOpen(false);
+                        setReserveTableId(null);
+                      }}
+                      className="px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-xl text-xs font-bold font-mono tracking-wider transition-all cursor-pointer"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      disabled={reserveTableId === null}
+                      onClick={handleConfirmReservation}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold font-mono tracking-wider transition-all shadow-sm cursor-pointer ${
+                        reserveTableId !== null
+                          ? 'bg-[#8B5E3C] hover:bg-[#6B4F3F] text-white'
+                          : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                      }`}
+                    >
+                      Confirmar Reserva
                     </button>
                   </div>
                 </motion.div>

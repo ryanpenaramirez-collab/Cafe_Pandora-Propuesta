@@ -51,7 +51,7 @@ export default function TableCard({ table, isSelected, onClick }: TableCardProps
         )}
         {table.status === 'reservada' && table.guestName && (
           <div className="text-[10px] text-emerald-600 truncate font-medium">
-            {table.guestName}
+            {table.guestName}{table.reservationTime ? ` - ${table.reservationTime}` : ''}
           </div>
         )}
       </div>

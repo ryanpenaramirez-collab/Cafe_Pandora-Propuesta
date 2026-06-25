@@ -111,7 +111,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             <img 
               src="https://i.imgur.com/ARe5rPr.jpeg" 
               alt="Logo Café Pandora" 
-              className="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 object-cover rounded-full shadow-2xl border-2 border-pandora-gold/30 animate-pulse-slow"
+              className="max-w-[85%] max-h-[85%] object-contain aspect-square rounded-full shadow-2xl border-2 border-pandora-gold/30 animate-pulse-slow"
               referrerPolicy="no-referrer"
             />
             {/* Elegant overlay to integrate the picture and render text perfectly */}
@@ -127,14 +127,7 @@ export default function LoginView({ onLoginSuccess }: LoginViewProps) {
             {/* Small corner logo removed */}
           </div>
 
-          <div id="visual_bottom" className="relative z-10 pt-12 md:pt-0 mt-auto">
-            <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-pandora-cream leading-tight">
-              Café Pandora
-            </h1>
-            <p className="mt-1 text-sm text-pandora-gold font-serif font-medium uppercase tracking-wider">
-              Bistro Cafe Bar
-            </p>
-          </div>
+
         </div>
 
         {/* Right Side: Elegant Form Panel */}

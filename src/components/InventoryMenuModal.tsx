@@ -39,6 +39,7 @@ export default function InventoryMenuModal({
   const [formCategory, setFormCategory] = useState<'platillo' | 'bebida'>('platillo');
   const [formSubcategory, setFormSubcategory] = useState<string>('entradas');
   const [formAvailable, setFormAvailable] = useState(true);
+  const [formRequiresPrep, setFormRequiresPrep] = useState(true);
 
   const [notification, setNotification] = useState<string | null>(null);
 
@@ -90,7 +91,8 @@ export default function InventoryMenuModal({
         description: formDescription,
         category: formCategory,
         subcategory: formSubcategory,
-        available: formAvailable
+        available: formAvailable,
+        requiresPreparation: formRequiresPrep
       };
       onUpdateMenuItem(updated);
       triggerNotification(`Producto "${formName}" actualizado con éxito`);
@@ -102,7 +104,8 @@ export default function InventoryMenuModal({
         description: formDescription,
         category: formCategory,
         subcategory: formSubcategory,
-        available: formAvailable
+        available: formAvailable,
+        requiresPreparation: formRequiresPrep
       };
       onAddMenuItem(newItem);
       triggerNotification(`Producto "${formName}" agregado con éxito`);
@@ -114,6 +117,7 @@ export default function InventoryMenuModal({
     setFormCategory('platillo');
     setFormSubcategory('entradas');
     setFormAvailable(true);
+    setFormRequiresPrep(true);
     setIsAdding(false);
     setIsEditingItem(null);
   };
@@ -206,6 +210,7 @@ export default function InventoryMenuModal({
                       setFormCategory(activeTab === 'platos' ? 'platillo' : 'bebida');
                       setFormSubcategory(activeTab === 'platos' ? 'entradas' : 'gaseosas');
                       setFormAvailable(true);
+                      setFormRequiresPrep(true);
                       setIsEditingItem(null);
                       setIsAdding(true);
                     }}
@@ -304,6 +309,18 @@ export default function InventoryMenuModal({
                         Habilitar producto para ventas de inmediato
                       </label>
                     </div>
+                    <div className="flex items-center gap-2 py-1">
+                      <input
+                        type="checkbox"
+                        id="formRequiresPrep"
+                        checked={formRequiresPrep}
+                        onChange={(e) => setFormRequiresPrep(e.target.checked)}
+                        className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
+                      />
+                      <label htmlFor="formRequiresPrep" className="text-[11px] font-bold text-slate-700 select-none">
+                        Requiere preparación en cocina/barra
+                      </label>
+                    </div>
                   </div>
 
                   <div className="flex justify-end gap-2 border-t pt-3">
@@ -386,6 +403,7 @@ export default function InventoryMenuModal({
                                     setFormCategory(item.category);
                                     setFormSubcategory(item.subcategory || (item.category === 'platillo' ? 'entradas' : 'gaseosas'));
                                     setFormAvailable(item.available);
+                                    setFormRequiresPrep(item.requiresPreparation ?? true);
                                     setIsEditingItem(item);
                                     setIsAdding(false);
                                   }}
@@ -521,6 +539,18 @@ export default function InventoryMenuModal({
                             />
                             <label htmlFor="formAvailableEdit" className="text-[11px] font-bold text-slate-700 select-none">
                               Habilitado para ventas
+                            </label>
+                          </div>
+                          <div className="flex items-center gap-2 py-1">
+                            <input
+                              type="checkbox"
+                              id="formRequiresPrepEdit"
+                              checked={formRequiresPrep}
+                              onChange={(e) => setFormRequiresPrep(e.target.checked)}
+                              className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
+                            />
+                            <label htmlFor="formRequiresPrepEdit" className="text-[11px] font-bold text-slate-700 select-none">
+                              Requiere preparación en cocina/barra
                             </label>
                           </div>
 

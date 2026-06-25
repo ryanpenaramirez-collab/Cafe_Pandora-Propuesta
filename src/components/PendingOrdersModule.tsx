@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Clock, Check, Trash2, Utensils, AlertCircle, ShoppingBag, MapPin, X, FileText, CheckSquare, Square, ArrowLeft, Plus, Minus, Split, Merge, Move } from 'lucide-react';
 import { Order, ReceiptStatus, MenuItem, Table, OrderItem, BillSplit } from '../types';
 import { jsPDF } from 'jspdf';
+import BillingModal from './BillingModal';
 
 interface PendingOrdersModuleProps {
   orders: Order[];
@@ -25,25 +26,22 @@ interface PendingOrdersModuleProps {
 
 export default function PendingOrdersModule({ orders, tables, menu, onCompleteOrder, onCancelOrder, onUpdateReceiptStatus, onAddItemsToOrder, onSplitBill, onMergeTables, onChangeTable, userRole = 'administrador' }: PendingOrdersModuleProps) {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState<'Efectivo' | 'Nequi' | 'Bancolombia'>('Efectivo');
-  const [includeTax, setIncludeTax] = useState<boolean>(false);
-  const [showBillingConfig, setShowBillingConfig] = useState<boolean>(false);
+  const [billingOrder, setBillingOrder] = useState<Order | null>(null);
   const [activeAction, setActiveAction] = useState<'none' | 'addProducts' | 'splitBill' | 'mergeTables' | 'changeTable'>('none');
   const [addCart, setAddCart] = useState<OrderItem[]>([]);
   const [addSearch, setAddSearch] = useState('');
   const [addTab, setAddTab] = useState<'todos' | 'platillo' | 'bebida'>('todos');
   const [addSubcategory, setAddSubcategory] = useState<string | null>(null);
+  const [removeQuantities, setRemoveQuantities] = useState<Record<string, number>>({});
   const [splitMap, setSplitMap] = useState<Record<string, number>>({});
   const [mergeTargetId, setMergeTargetId] = useState<number | null>(null);
   const [changeNewTableId, setChangeNewTableId] = useState<number | null>(null);
 
   useEffect(() => {
     if (selectedOrder) {
-      setPaymentMethod('Efectivo');
-      setIncludeTax(false);
-      setShowBillingConfig(false);
       setActiveAction('none');
       setAddCart([]);
+      setRemoveQuantities({});
       setAddSearch('');
       setAddTab('todos');
       setAddSubcategory(null);
@@ -69,160 +67,6 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
   }, [selectedOrder, pendingOrders]);
 
   // Generate clean thermal / standard Invoice PDF via jsPDF
-  const handleGenerateInvoice = (order: Order, paymentMethod: string, includeTax: boolean) => {
-    const cleanId = order.id.replace('ord-', '').toUpperCase();
-    const invoiceNumber = `FAC-${cleanId}`;
-    
-    const subtotalBruto = order.total;
-    const taxRate = 0.08;
-    const taxAmount = includeTax ? subtotalBruto * taxRate : 0;
-    const finalTotal = subtotalBruto + taxAmount;
-
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
-    });
-
-    // Base font setup
-    doc.setFont('helvetica', 'normal');
-
-    // Title - Café Pandora - Bistro Café Bar
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(22);
-    doc.setTextColor(30, 41, 59); // Slate-800
-    doc.text('Cafe Pandora - Bistro Cafe Bar', 105, 25, { align: 'center' });
-
-    // Subtitle
-    doc.setFont('helvetica', 'italic');
-    doc.setFontSize(10);
-    doc.setTextColor(100, 116, 139); // Gray
-    doc.text('Experiencia Culinaria Unica & Cocteleria de Autor', 105, 31, { align: 'center' });
-
-    // Divider Line
-    doc.setDrawColor(214, 108, 80);
-    doc.setLineWidth(0.8);
-    doc.line(20, 36, 190, 36);
-
-    // Invoice Details Info Columns
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(51, 65, 85); // Slate
-    
-    // Left Column
-    doc.setFont('helvetica', 'bold');
-    doc.text('DATOS DE LA FACTURA:', 20, 45);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Factura N°: ${invoiceNumber}`, 20, 51);
-    doc.text(`Fecha de Emision: ${new Date().toLocaleDateString('es-ES')}`, 20, 56);
-    doc.text(`Hora de Registro: ${order.timestamp}`, 20, 61);
-
-    // Right Column
-    doc.setFont('helvetica', 'bold');
-    doc.text('DETALLES DE SERVICIO:', 120, 45);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Mesa Asignada: Mesa ${order.tableId}`, 120, 51);
-    doc.text(`Mesero Atendiendo: ${order.waiterName}`, 120, 56);
-    doc.text(`Metodo de Pago: ${paymentMethod.toUpperCase()}`, 120, 61);
-
-    // Table header background box
-    doc.setFillColor(248, 250, 252);
-    doc.rect(20, 72, 170, 8, 'F');
-    
-    // Table header lines
-    doc.setDrawColor(226, 232, 240);
-    doc.setLineWidth(0.3);
-    doc.line(20, 72, 190, 72);
-    doc.line(20, 80, 190, 80);
-
-    // Column Headers Text
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.setTextColor(71, 85, 105);
-    doc.text('Descripcion Producto', 25, 77);
-    doc.text('Cant.', 115, 77, { align: 'center' });
-    doc.text('Precio Unit.', 145, 77, { align: 'center' });
-    doc.text('Importe Total', 180, 77, { align: 'center' });
-
-    // Draw Items rows
-    let y = 86;
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(51, 65, 85);
-    
-    order.items.forEach((item) => {
-      // Bounds containment check
-      if (y > 260) {
-        doc.addPage();
-        y = 20;
-      }
-      
-      doc.text(item.name.toUpperCase(), 25, y);
-      doc.text(`${item.quantity}`, 115, y, { align: 'center' });
-      doc.text(`$${item.price.toLocaleString('es-CO')}`, 145, y, { align: 'center' });
-      
-      const itemSubtotal = item.price * item.quantity;
-      doc.text(`$${itemSubtotal.toLocaleString('es-CO')}`, 180, y, { align: 'center' });
-      
-      // row separator
-      doc.setDrawColor(241, 245, 249);
-      doc.line(20, y + 2, 190, y + 2);
-      
-      y += 8;
-    });
-
-    // Totals Section divider
-    y += 4;
-    doc.setDrawColor(214, 108, 80);
-    doc.setLineWidth(0.5);
-    doc.line(110, y, 190, y);
-    
-    y += 6;
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.setTextColor(30, 41, 59);
-    doc.text('SUBTOTAL BRUTO:', 120, y);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`$${subtotalBruto.toLocaleString('es-CO')}`, 180, y, { align: 'center' });
-
-    y += 5;
-    doc.setFont('helvetica', 'bold');
-    doc.text('IMPUESTO CONSUMO (8%):', 120, y);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`$${taxAmount.toLocaleString('es-CO')}`, 180, y, { align: 'center' });
-
-    y += 5;
-    doc.setFont('helvetica', 'bold');
-    doc.text('I.V.A. TRASLADADO (0%):', 120, y);
-    doc.setFont('helvetica', 'normal');
-    doc.text('$0', 180, y, { align: 'center' });
-
-    y += 7;
-    // Total Row highlights block
-    doc.setFillColor(254, 243, 199); // Light amber bg
-    doc.rect(110, y - 4, 80, 7, 'F');
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(146, 64, 14); // Dark brown-gold
-    doc.text('TOTAL FACTURADO:', 115, y + 1);
-    doc.text(`$${finalTotal.toLocaleString('es-CO')}`, 180, y + 1, { align: 'center' });
-
-    // Footer lines
-    y = Math.max(y + 25, 250);
-    doc.setDrawColor(226, 232, 240);
-    doc.setLineWidth(0.3);
-    doc.line(20, y, 190, y);
-
-    doc.setFont('helvetica', 'italic');
-    doc.setFontSize(8);
-    doc.setTextColor(148, 163, 184);
-    doc.text('Esta es una reproduccion digital de comanda de facturacion de Cafe Pandora.', 105, y + 5, { align: 'center' });
-    doc.text('Gracias por su visita al Bistro Cafe Bar! Le esperamos pronto.', 105, y + 9, { align: 'center' });
-
-    // Exact filename format: Factura-[invoice number]-Mesa[table number].pdf
-    const filename = `Factura-${invoiceNumber}-Mesa${order.tableId}.pdf`;
-    doc.save(filename);
-  };
-
   // Generate clean thermal/ticket Kitchen PDF via jsPDF
   const handleGenerateKitchenReceipt = (order: Order, turnNumber: number) => {
     const doc = new jsPDF({
@@ -337,7 +181,11 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                   exit={{ opacity: 0, scale: 0.95, y: -15 }}
                   transition={{ type: "spring", stiffness: 350, damping: 25 }}
                   onClick={() => {
-  if (userRole === 'mesero') return;
+  if (userRole === 'mesero') {
+    setActiveAction('addProducts');
+    setSelectedOrder(order);
+    return;
+  }
   setSelectedOrder(order);
 }}
                   className="bg-white border border-slate-200 shadow-sm rounded-xl flex flex-col justify-between overflow-hidden group text-slate-800 cursor-pointer hover:border-pandora-accent transition-all duration-300 transform hover:scale-[1.01]"
@@ -433,8 +281,7 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleGenerateInvoice(order, 'Efectivo', false);
-                          onCompleteOrder(order.id);
+                          setBillingOrder(order);
                         }}
                         className="py-1.5 px-2 rounded-lg bg-[#25632a] hover:bg-[#1d4f22] text-white font-mono font-bold text-[10px] flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wider transition-all text-center leading-none"
                         title="Generar Factura Pago"
@@ -536,127 +383,104 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                 </div>
 
                 {/* Selection or Configuration Option */}
-                {activeAction === 'none' && !showBillingConfig ? (
+                {activeAction === 'none' ? (
                   <div className="space-y-3.5 pt-1">
                     <span className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] block font-mono border-b border-slate-100 pb-1">
                       Acciones del Pedido
                     </span>
                     <div className="grid grid-cols-2 gap-3.5">
-                      <button
-                        type="button"
-                        onClick={() => setActiveAction('addProducts')}
-                        className="p-4 rounded-xl border-2 border-slate-200 hover:border-blue-500 bg-slate-50 hover:bg-blue-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
-                        title="Agregar más productos al pedido actual"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-105 transition-all">
-                          <Plus className="w-4 h-4" />
-                        </div>
-                        <div className="mt-2.5">
-                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Agregar Productos</h4>
-                          <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
-                            Añade más items desde el catálogo al pedido actual.
-                          </p>
-                        </div>
-                      </button>
+                      {userRole === 'mesero' ? (
+                        <button
+                          type="button"
+                          onClick={() => setActiveAction('addProducts')}
+                          className="p-4 rounded-xl border-2 border-slate-200 hover:border-blue-500 bg-slate-50 hover:bg-blue-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                          title="Agregar más productos al pedido actual"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-105 transition-all">
+                            <Plus className="w-4 h-4" />
+                          </div>
+                          <div className="mt-2.5">
+                            <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Agregar/Quitar Productos</h4>
+                            <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
+                              Añade o quita items desde el catálogo al pedido actual.
+                            </p>
+                          </div>
+                        </button>
+                      ) : (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => setActiveAction('addProducts')}
+                            className="p-4 rounded-xl border-2 border-slate-200 hover:border-blue-500 bg-slate-50 hover:bg-blue-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                            title="Agregar más productos al pedido actual"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-105 transition-all">
+                              <Plus className="w-4 h-4" />
+                            </div>
+                            <div className="mt-2.5">
+                              <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Agregar/Quitar Productos</h4>
+                              <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
+                                Añade o quita items desde el catálogo al pedido actual.
+                              </p>
+                            </div>
+                          </button>
 
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const initialSplit: Record<string, number> = {};
-                          selectedOrder.items.forEach(item => { initialSplit[item.menuItemId] = 1; });
-                          setSplitMap(initialSplit);
-                          setActiveAction('splitBill');
-                        }}
-                        className="p-4 rounded-xl border-2 border-slate-200 hover:border-purple-500 bg-slate-50 hover:bg-purple-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
-                        title="Dividir el pedido en cuentas separadas"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-purple-600 group-hover:scale-105 transition-all">
-                          <Split className="w-4 h-4" />
-                        </div>
-                        <div className="mt-2.5">
-                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Separar Cuentas</h4>
-                          <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
-                            Divide el cobro en montos distintos entre comensales.
-                          </p>
-                        </div>
-                      </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const initialSplit: Record<string, number> = {};
+                              selectedOrder.items.forEach(item => { initialSplit[item.menuItemId] = 1; });
+                              setSplitMap(initialSplit);
+                              setActiveAction('splitBill');
+                            }}
+                            className="p-4 rounded-xl border-2 border-slate-200 hover:border-purple-500 bg-slate-50 hover:bg-purple-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                            title="Dividir el pedido en cuentas separadas"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-purple-600 group-hover:scale-105 transition-all">
+                              <Split className="w-4 h-4" />
+                            </div>
+                            <div className="mt-2.5">
+                              <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Separar Cuentas</h4>
+                              <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
+                                Divide el cobro en montos distintos entre comensales.
+                              </p>
+                            </div>
+                          </button>
 
-                      <button
-                        type="button"
-                        onClick={() => setActiveAction('mergeTables')}
-                        className="p-4 rounded-xl border-2 border-slate-200 hover:border-amber-500 bg-slate-50 hover:bg-amber-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
-                        title="Fusionar pedido de otra mesa con este"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-amber-600 group-hover:scale-105 transition-all">
-                          <Merge className="w-4 h-4" />
-                        </div>
-                        <div className="mt-2.5">
-                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Unir Mesas</h4>
-                          <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
-                            Fusiona el pedido de otra mesa en un solo recibo.
-                          </p>
-                        </div>
-                      </button>
+                          <button
+                            type="button"
+                            onClick={() => setActiveAction('mergeTables')}
+                            className="p-4 rounded-xl border-2 border-slate-200 hover:border-amber-500 bg-slate-50 hover:bg-amber-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                            title="Fusionar pedido de otra mesa con este"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-amber-600 group-hover:scale-105 transition-all">
+                              <Merge className="w-4 h-4" />
+                            </div>
+                            <div className="mt-2.5">
+                              <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Unir Mesas</h4>
+                              <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
+                                Fusiona el pedido de otra mesa en un solo recibo.
+                              </p>
+                            </div>
+                          </button>
 
-                      <button
-                        type="button"
-                        onClick={() => setActiveAction('changeTable')}
-                        className="p-4 rounded-xl border-2 border-slate-200 hover:border-teal-500 bg-slate-50 hover:bg-teal-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
-                        title="Cambiar el pedido a otra mesa"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-teal-600 group-hover:scale-105 transition-all">
-                          <Move className="w-4 h-4" />
-                        </div>
-                        <div className="mt-2.5">
-                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Cambiar Mesa</h4>
-                          <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
-                            Reasigna el pedido a una mesa disponible.
-                          </p>
-                        </div>
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (selectedOrder) {
-                            handleGenerateKitchenReceipt(selectedOrder, selectedOrderIndex);
-                            onUpdateReceiptStatus(selectedOrder.id, 'pendiente');
-                            setSelectedOrder(null);
-                          }
-                        }}
-                        className="p-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-pandora-accent bg-slate-50 hover:bg-amber-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
-                        title="Imprimir comanda para personal de cocina (Sin precios)"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-pandora-cream flex items-center justify-center group-hover:bg-pandora-accent group-hover:scale-105 transition-all">
-                          <Utensils className="w-4 h-4 text-pandora-gold" />
-                        </div>
-                        <div className="mt-2.5">
-                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Recibo de Cocina</h4>
-                          <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
-                            Descarga la comanda de preparación directa sin precios para cocina.
-                          </p>
-                        </div>
-                      </button>
-
-                      {userRole !== 'mesero' && (
-                      <button
-                        type="button"
-                        onClick={() => setShowBillingConfig(true)}
-                        className="p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-500 bg-slate-50 hover:bg-emerald-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
-                        title="Configurar factura de pago oficial detallada"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-emerald-600 group-hover:scale-105 transition-all">
-                          <FileText className="w-4 h-4" />
-                        </div>
-                        <div className="mt-2.5">
-                          <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Generar Factura</h4>
-                          <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
-                            Abre la configuración de medios de pago, impuestos consumo 8% y totales.
-                          </p>
-                        </div>
-                      </button>
+                          <button
+                            type="button"
+                            onClick={() => setActiveAction('changeTable')}
+                            className="p-4 rounded-xl border-2 border-slate-200 hover:border-teal-500 bg-slate-50 hover:bg-teal-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                            title="Cambiar el pedido a otra mesa"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-teal-600 group-hover:scale-105 transition-all">
+                              <Move className="w-4 h-4" />
+                            </div>
+                            <div className="mt-2.5">
+                              <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Cambiar Mesa</h4>
+                              <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
+                                Reasigna el pedido a una mesa disponible.
+                              </p>
+                            </div>
+                          </button>
+                        </>
                       )}
                     </div>
                   </div>
@@ -664,11 +488,11 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                   <div className="bg-[#FAF5EE] border border-slate-250 p-4 rounded-xl space-y-4">
                     <div className="flex justify-between items-center border-b border-[#FAF5EE]/70 pb-1">
                       <span className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] block font-mono">
-                        Agregar Productos
+                        Agregar/Quitar Productos
                       </span>
                       <button
                         type="button"
-                        onClick={() => { setActiveAction('none'); setAddCart([]); }}
+                        onClick={() => { setActiveAction('none'); setAddCart([]); setRemoveQuantities({}); }}
                         className="text-[10px] text-pandora-accent hover:underline flex items-center gap-1 font-mono font-bold cursor-pointer"
                       >
                         <ArrowLeft className="w-3 h-3" /> VOLVER
@@ -773,6 +597,51 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                         <span className="text-[10px] font-mono font-bold text-slate-700">+${addCart.reduce((s, i) => s + i.price * i.quantity, 0).toLocaleString('es-CO')}</span>
                       </div>
                     )}
+
+                    {selectedOrder && (
+                      <div className="border-t border-slate-200 pt-3 mt-1">
+                        <span className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] block font-mono mb-2">
+                          Productos actuales del pedido
+                        </span>
+                        <div className="max-h-32 overflow-y-auto space-y-1.5">
+                          {selectedOrder.items.map(item => {
+                            const removeQty = removeQuantities[item.menuItemId] || 0;
+                            const netQty = item.quantity - removeQty;
+                            return (
+                              <div key={item.menuItemId} className="flex justify-between items-center p-2 rounded-lg border border-slate-200 bg-white">
+                                <div className="flex-1 min-w-0 pr-2">
+                                  <span className="text-[10px] font-serif font-bold text-slate-800 uppercase block truncate">{item.name}</span>
+                                  <span className="text-[8px] text-slate-400 font-mono">
+                                    {netQty > 0 ? `x${netQty}` : 'will be removed'}
+                                  </span>
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    setRemoveQuantities(prev => ({
+                                      ...prev,
+                                      [item.menuItemId]: (prev[item.menuItemId] || 0) + 1
+                                    }));
+                                  }}
+                                  disabled={removeQty >= item.quantity}
+                                  className="w-6 h-6 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-600 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0"
+                                >
+                                  <Minus className="w-3 h-3" />
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        {Object.keys(removeQuantities).length > 0 && (
+                          <div className="border-t border-slate-200 pt-2 mt-2 flex justify-between items-center">
+                            <span className="text-[10px] font-mono text-slate-500">{Object.values(removeQuantities).reduce((s, q) => s + q, 0)} a quitar</span>
+                            <span className="text-[10px] font-mono font-bold text-rose-600">-${Object.entries(removeQuantities).reduce((s, [id, qty]) => {
+                              const item = selectedOrder.items.find(i => i.menuItemId === id);
+                              return s + (item ? item.price * qty : 0);
+                            }, 0).toLocaleString('es-CO')}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ) : activeAction === 'splitBill' ? (
                   <div className="bg-[#FAF5EE] border border-slate-250 p-4 rounded-xl space-y-3">
@@ -852,9 +721,9 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                         <ArrowLeft className="w-3 h-3" /> VOLVER
                       </button>
                     </div>
-                    <p className="text-[9px] text-slate-500 font-mono">Seleccione una mesa ocupada para fusionar su pedido con la Mesa {selectedOrder.tableId}.</p>
+                    <p className="text-[9px] text-slate-500 font-mono">Seleccione una mesa para fusionar su pedido con la Mesa {selectedOrder.tableId}.</p>
                     <div className="grid grid-cols-3 gap-2 max-h-32 overflow-y-auto">
-                      {tables.filter(t => t.status === 'ocupada' && t.id !== selectedOrder.tableId && orders.some(o => o.tableId === t.id && o.status !== 'facturado')).map(t => (
+                      {tables.filter(t => t.id !== selectedOrder.tableId).map(t => (
                         <button
                           key={t.id}
                           onClick={() => setMergeTargetId(mergeTargetId === t.id ? null : t.id)}
@@ -867,8 +736,8 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                           {t.name}
                         </button>
                       ))}
-                      {tables.filter(t => t.status === 'ocupada' && t.id !== selectedOrder.tableId && orders.some(o => o.tableId === t.id && o.status !== 'facturado')).length === 0 && (
-                        <p className="col-span-3 text-[10px] text-slate-400 text-center py-4">No hay otras mesas ocupadas con pedidos activos.</p>
+                      {tables.filter(t => t.id !== selectedOrder.tableId).length === 0 && (
+                        <p className="col-span-3 text-[10px] text-slate-400 text-center py-4">No hay otras mesas disponibles.</p>
                       )}
                     </div>
                   </div>
@@ -886,9 +755,9 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                         <ArrowLeft className="w-3 h-3" /> VOLVER
                       </button>
                     </div>
-                    <p className="text-[9px] text-slate-500 font-mono">Seleccione una mesa disponible para reasignar el pedido.</p>
+                    <p className="text-[9px] text-slate-500 font-mono">Seleccione una mesa para reasignar el pedido.</p>
                     <div className="grid grid-cols-3 gap-2 max-h-32 overflow-y-auto">
-                      {tables.filter(t => t.status === 'vacía').map(t => (
+                      {tables.filter(t => t.id !== selectedOrder.tableId).map(t => (
                         <button
                           key={t.id}
                           onClick={() => setChangeNewTableId(changeNewTableId === t.id ? null : t.id)}
@@ -901,88 +770,12 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                           {t.name}
                         </button>
                       ))}
-                      {tables.filter(t => t.status === 'vacía').length === 0 && (
-                        <p className="col-span-3 text-[10px] text-slate-400 text-center py-4">No hay mesas disponibles.</p>
+                      {tables.filter(t => t.id !== selectedOrder.tableId).length === 0 && (
+                        <p className="col-span-3 text-[10px] text-slate-400 text-center py-4">No hay otras mesas disponibles.</p>
                       )}
                     </div>
                   </div>
-                ) : (
-                  <>
-                    {/* Billing Configuration Form */}
-                    <div className="bg-[#FAF5EE] border border-slate-250 p-4 rounded-xl space-y-4">
-                      <div className="flex justify-between items-center border-b border-[#FAF5EE]/70 pb-1">
-                        <span className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] block font-mono">
-                          Configuración de Facturación
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => setShowBillingConfig(false)}
-                          className="text-[10px] text-pandora-accent hover:underline flex items-center gap-1 font-mono font-bold cursor-pointer"
-                        >
-                          <ArrowLeft className="w-3 h-3" /> VOLVER
-                        </button>
-                      </div>
-
-                      {/* Payment Method Selector */}
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-[10px] uppercase font-bold tracking-wide text-slate-600">Método de Pago</label>
-                        <div className="grid grid-cols-3 gap-2">
-                          {(['Efectivo', 'Nequi', 'Bancolombia'] as const).map((method) => (
-                            <button
-                              key={method}
-                              type="button"
-                              onClick={() => setPaymentMethod(method)}
-                              className={`py-1.5 px-2 text-[10px] font-bold rounded-lg border uppercase font-mono tracking-wider transition-all cursor-pointer ${
-                                paymentMethod === method
-                                  ? 'bg-[#1C1510] text-[#FDF8F0] border-[#1C1510]'
-                                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-                              }`}
-                            >
-                              {method}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Consumption tax Toggle Switch */}
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-200/50">
-                        <div>
-                          <span className="text-[11px] font-bold text-slate-800 block uppercase">Cobrar Impuesto de Consumo (8%)</span>
-                          <span className="text-[9.5px] text-slate-400 font-light block">Calcula y suma el 8% al subtotal del pedido</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => setIncludeTax(!includeTax)}
-                          className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-200 ease-in-out focus:outline-none flex items-center relative ${
-                            includeTax ? 'bg-emerald-500 justify-end' : 'bg-slate-300 justify-start'
-                          }`}
-                        >
-                          <span className="w-5 h-5 rounded-full bg-white shadow-sm block transition-all" />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Totals Summary */}
-                    <div className="border-t border-slate-200 pt-3 space-y-1.5 text-xs">
-                      <div className="flex justify-between text-slate-550">
-                        <span>Subtotal Neto:</span>
-                        <span className="font-mono font-medium">${selectedOrder.total.toLocaleString('es-CO')}</span>
-                      </div>
-                      {includeTax && (
-                        <div className="flex justify-between text-slate-550">
-                          <span>Impuestos (8% Consumo):</span>
-                          <span className="font-mono font-medium text-amber-700">+ ${(selectedOrder.total * 0.08).toLocaleString('es-CO')}</span>
-                        </div>
-                      )}
-                      <div className="flex justify-between border-t border-dashed border-slate-200 pt-2 text-slate-800 font-black">
-                        <span className="font-serif text-[13px] uppercase tracking-wide">TOTAL FACTURA (COP):</span>
-                        <span className="font-mono text-base text-pandora-accent">
-                          ${(selectedOrder.total + (includeTax ? selectedOrder.total * 0.08 : 0)).toLocaleString('es-CO')}
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                )}
+                ) : null}
               </div>
 
               {/* Action Buttons Footer dynamic content based on state */}
@@ -993,6 +786,7 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                     onClick={() => {
                       setActiveAction('none');
                       setAddCart([]);
+                      setRemoveQuantities({});
                       setSplitMap({});
                       setMergeTargetId(null);
                       setChangeNewTableId(null);
@@ -1005,21 +799,27 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                     <button
                       type="button"
                       onClick={() => {
-                        if (selectedOrder && addCart.length > 0) {
-                          onAddItemsToOrder(selectedOrder.id, addCart);
+                        if (selectedOrder && (addCart.length > 0 || Object.keys(removeQuantities).length > 0)) {
+                          const removalItems: OrderItem[] = Object.entries(removeQuantities).map(([id, qty]) => {
+                            const item = selectedOrder.items.find(i => i.menuItemId === id);
+                            return { menuItemId: id, name: item?.name || '', price: item?.price || 0, quantity: -qty };
+                          });
+                          const allChanges = [...addCart, ...removalItems];
+                          onAddItemsToOrder(selectedOrder.id, allChanges);
                           setActiveAction('none');
                           setAddCart([]);
+                          setRemoveQuantities({});
                           setSelectedOrder(null);
                         }
                       }}
-                      disabled={addCart.length === 0}
+                      disabled={addCart.length === 0 && Object.keys(removeQuantities).length === 0}
                       className={`py-3 px-3.5 rounded-lg font-mono text-[10px] font-semibold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 shadow-md cursor-pointer ${
-                        addCart.length > 0
+                        addCart.length > 0 || Object.keys(removeQuantities).length > 0
                           ? 'bg-blue-600 hover:bg-blue-700 text-white'
                           : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                       }`}
                     >
-                      <Check className="w-3.5 h-3.5" /> Agregar al Pedido
+                      <Check className="w-3.5 h-3.5" /> Confirmar Cambios
                     </button>
                   )}
                   {activeAction === 'splitBill' && (
@@ -1074,6 +874,8 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                             setActiveAction('none');
                             setMergeTargetId(null);
                             setSelectedOrder(null);
+                          } else {
+                            alert('La mesa seleccionada no tiene pedidos activos para fusionar.');
                           }
                         }
                       }}
@@ -1109,7 +911,7 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                     </button>
                   )}
                 </div>
-              ) : !showBillingConfig ? (
+              ) : (
                 <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-end shrink-0">
                   <button
                     type="button"
@@ -1119,34 +921,20 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                     Cerrar Detalles
                   </button>
                 </div>
-              ) : (
-                <div className="p-4 bg-slate-50 border-t border-slate-200 grid grid-cols-2 gap-3 shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => setShowBillingConfig(false)}
-                    className="bg-slate-200 hover:bg-slate-300 text-slate-755 py-3 px-3.5 rounded-lg font-mono text-[10px] font-extrabold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 border border-slate-300 cursor-pointer"
-                  >
-                    <ArrowLeft className="w-3.5 h-3.5" /> Volver Atrás
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      handleGenerateInvoice(selectedOrder, paymentMethod, includeTax);
-                      onCompleteOrder(selectedOrder.id);
-                      setSelectedOrder(null);
-                    }}
-                    className="bg-[#2E7D32] hover:bg-emerald-700 text-white py-3 px-3.5 rounded-lg font-mono text-[10px] font-semibold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg cursor-pointer"
-                    title="Generar factura de pago oficial detallada"
-                  >
-                    <Check className="w-3.5 h-3.5" /> Generar Factura
-                  </button>
-                </div>
               )}
 
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {billingOrder && (
+        <BillingModal
+          order={billingOrder}
+          onCompleteOrder={onCompleteOrder}
+          onClose={() => setBillingOrder(null)}
+        />
+      )}
     </div>
   );
 }

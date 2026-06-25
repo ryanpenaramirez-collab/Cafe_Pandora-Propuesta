@@ -43,6 +43,7 @@ export default function MenuTabContent({
   const [formDescription, setFormDescription] = useState('');
   const [formSubcategory, setFormSubcategory] = useState<string>('');
   const [formAvailable, setFormAvailable] = useState(true);
+  const [formRequiresPrep, setFormRequiresPrep] = useState(true);
   const [formImage, setFormImage] = useState<string>('');
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
 
@@ -89,6 +90,7 @@ export default function MenuTabContent({
       category: CATEGORY_MAP[tab],
       subcategory: formSubcategory,
       available: formAvailable,
+      requiresPreparation: formRequiresPrep,
       image: formImage || isEditingItem.image,
       };
       onUpdateMenuItem(updated);
@@ -102,6 +104,7 @@ export default function MenuTabContent({
         category: CATEGORY_MAP[tab],
         subcategory: formSubcategory,
         available: formAvailable,
+        requiresPreparation: formRequiresPrep,
         image: formImage || undefined,
       };
       onAddMenuItem(newItem);
@@ -113,6 +116,7 @@ export default function MenuTabContent({
     setFormDescription('');
     setFormSubcategory('');
     setFormAvailable(true);
+    setFormRequiresPrep(true);
     setFormImage('');
     setIsAdding(false);
     setIsEditingItem(null);
@@ -131,6 +135,7 @@ export default function MenuTabContent({
     setFormDescription(item.description);
     setFormSubcategory(item.subcategory || '');
     setFormAvailable(item.available);
+    setFormRequiresPrep(item.requiresPreparation ?? true);
     setFormImage(item.image || '');
     setIsEditingItem(item);
     setIsAdding(false);
@@ -211,6 +216,7 @@ export default function MenuTabContent({
               setFormDescription('');
               setFormSubcategory(tab === 'platos' ? 'entradas' : 'gaseosas');
               setFormAvailable(true);
+              setFormRequiresPrep(true);
               setFormImage('');
               setIsEditingItem(null);
               setIsAdding(true);
@@ -300,6 +306,31 @@ export default function MenuTabContent({
             </div>
 
             {imageField}
+          </div>
+
+          <div className="flex items-center gap-2 py-1">
+            <input
+              type="checkbox"
+              id="formAvailable"
+              checked={formAvailable}
+              onChange={(e) => setFormAvailable(e.target.checked)}
+              className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
+            />
+            <label htmlFor="formAvailable" className="text-[11px] font-bold text-slate-700 select-none">
+              Habilitar producto para ventas de inmediato
+            </label>
+          </div>
+          <div className="flex items-center gap-2 py-1">
+            <input
+              type="checkbox"
+              id="formRequiresPrep"
+              checked={formRequiresPrep}
+              onChange={(e) => setFormRequiresPrep(e.target.checked)}
+              className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
+            />
+            <label htmlFor="formRequiresPrep" className="text-[11px] font-bold text-slate-700 select-none">
+              Requiere preparación en cocina/barra
+            </label>
           </div>
 
           <div className="flex justify-end gap-2 border-t pt-3">
@@ -504,6 +535,31 @@ export default function MenuTabContent({
                   </div>
 
                   {imageField}
+
+                  <div className="flex items-center gap-2 py-1">
+                    <input
+                      type="checkbox"
+                      id="formAvailableEdit"
+                      checked={formAvailable}
+                      onChange={(e) => setFormAvailable(e.target.checked)}
+                      className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
+                    />
+                    <label htmlFor="formAvailableEdit" className="text-[11px] font-bold text-slate-700 select-none">
+                      Habilitado para ventas
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-2 py-1">
+                    <input
+                      type="checkbox"
+                      id="formRequiresPrepEdit"
+                      checked={formRequiresPrep}
+                      onChange={(e) => setFormRequiresPrep(e.target.checked)}
+                      className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4"
+                    />
+                    <label htmlFor="formRequiresPrepEdit" className="text-[11px] font-bold text-slate-700 select-none">
+                      Requiere preparación en cocina/barra
+                    </label>
+                  </div>
 
                   <div className="flex gap-2 pt-3 border-t">
                     <button

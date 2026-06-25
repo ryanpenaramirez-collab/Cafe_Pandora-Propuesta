@@ -14,6 +14,7 @@ export const INITIAL_MENU: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=400&q=80',
     description: 'Sándwich de pan de masa madre con jamón york ahumado, queso Gruyère y salsa bechamel gratinada.',
     available: true,
+    requiresPreparation: true,
     stock: 25
   },
   {
@@ -24,6 +25,7 @@ export const INITIAL_MENU: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1507226983735-a838615193b0?auto=format&fit=crop&w=400&q=80',
     description: 'Hojaldre de manzana fresca bañado en almíbar de canela, servido caliente con helado de vainilla.',
     available: true,
+    requiresPreparation: true,
     stock: 12
   },
   {
@@ -34,6 +36,7 @@ export const INITIAL_MENU: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=400&q=80',
     description: 'Panecillo esponjoso tradicional de fécula de maíz y queso fresco de cabra, servido calientito.',
     available: true,
+    requiresPreparation: true,
     stock: 40
   },
   {
@@ -44,6 +47,7 @@ export const INITIAL_MENU: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80',
     description: 'Arúgula fresca, higos negros carnosos, queso de cabra artesanal, nueces tostadas y vinagreta de miel trufada.',
     available: true,
+    requiresPreparation: true,
     stock: 15
   },
   {
@@ -54,6 +58,7 @@ export const INITIAL_MENU: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=400&q=80',
     description: 'Hojaldre crocante de mantequilla francesa relleno de crema dulce de almendras y decorado con almendras fileteadas.',
     available: true,
+    requiresPreparation: true,
     stock: 18
   },
   {
@@ -64,6 +69,7 @@ export const INITIAL_MENU: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=400&q=80',
     description: 'Crepa fina rellena de compota casera de fresas, moras, chocolate blanco flameado y helado de frambuesa dulce.',
     available: true,
+    requiresPreparation: true,
     stock: 20
   }
 ];
@@ -77,6 +83,7 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1510972527409-cac5cbff0312?auto=format&fit=crop&w=400&q=80',
     description: 'Doble ristretto extraído a presión perfecta con granos de origen único seleccionados de Chiapas.',
     available: true,
+    requiresPreparation: true,
     stock: 150
   },
   {
@@ -87,6 +94,7 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=400&q=80',
     description: 'Expreso con leche texturizada perfectamente sedosa, un toque sutil de licor de almendras y cacao espolvoreado.',
     available: true,
+    requiresPreparation: true,
     stock: 100
   },
   {
@@ -95,8 +103,9 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
     price: 9500,
     category: 'bebida',
     image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=400&q=80',
-    description: 'Infusión lenta en jarro de barro con piloncillo de caña puro, canela fina entera y ralladura de naranja dulce.',
+    description: 'Infusión lenta en jarro de barro con piloncillo de caña pura, canela fina entera y ralladura de naranja dulce.',
     available: true,
+    requiresPreparation: true,
     stock: 80
   },
   {
@@ -107,6 +116,7 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1576092762791-dd9e2220abd1?auto=format&fit=crop&w=400&q=80',
     description: 'Té negro aromático con especias calientes de Mysore, leche cremosa de avena y un shot extra de expreso.',
     available: true,
+    requiresPreparation: true,
     stock: 65
   },
   {
@@ -117,6 +127,7 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=400&q=80',
     description: 'Filtro en frío durante 18 horas sobre agua tónica burbujeante premium, hielo cristalino y un gajo fresco de pomelo.',
     available: true,
+    requiresPreparation: true,
     stock: 45
   },
   {
@@ -127,6 +138,7 @@ export const INITIAL_BEVERAGES: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=400&q=80',
     description: 'Mezcla exótica floral con hibisco rojo orgánico, manzana deshidratada, pétalos secos de rosa silvestre y toques cítricos.',
     available: true,
+    requiresPreparation: true,
     stock: 70
   }
 ];
@@ -140,6 +152,7 @@ export const INITIAL_GASEOSAS: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80',
     description: 'Refrescante bebida gaseosa Coca-Cola Original de 330ml servida helada con gajo de limón.',
     available: true,
+    requiresPreparation: false,
     stock: 90
   },
   {
@@ -150,6 +163,7 @@ export const INITIAL_GASEOSAS: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80',
     description: 'El sabor inconfundible de Coca-Cola pero sin calorías, botella de 330ml heladita.',
     available: true,
+    requiresPreparation: false,
     stock: 80
   },
   {
@@ -160,6 +174,7 @@ export const INITIAL_GASEOSAS: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1625772291426-fbf0ca497b7b?auto=format&fit=crop&w=400&q=80',
     description: 'Bebida gaseosa sabor lima-limón, fresca y burbujeante, ideal para acompañar tus platos.',
     available: true,
+    requiresPreparation: false,
     stock: 60
   },
   {
@@ -170,6 +185,7 @@ export const INITIAL_GASEOSAS: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1625772291426-fbf0ca497b7b?auto=format&fit=crop&w=400&q=80',
     description: 'Gaseosa sabor a toronja refrescante y ligeramente ácida de 330ml.',
     available: true,
+    requiresPreparation: false,
     stock: 50
   },
   {
@@ -180,6 +196,7 @@ export const INITIAL_GASEOSAS: MenuItem[] = [
     image: 'https://images.unsplash.com/photo-1608885898957-a599fb15ec3e?auto=format&fit=crop&w=400&q=80',
     description: 'Agua mineral de manantial 100% pura y gasificada, burbujas finas para limpiar el paladar.',
     available: true,
+    requiresPreparation: false,
     stock: 120
   }
 ];

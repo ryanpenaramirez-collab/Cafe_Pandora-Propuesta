@@ -29,6 +29,18 @@ export default function OrderModal({ isOpen, onClose, menu, tables, waiterName, 
     return tables;
   }, [tables]);
 
+  const isTableBlocked = (table: Table): boolean => {
+    if (table.status !== 'reservada' || !table.reservationTime || !table.reservationDate) return false;
+    if (table.reservationDate !== new Date().toISOString().split('T')[0]) return false;
+
+    const [resH, resM] = table.reservationTime.split(':').map(Number);
+    const resMin = resH * 60 + resM;
+    const now = new Date();
+    const curMin = now.getHours() * 60 + now.getMinutes();
+
+    return curMin >= (resMin - 10) && curMin < resMin;
+  };
+
   const filteredItems = useMemo(() => {
     return menu.filter(item => {
       const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -73,6 +85,11 @@ export default function OrderModal({ isOpen, onClose, menu, tables, waiterName, 
     if (cart.length === 0) return;
 
     const targetTable = tables.find(t => t.id === selectedTableId);
+
+    if (targetTable && isTableBlocked(targetTable)) {
+      alert('Esta mesa está reservada y próxima a ser ocupada. No se puede tomar el pedido.');
+      return;
+    }
     
     // Determine order type based on elements in cart
     const hasComida = cart.some(ci => menu.find(m => m.id === ci.menuItemId)?.category === 'platillo');
@@ -168,10 +185,12 @@ export default function OrderModal({ isOpen, onClose, menu, tables, waiterName, 
               </label>
               <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
                 {availableTables.map(t => {
+                  const blocked = isTableBlocked(t);
                   let badgeColor = '';
-                  let disabled = false;
+                  let disabled = blocked;
                   
-                  if (t.status === 'ocupada') badgeColor = 'bg-rose-50 border-rose-200 text-rose-700';
+                  if (blocked) badgeColor = 'bg-gray-100 border-gray-300 text-gray-400';
+                  else if (t.status === 'ocupada') badgeColor = 'bg-rose-50 border-rose-200 text-rose-700';
                   else if (t.status === 'por_pagar') badgeColor = 'bg-amber-50 border-amber-200 text-amber-700';
                   else if (t.status === 'reservada') badgeColor = 'bg-emerald-50 border-emerald-200 text-emerald-700';
                   else badgeColor = 'bg-slate-100 border-slate-200 text-slate-600';
@@ -182,15 +201,26 @@ export default function OrderModal({ isOpen, onClose, menu, tables, waiterName, 
                     <button
                       key={t.id}
                       type="button"
-                      onClick={() => setSelectedTableId(t.id)}
+                      onClick={() => {
+                        if (blocked) {
+                          alert('Esta mesa está reservada y próxima a ser ocupada.');
+                          return;
+                        }
+                        setSelectedTableId(t.id);
+                      }}
                       className={`py-1.5 px-1 text-center rounded-lg border text-xs font-semibold uppercase flex flex-col items-center justify-center transition-all ${
+                        disabled ? 'cursor-not-allowed opacity-60' :
                         isSelected 
                           ? 'ring-2 ring-amber-500 bg-amber-500 border-amber-600 text-white' 
                           : badgeColor
                       }`}
                     >
-                      <span className="text-[10px] block font-semibold">T-{t.id}</span>
-                      <span className="text-[9px] scale-90 whitespace-nowrap opacity-80 font-normal">Cap: {t.capacity}</span>
+                      <span className="text-[10px] block font-semibold">
+                        {blocked ? 'Bloqueada' : `T-${t.id}`}
+                      </span>
+                      <span className="text-[9px] scale-90 whitespace-nowrap opacity-80 font-normal">
+                        {blocked && t.reservationTime ? t.reservationTime : `Cap: ${t.capacity}`}
+                      </span>
                     </button>
                   );
                 })}
