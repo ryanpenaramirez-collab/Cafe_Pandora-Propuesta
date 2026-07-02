@@ -424,6 +424,18 @@ export default function App() {
     }));
   };
 
+  // 2g. Abonar dinero a la cuenta de una mesa
+  const handleAbonarDinero = (orderId: string, amount: number) => {
+    if (amount <= 0) return;
+    const targetOrder = orders.find(o => o.id === orderId);
+    if (!targetOrder) return;
+    setTables(prev => prev.map(t =>
+      t.id === targetOrder.tableId
+        ? { ...t, totalAmount: Math.max(0, t.totalAmount - amount) }
+        : t
+    ));
+  };
+
   // 3. Clear/Settle Table to vacant
   const handleClearTable = (tableId: number, cashSettled: boolean, finalAmount?: number) => {
     const targetTable = tables.find(t => t.id === tableId);
@@ -961,6 +973,7 @@ export default function App() {
                             onSplitBill={handleSplitBill}
                             onMergeTables={handleMergeTables}
                             onChangeTable={handleChangeTable}
+                            onAbonarDinero={handleAbonarDinero}
                             userRole={user?.role}
                           />
                         )}
@@ -1045,6 +1058,7 @@ export default function App() {
                         onSplitBill={handleSplitBill}
                         onMergeTables={handleMergeTables}
                         onChangeTable={handleChangeTable}
+                        onAbonarDinero={handleAbonarDinero}
                         userRole={user?.role}
                       />
                     </div>

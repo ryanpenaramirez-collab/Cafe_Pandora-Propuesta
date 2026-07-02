@@ -5,7 +5,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Clock, Check, Trash2, Utensils, AlertCircle, ShoppingBag, MapPin, X, FileText, CheckSquare, Square, ArrowLeft, Plus, Minus, Split, Merge, Move } from 'lucide-react';
+import { Clock, Check, Trash2, Utensils, AlertCircle, ShoppingBag, MapPin, X, FileText, CheckSquare, Square, ArrowLeft, Plus, Minus, Split, Merge, Move, DollarSign } from 'lucide-react';
 import { Order, ReceiptStatus, MenuItem, Table, OrderItem, BillSplit } from '../types';
 import { jsPDF } from 'jspdf';
 import BillingModal from './BillingModal';
@@ -21,13 +21,14 @@ interface PendingOrdersModuleProps {
   onSplitBill: (orderId: string, splits: BillSplit[]) => void;
   onMergeTables: (sourceOrderId: string, targetTableId: number) => void;
   onChangeTable: (orderId: string, newTableId: number) => void;
+  onAbonarDinero?: (orderId: string, amount: number) => void;
   userRole?: 'administrador' | 'mesero';
 }
 
-export default function PendingOrdersModule({ orders, tables, menu, onCompleteOrder, onCancelOrder, onUpdateReceiptStatus, onAddItemsToOrder, onSplitBill, onMergeTables, onChangeTable, userRole = 'administrador' }: PendingOrdersModuleProps) {
+export default function PendingOrdersModule({ orders, tables, menu, onCompleteOrder, onCancelOrder, onUpdateReceiptStatus, onAddItemsToOrder, onSplitBill, onMergeTables, onChangeTable, onAbonarDinero, userRole = 'administrador' }: PendingOrdersModuleProps) {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [billingOrder, setBillingOrder] = useState<Order | null>(null);
-  const [activeAction, setActiveAction] = useState<'none' | 'addProducts' | 'splitBill' | 'mergeTables' | 'changeTable'>('none');
+  const [activeAction, setActiveAction] = useState<'none' | 'addProducts' | 'splitBill' | 'mergeTables' | 'changeTable' | 'abonar'>('none');
   const [addCart, setAddCart] = useState<OrderItem[]>([]);
   const [addSearch, setAddSearch] = useState('');
   const [addTab, setAddTab] = useState<'todos' | 'platillo' | 'bebida'>('todos');
@@ -36,6 +37,7 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
   const [splitMap, setSplitMap] = useState<Record<string, number>>({});
   const [mergeTargetId, setMergeTargetId] = useState<number | null>(null);
   const [changeNewTableId, setChangeNewTableId] = useState<number | null>(null);
+  const [abonoMonto, setAbonoMonto] = useState<string>('');
 
   useEffect(() => {
     if (selectedOrder) {
@@ -48,6 +50,7 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
       setSplitMap({});
       setMergeTargetId(null);
       setChangeNewTableId(null);
+      setAbonoMonto('');
     }
   }, [selectedOrder]);
 
@@ -480,6 +483,23 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                               </p>
                             </div>
                           </button>
+
+                          <button
+                            type="button"
+                            onClick={() => { setActiveAction('abonar'); setAbonoMonto(''); }}
+                            className="p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-500 bg-slate-50 hover:bg-emerald-50/10 text-left transition-all duration-200 group flex flex-col justify-between min-h-[120px] cursor-pointer"
+                            title="Registrar abono de dinero a la cuenta"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center group-hover:bg-emerald-600 group-hover:scale-105 transition-all">
+                              <DollarSign className="w-4 h-4" />
+                            </div>
+                            <div className="mt-2.5">
+                              <h4 className="font-serif font-bold text-slate-800 uppercase tracking-wide text-[11px]">Abonar Dinero</h4>
+                              <p className="text-[9.5px] text-slate-450 font-light mt-0.5 leading-normal">
+                                Resta un monto abonado de la cuenta total de la mesa.
+                              </p>
+                            </div>
+                          </button>
                         </>
                       )}
                     </div>
@@ -775,6 +795,59 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                       )}
                     </div>
                   </div>
+                ) : activeAction === 'abonar' ? (
+                  <div className="bg-[#FAF5EE] border border-slate-250 p-4 rounded-xl space-y-3">
+                    <div className="flex justify-between items-center border-b border-[#FAF5EE]/70 pb-1">
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#8A7A6A] block font-mono">
+                        Abonar Dinero
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => { setActiveAction('none'); setAbonoMonto(''); }}
+                        className="text-[10px] text-pandora-accent hover:underline flex items-center gap-1 font-mono font-bold cursor-pointer"
+                      >
+                        <ArrowLeft className="w-3 h-3" /> VOLVER
+                      </button>
+                    </div>
+                    <p className="text-[9px] text-slate-500 font-mono">Ingrese el monto que el cliente abona a la cuenta.</p>
+                    <div className="space-y-2">
+                      <div>
+                        <label className="text-[9px] uppercase font-bold tracking-widest text-slate-500 block font-mono mb-1">
+                          Monto a abonar ($)
+                        </label>
+                        <div className="relative">
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-mono text-xs font-bold">$</span>
+                          <input
+                            type="number"
+                            min="1"
+                            step="100"
+                            value={abonoMonto}
+                            onChange={(e) => setAbonoMonto(e.target.value)}
+                            placeholder="0"
+                            className="w-full bg-white border border-slate-200 rounded-lg pl-7 pr-3 py-2.5 text-sm font-mono font-bold text-slate-700 focus:outline-none focus:ring-1 focus:ring-pandora-accent"
+                          />
+                        </div>
+                      </div>
+                      <div className="bg-white border border-slate-200 rounded-lg p-3">
+                        <span className="text-[9px] uppercase font-bold tracking-widest text-slate-500 block font-mono mb-1">
+                          Cuenta actual de la mesa
+                        </span>
+                        <span className="text-lg font-mono font-bold text-slate-800">
+                          ${tables.find(t => t.id === selectedOrder.tableId)?.totalAmount.toLocaleString('es-CO') ?? '0'}
+                        </span>
+                        {abonoMonto && parseFloat(abonoMonto) > 0 && (
+                          <div className="mt-2 pt-2 border-t border-dashed border-slate-200">
+                            <span className="text-[9px] uppercase font-bold tracking-widest text-slate-500 block font-mono mb-1">
+                              Nuevo saldo después del abono
+                            </span>
+                            <span className="text-lg font-mono font-bold text-emerald-600">
+                              ${Math.max(0, (tables.find(t => t.id === selectedOrder.tableId)?.totalAmount ?? 0) - parseFloat(abonoMonto)).toLocaleString('es-CO')}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 ) : null}
               </div>
 
@@ -908,6 +981,27 @@ export default function PendingOrdersModule({ orders, tables, menu, onCompleteOr
                       }`}
                     >
                       <Check className="w-3.5 h-3.5" /> Cambiar Mesa
+                    </button>
+                  )}
+                  {activeAction === 'abonar' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (selectedOrder && abonoMonto && parseFloat(abonoMonto) > 0) {
+                          onAbonarDinero?.(selectedOrder.id, parseFloat(abonoMonto));
+                          setActiveAction('none');
+                          setAbonoMonto('');
+                          setSelectedOrder(null);
+                        }
+                      }}
+                      disabled={!abonoMonto || parseFloat(abonoMonto) <= 0}
+                      className={`py-3 px-3.5 rounded-lg font-mono text-[10px] font-semibold tracking-wider uppercase transition-all text-center flex items-center justify-center gap-1.5 shadow-md cursor-pointer ${
+                        abonoMonto && parseFloat(abonoMonto) > 0
+                          ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                          : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                      }`}
+                    >
+                      <DollarSign className="w-3.5 h-3.5" /> Confirmar Abono
                     </button>
                   )}
                 </div>
